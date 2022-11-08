@@ -1,12 +1,15 @@
 package com.example.projetointegrador.model;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Getter
 @Setter
@@ -28,4 +31,13 @@ public class User {
     @ManyToOne()
     @JoinColumn(name = "userType_id", referencedColumnName = "id")
     private UserType userType;
+
+    @ManyToMany
+    @JoinTable(
+        name = "seller_product",
+        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id")
+    )
+    @JsonIgnoreProperties("users")
+    private Set<Product> products;
 }

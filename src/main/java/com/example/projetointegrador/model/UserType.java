@@ -9,7 +9,6 @@ import java.util.Set;
 
 import javax.persistence.*;
 
-import antlr.collections.List;
 
 @NoArgsConstructor
 @Getter
