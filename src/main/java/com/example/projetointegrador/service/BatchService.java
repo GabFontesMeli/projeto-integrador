@@ -3,10 +3,13 @@ package com.example.projetointegrador.service;
 import com.example.projetointegrador.dto.BatchDTO;
 import com.example.projetointegrador.model.Batch;
 import com.example.projetointegrador.model.Inventory;
+import com.example.projetointegrador.model.Product;
 import com.example.projetointegrador.repository.BatchRepository;
 import com.example.projetointegrador.repository.ProductRepository;
 import com.example.projetointegrador.repository.SectionRepository;
 import com.example.projetointegrador.service.interfaces.IBatchService;
+
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,8 +54,11 @@ public class BatchService implements IBatchService {
         inventoryService.saveInventory(inventory);
         
         // // TODO: validar se o product id existe, e se o section id também existe
-        // batch.setProduct(productRepo.findById(batchDTO.getProductId()).get());
-        // batch.setSection(sectionRepo.findById(batchDTO.getStorageId()).get());
+        HashSet<Product> productList = new HashSet<Product>();
+        Product product = productRepo.findById(batchDTO.getProductId()).get();
+        productList.add(product);
+        batch.setProducts(productList);
+        batch.setSection(sectionRepo.findById(batchDTO.getStorageId()).get());
         return repository.save(batch);
     }
 

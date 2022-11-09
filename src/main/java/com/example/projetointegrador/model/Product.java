@@ -14,7 +14,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -44,12 +46,13 @@ public class Product {
     @JsonIgnoreProperties("products")
     private Set<User> users;
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("product")
     private Inventory inventory;
 
-    @OneToOne(mappedBy = "product")
-    @JsonIgnoreProperties("product")
+    @ManyToOne
+    @JoinColumn(name = "batch_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("products")
     private Batch batch;
 
      //TODO: relation with category

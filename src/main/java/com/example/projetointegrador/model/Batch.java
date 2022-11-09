@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -43,10 +45,9 @@ public class Batch {
     @Column(nullable = false)
     private Long providerBatchNumber;
 
-    @OneToOne()
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "batch")
     @JsonIgnoreProperties({"batch", "inventory", "users"})
-    private Product product;
+    private Set<Product> products = new HashSet<>();
 
     public Batch(BatchDTO batchDTO) {
         this.expirationDate = batchDTO.getExpirationDate();
@@ -57,8 +58,10 @@ public class Batch {
         Section section = new Section();
         section.setId(batchDTO.getSectionId());
         this.section = section;
+        HashSet<Product> productList = new HashSet<>();
         Product product = new Product();
         product.setId(batchDTO.getProductId());
-        this.product = product;
+        productList.add(product);
+        this.products = productList;
     }
 }
