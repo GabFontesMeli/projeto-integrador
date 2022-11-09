@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -28,8 +29,9 @@ public class User {
     @Column(length = 100, nullable = false)
     private String email;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "userType_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("users")
     private UserType userType;
 
     @ManyToMany
@@ -39,5 +41,5 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id")
     )
     @JsonIgnoreProperties("users")
-    private Set<Product> products;
+    private Set<Product> products = new HashSet<>();
 }

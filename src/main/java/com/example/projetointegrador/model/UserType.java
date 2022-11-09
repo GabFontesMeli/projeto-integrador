@@ -9,6 +9,8 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @NoArgsConstructor
 @Getter
@@ -25,5 +27,6 @@ public class UserType {
     private String type;
 
     @OneToMany(mappedBy = "userType")
-    private Set<User> user;
+    @JsonIgnoreProperties("userType")
+    private Set<User> users;
 }
