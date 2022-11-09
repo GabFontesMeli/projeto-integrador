@@ -33,10 +33,10 @@ public class Product {
     private String name;
 
     @Column(length = 200, nullable = false)
-     private Double price;
+    private Double price;
 
     @Column(length = 200, nullable = false)
-     private Float volume;
+    private Float volume;
 
     @OneToMany()
     private Set<User> user;
