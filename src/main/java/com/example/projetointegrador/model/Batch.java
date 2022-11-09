@@ -42,6 +42,11 @@ public class Batch {
     @Column(nullable = false)
     private String providerBatchNumber;
 
+    @OneToOne()
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("batch")
+    private Product product;
+
     // @Column(nullable = false)
     // private Long product_id;
 }

@@ -46,6 +46,10 @@ public class Product {
     @JsonIgnoreProperties("product")
     private Inventory inventory;
 
+    @OneToOne(mappedBy = "product")
+    @JsonIgnoreProperties("product")
+    private Batch batch;
+
      //TODO: relation with category
      //TODO: relation with batch
 
