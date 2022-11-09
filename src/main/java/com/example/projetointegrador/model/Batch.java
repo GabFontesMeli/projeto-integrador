@@ -34,7 +34,7 @@ public class Batch {
 
     @ManyToOne()
     @JoinColumn(name = "section_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("batches")
+    @JsonIgnoreProperties({"batches", "storage"})
     private Section section;
 
     @Column(nullable = false)
@@ -45,7 +45,7 @@ public class Batch {
 
     @OneToOne()
     @JoinColumn(name = "product_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("batch")
+    @JsonIgnoreProperties({"batch", "inventory", "users"})
     private Product product;
 
     public Batch(BatchDTO batchDTO) {
