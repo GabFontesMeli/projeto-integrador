@@ -39,18 +39,20 @@ public class BatchService implements IBatchService {
             batchDTO.getQuantity(), 
             batchDTO.getStorageId(), 
             batchDTO.getProductId()
-            );
-            
-        inventoryService.saveInventory(inventory);
+        );
 
-        if(repository.existsBatchByProviderBatchNumber(batch.getProviderBatchNumber())) {
+            
+        if (repository.existsBatchByProviderBatchNumber(batch.getProviderBatchNumber())) {
             System.out.println("Existent Provider Number Batch");
             return null;
         }
-
-        // TODO: validar se o product id existe, e se o section id também existe
-        batch.setProduct(productRepo.findById(batchDTO.getProductId()).get());
-        batch.setSection(sectionRepo.findById(batchDTO.getStorageId()).get());
+        
+        
+        inventoryService.saveInventory(inventory);
+        
+        // // TODO: validar se o product id existe, e se o section id também existe
+        // batch.setProduct(productRepo.findById(batchDTO.getProductId()).get());
+        // batch.setSection(sectionRepo.findById(batchDTO.getStorageId()).get());
         return repository.save(batch);
     }
 
