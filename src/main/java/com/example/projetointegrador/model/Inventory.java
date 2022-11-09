@@ -27,14 +27,14 @@ public class Inventory {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "storage_id", referencedColumnName = "id")
+    @JoinColumn(name = "storage_id", referencedColumnName = "id", nullable = false)
     private Storage storage;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private Long quantity;
 
     @OneToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     @JsonIgnoreProperties("inventory")
     private Product product;
 
