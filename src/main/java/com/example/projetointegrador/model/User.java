@@ -1,12 +1,16 @@
 package com.example.projetointegrador.model;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Getter
 @Setter
@@ -14,6 +18,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,6 +30,16 @@ public class User {
     private String email;
 
     @ManyToOne
-    @JoinColumn(name = "user_type_id")
+    @JoinColumn(name = "userType_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("users")
     private UserType userType;
+
+    @ManyToMany
+    @JoinTable(
+        name = "seller_product",
+        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id")
+    )
+    @JsonIgnoreProperties("users")
+    private Set<Product> products = new HashSet<>();
 }

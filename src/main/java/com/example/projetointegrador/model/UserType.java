@@ -5,7 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @NoArgsConstructor
 @Getter
@@ -18,6 +23,10 @@ public class UserType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 200, nullable = false)
+    @Column()
     private String type;
+
+    @OneToMany(mappedBy = "userType")
+    @JsonIgnoreProperties("userType")
+    private Set<User> users;
 }
