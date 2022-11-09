@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import com.example.projetointegrador.dto.BatchDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDate;
@@ -40,13 +41,24 @@ public class Batch {
     private Integer quantity;
 
     @Column(nullable = false)
-    private String providerBatchNumber;
+    private Long providerBatchNumber;
 
     @OneToOne()
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @JsonIgnoreProperties("batch")
     private Product product;
 
-    // @Column(nullable = false)
-    // private Long product_id;
+    public Batch(BatchDTO batchDTO) {
+        this.expirationDate = batchDTO.getExpirationDate();
+        this.manufacturingDate = batchDTO.getManufacturingDate();
+        this.manufacturingTime = batchDTO.getManufacturingTime();
+        this.quantity = batchDTO.getQuantity();
+        this.providerBatchNumber = batchDTO.getProviderBatchNumber();
+        Section section = new Section();
+        section.setId(batchDTO.getSectionId());
+        this.section = section;
+        Product product = new Product();
+        product.setId(batchDTO.getProductId());
+        this.product = product;
+    }
 }

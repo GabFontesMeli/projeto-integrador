@@ -31,12 +31,22 @@ public class Inventory {
     private Storage storage;
 
     @Column(nullable = false, length = 1000)
-    private Long quantity;
+    private Integer quantity;
 
     @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     @JsonIgnoreProperties("inventory")
     private Product product;
+
+    public Inventory(Integer quantity, Long storageId, Long productId) {
+        this.quantity = quantity;
+        Storage storage = new Storage();
+        storage.setId(storageId);
+        this.storage = storage;
+        Product product = new Product();
+        product.setId(productId);
+        this.product = product;
+    }
 
     //private Long product_id;
     //private Long user_id;

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.projetointegrador.dto.BatchDTO;
 import com.example.projetointegrador.model.Batch;
 import com.example.projetointegrador.service.interfaces.IBatchService;
 
@@ -21,8 +22,8 @@ public class BatchController {
     private IBatchService batchService;
 
     @PostMapping
-    public ResponseEntity<Batch> create(@RequestBody Batch batch){
-        return new ResponseEntity<>(batchService.create(batch), HttpStatus.CREATED);
+    public ResponseEntity<Batch> create(@RequestBody BatchDTO batchDTO){
+        return new ResponseEntity<>(batchService.createBatch(batchDTO), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")

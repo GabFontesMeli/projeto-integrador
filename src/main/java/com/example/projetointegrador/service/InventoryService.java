@@ -13,6 +13,14 @@ public class InventoryService {
     private InventoryRepository inventoryRepo;
 
     public Inventory saveInventory(Inventory inventory) {
+
+        if (inventoryRepo.existsInventoryByProductId(inventory.getProduct().getId())) {
+            Integer quantity = inventory.getQuantity();
+            Inventory inventoryFound = inventoryRepo.findByProductId(inventory.getProduct().getId());
+            inventoryFound.setQuantity(quantity + inventoryFound.getQuantity());
+            return inventoryRepo.save(inventoryFound);
+        }
+
         return inventoryRepo.save(inventory);
     }
 }
