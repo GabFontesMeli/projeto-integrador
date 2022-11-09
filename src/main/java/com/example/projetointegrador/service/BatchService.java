@@ -16,7 +16,7 @@ public class BatchService implements IBatchService {
 
     @Override
     public Batch create(Batch batch) {
-        if(repository.existsByProviderNumberBatch(batch)) {
+        if(repository.existsByProviderBatchNumber(batch)) {
             System.out.println("Existent Provider Number Batch");
             return null;
         }

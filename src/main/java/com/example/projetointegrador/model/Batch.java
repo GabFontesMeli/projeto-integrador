@@ -28,14 +28,15 @@ public class Batch {
 
     private LocalTime manufacturingTime;
 
-    @Column(nullable = false)
-    private Long section_id;
+    // @Column(nullable = false)
+    // private Long section_id;
 
     @Column(nullable = false)
     private Integer quantity;
 
+    @Column(nullable = false)
     private String providerBatchNumber;
 
-    @Column(nullable = false)
-    private Long product_id;
+    // @Column(nullable = false)
+    // private Long product_id;
 }

@@ -1,4 +1,4 @@
-package com.example.projetointegrador.Controller;
+package com.example.projetointegrador.controller;
 
 
 import com.example.projetointegrador.model.User;
