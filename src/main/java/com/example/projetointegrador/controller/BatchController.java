@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.projetointegrador.model.Batch;
-import com.example.projetointegrador.service.BatchService;
+import com.example.projetointegrador.service.interfaces.IBatchService;
 
 @RestController
 @RequestMapping("api/v1/batch")
 public class BatchController {
     
     @Autowired
-    private BatchService batchService;
+    private IBatchService batchService;
 
     @PostMapping
     public ResponseEntity<Batch> create(@RequestBody Batch batch){

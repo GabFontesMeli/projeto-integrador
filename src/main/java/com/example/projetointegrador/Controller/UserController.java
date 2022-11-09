@@ -2,7 +2,7 @@ package com.example.projetointegrador.controller;
 
 
 import com.example.projetointegrador.model.User;
-import com.example.projetointegrador.service.UserService;
+import com.example.projetointegrador.service.interfaces.IUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     @PostMapping
     public ResponseEntity<User> saveUser(@RequestBody User user) {
