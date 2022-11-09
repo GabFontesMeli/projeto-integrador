@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +32,11 @@ public class Inventory {
 
     @Column(nullable = false)
     private Long quantity;
+
+    @OneToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("inventory")
+    private Product product;
 
     //private Long product_id;
     //private Long user_id;

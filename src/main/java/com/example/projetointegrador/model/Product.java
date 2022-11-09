@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -38,12 +39,13 @@ public class Product {
     @Column(length = 200, nullable = false)
     private Float volume;
 
-    @OneToMany()
-    private Set<User> user;
-
     @ManyToMany(mappedBy = "products")
     @JsonIgnoreProperties("products")
     private Set<User> users;
+
+    @OneToOne(mappedBy = "product")
+    @JsonIgnoreProperties("product")
+    private Inventory inventory;
 
      //TODO: relation with category
      //TODO: relation with batch
