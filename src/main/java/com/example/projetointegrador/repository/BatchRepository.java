@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BatchRepository extends JpaRepository<Batch, Long> {
 
-    boolean existsByProviderBatchNumber(Batch batch);
+    boolean existsBatchByProviderBatchNumber(Batch batch);
     
 }

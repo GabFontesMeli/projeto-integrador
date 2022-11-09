@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -28,8 +31,10 @@ public class Batch {
 
     private LocalTime manufacturingTime;
 
-    // @Column(nullable = false)
-    // private Long section_id;
+    @ManyToOne()
+    @JoinColumn(name = "section_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("batches")
+    private Section section;
 
     @Column(nullable = false)
     private Integer quantity;
