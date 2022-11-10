@@ -5,4 +5,6 @@ import com.example.projetointegrador.model.Inventory;
 public interface IInventoryService {
     
     Inventory saveInventory(Inventory inventory);
+
+    Inventory updateInventory(Long productId, Integer quantity);
 }

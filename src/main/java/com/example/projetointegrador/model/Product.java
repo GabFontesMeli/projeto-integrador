@@ -5,14 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -42,11 +45,14 @@ public class Product {
     @JsonIgnoreProperties("products")
     private Set<User> users;
 
-    @OneToOne(mappedBy = "product")
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("product")
     private Inventory inventory;
 
+    @OneToMany(mappedBy = "product")
+    @JsonIgnoreProperties({"batch", "product"})
+    Set<BatchProduct> batchProduct = new HashSet<>();
+
      //TODO: relation with category
-     //TODO: relation with batch
 
 }
