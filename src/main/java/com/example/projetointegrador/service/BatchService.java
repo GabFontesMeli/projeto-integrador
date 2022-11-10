@@ -2,14 +2,14 @@ package com.example.projetointegrador.service;
 
 import com.example.projetointegrador.dto.BatchDTO;
 import com.example.projetointegrador.model.Batch;
+import com.example.projetointegrador.model.BatchProduct;
 import com.example.projetointegrador.model.Inventory;
-import com.example.projetointegrador.model.Product;
 import com.example.projetointegrador.repository.BatchRepository;
-import com.example.projetointegrador.repository.ProductRepository;
 import com.example.projetointegrador.repository.SectionRepository;
+import com.example.projetointegrador.repository.StorageRepository;
 import com.example.projetointegrador.service.interfaces.IBatchService;
 
-import java.util.HashSet;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class BatchService implements IBatchService {
     private InventoryService inventoryService;
 
     @Autowired
-    private ProductRepository productRepo;
+    private StorageRepository storageRepository;
 
     @Autowired
     private SectionRepository sectionRepo;
@@ -35,45 +35,42 @@ public class BatchService implements IBatchService {
 
         Batch batch = new Batch(batchDTO);
         
-        Inventory inventory = new Inventory(
-            batchDTO.getQuantity(), 
-            batchDTO.getStorageId(), 
-            batchDTO.getProductId()
-        );
-
-            
-        if (repository.existsBatchByProviderBatchNumber(batch.getProviderBatchNumber())) {
-            System.out.println("Existent Provider Number Batch");
-            return null;
+        List<BatchProduct> batchProducts = batchDTO.getProducts();
+        for (BatchProduct batchProduct : batchProducts) {
+            // TODO: ver se o produto existe
+            Inventory inventory = new Inventory(
+                batchProduct.getQuantity(), 
+                batchProduct.getProduct().getId()
+            );
+            inventoryService.saveInventory(inventory);
         }
-        
-        inventoryService.saveInventory(inventory);
-        
-        // // TODO: validar se o product id existe, e se o section id também existe
-        HashSet<Product> productList = new HashSet<Product>();
-        Product product = productRepo.findById(batchDTO.getProductId()).get();
-        productList.add(product);
-        batch.setProducts(productList);
+
         batch.setSection(sectionRepo.findById(batchDTO.getStorageId()).get());
+        batch.setStorage(storageRepository.findById(batchDTO.getStorageId()).get());
         return repository.save(batch);
     }
 
     @Override
-    public Batch update(Long id, BatchDTO batchDTO) {
+    public Batch update(Long id, List<BatchProduct> batchProductList) {
+
         if(!repository.existsById(id)){
             System.out.println("Batch doesn't exists");
             return null;
         }
 
-        Integer actualQuantity = batchDTO.getQuantity();
-        Integer oldQuantity = repository.findById(id).get().getQuantity();
-        Integer newQuantity = actualQuantity - oldQuantity;
+        Batch batch = repository.findById(id).get();
 
-        inventoryService.updaInventory(batchDTO.getProductId(), newQuantity);
+        for (BatchProduct batchProduct : batchProductList) {
+            // TODO: ver se o produto existe
+            Inventory inventory = new Inventory(
+                batchProduct.getQuantity(), 
+                batchProduct.getProduct().getId()
+            );
+            inventoryService.saveInventory(inventory);
+        }
 
-        Batch newBatch = new Batch(batchDTO);
-        newBatch.setId(id);
+        batch.addProducts(batchProductList);
 
-        return repository.save(newBatch);
+        return repository.save(batch);
     }
 }

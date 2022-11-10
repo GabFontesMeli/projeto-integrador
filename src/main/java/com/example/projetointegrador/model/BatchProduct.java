@@ -1,14 +1,15 @@
 package com.example.projetointegrador.model;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,27 +21,26 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Inventory {
-    
+public class BatchProduct {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 1000)
-    private Integer quantity;
+    @ManyToOne
+    @JoinColumn(name = "batch_id", referencedColumnName = "id")
+    private Batch batch;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("inventory")
     private Product product;
 
-    public Inventory(Integer quantity, Long productId) {
-        this.quantity = quantity;
-        Product product = new Product();
-        product.setId(productId);
-        this.product = product;
-    }
+    @Column(nullable = false)
+    private Integer quantity;
 
-    //private Long product_id;
-    //private Long user_id;
+    @Column(nullable = false)
+    private LocalDate manufacturingDate;
+
+    @Column
+    private LocalTime manufacturingTime;
 }

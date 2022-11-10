@@ -11,8 +11,8 @@ import com.example.projetointegrador.dto.BatchDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,39 +29,52 @@ public class Batch {
     @Column(nullable = false)
     private LocalDate expirationDate;
 
-    @Column(nullable = false)
-    private LocalDate manufacturingDate;
+    @ManyToOne
+    @JoinColumn(name = "storage_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"batches", "sections"})
+    private Storage storage;
 
-    private LocalTime manufacturingTime;
-
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "section_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"batches", "storage"})
     private Section section;
 
-    @Column(nullable = false)
-    private Integer quantity;
-
-    @Column(nullable = false)
-    private Long providerBatchNumber;
-
-    @OneToMany(mappedBy = "batch")
-    @JsonIgnoreProperties({"batch", "inventory", "users"})
-    private Set<Product> products = new HashSet<>();
+    @OneToMany(mappedBy = "batch", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"batch", "product"})
+    Set<BatchProduct> batchProduct = new HashSet<>();
 
     public Batch(BatchDTO batchDTO) {
         this.expirationDate = batchDTO.getExpirationDate();
-        this.manufacturingDate = batchDTO.getManufacturingDate();
-        this.manufacturingTime = batchDTO.getManufacturingTime();
-        this.quantity = batchDTO.getQuantity();
-        this.providerBatchNumber = batchDTO.getProviderBatchNumber();
+
+        List<BatchProduct> batchProducts = batchDTO.getProducts();
+        for (BatchProduct batchProduct : batchProducts) {
+            BatchProduct newBatchProduct = new BatchProduct();
+            newBatchProduct.setBatch(this);
+            newBatchProduct.setProduct(batchProduct.getProduct());
+            newBatchProduct.setQuantity(batchProduct.getQuantity());
+            newBatchProduct.setManufacturingDate(batchProduct.getManufacturingDate());
+            newBatchProduct.setManufacturingTime(batchProduct.getManufacturingTime());
+            this.batchProduct.add(newBatchProduct);
+        }
+
+        Storage storage = new Storage();
+        storage.setId(batchDTO.getStorageId());
+        this.storage = storage;
+
         Section section = new Section();
         section.setId(batchDTO.getSectionId());
         this.section = section;
-        HashSet<Product> productList = new HashSet<>();
-        Product product = new Product();
-        product.setId(batchDTO.getProductId());
-        productList.add(product);
-        this.products = productList;
+    }
+
+    public void addProducts(List<BatchProduct> batchProductList) {
+        for (BatchProduct batchProduct : batchProductList) {
+            BatchProduct newBatchProduct = new BatchProduct();
+            newBatchProduct.setBatch(this);
+            newBatchProduct.setProduct(batchProduct.getProduct());
+            newBatchProduct.setQuantity(batchProduct.getQuantity());
+            newBatchProduct.setManufacturingDate(batchProduct.getManufacturingDate());
+            newBatchProduct.setManufacturingTime(batchProduct.getManufacturingTime());
+            this.batchProduct.add(newBatchProduct);
+        }
     }
 }

@@ -1,7 +1,9 @@
 package com.example.projetointegrador.dto;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.List;
+
+import com.example.projetointegrador.model.BatchProduct;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,10 +17,10 @@ import lombok.Setter;
 public class BatchDTO {
     private Long storageId;
     private Long sectionId;
-    private Long productId;
     private LocalDate expirationDate;
-    private LocalDate manufacturingDate;
-    private LocalTime manufacturingTime;
-    private Integer quantity;
-    private Long providerBatchNumber;
+    // private Long productId;
+    // private LocalDate manufacturingDate;
+    // private LocalTime manufacturingTime;
+    // private Integer quantity;
+    private List<BatchProduct> products;
 }
