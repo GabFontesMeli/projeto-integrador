@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,23 +21,22 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private Cart cart;
+
+    @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
-    @Column(nullable = false)
-    private Long productId;
+    private Product product;
 
     @Column(nullable = false)
     private Integer quantity;
 
-    @ManyToOne
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
     @Column(nullable = false)
-    private Long cartId;
-
-    @Column(nullable = false)
-    private BigDecimal value;
+    private Double value;
 }

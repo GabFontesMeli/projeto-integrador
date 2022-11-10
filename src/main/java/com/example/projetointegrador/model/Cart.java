@@ -2,14 +2,11 @@ package com.example.projetointegrador.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -34,7 +31,6 @@ public class Cart {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnoreProperties("products")
-    @Column(nullable = false)
     private User user;
 
     @Column(nullable = false)
@@ -42,4 +38,19 @@ public class Cart {
 
     @Column(nullable = false)
     private Boolean status;
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"cart", "cartItem"})
+    Set<CartItem> cartItems = new HashSet<>();
+
+    public void addCartItems(List<CartItem> cartItemList) {
+        for (CartItem cartItem : cartItemList) {
+            CartItem newCartItem = new CartItem();
+            newCartItem.setCart(this);
+            newCartItem.setProduct(cartItem.getProduct());
+            newCartItem.setQuantity(cartItem.getQuantity());
+            newCartItem.setValue(cartItem.getProduct().getPrice() * cartItem.getQuantity());
+            this.cartItems.add(newCartItem);
+        }
+    }
 }
