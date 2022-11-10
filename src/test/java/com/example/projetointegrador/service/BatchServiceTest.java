@@ -15,6 +15,8 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 
@@ -24,10 +26,13 @@ import static org.mockito.BDDMockito.willReturn;
 
 @ExtendWith(MockitoExtension.class)
 public class BatchServiceTest extends BaseTest {
+
     @InjectMocks
     private BatchService batchService;
+
     @Mock
     private BatchRepository batchRepository;
+    
     @Mock
     private InventoryRepository inventoryRepository;
 
@@ -37,11 +42,13 @@ public class BatchServiceTest extends BaseTest {
     @Mock
     private StorageRepository storageRepository;
 
+    @Mock
+    private InventoryService inventoryService;
+
     @Test
     void createBatchShoulReturnBatch() {
         BDDMockito.given(batchRepository.save(any(Batch.class))).willReturn(batch);
-        BDDMockito.given(inventoryRepository.save(any(Inventory.class))).willReturn(inventory);
-        //BDDMockito.doNothing().when(inventoryRepository).save(any(Inventory.class));
+        BDDMockito.doNothing().when(inventoryService).saveInventory(any(Inventory.class));
         BDDMockito.given(sectionRepository.findById(any(Long.class))).willReturn(Optional.ofNullable(section));
         BDDMockito.given(storageRepository.findById(any(Long.class))).willReturn(Optional.ofNullable(storage));
 
