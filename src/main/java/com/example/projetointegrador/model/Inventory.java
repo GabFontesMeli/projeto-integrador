@@ -26,10 +26,6 @@ public class Inventory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "storage_id", referencedColumnName = "id")
-    private Storage storage;
-
     @Column(nullable = false, length = 1000)
     private Integer quantity;
 
@@ -38,11 +34,8 @@ public class Inventory {
     @JsonIgnoreProperties("inventory")
     private Product product;
 
-    public Inventory(Integer quantity, Long storageId, Long productId) {
+    public Inventory(Integer quantity, Long productId) {
         this.quantity = quantity;
-        Storage storage = new Storage();
-        storage.setId(storageId);
-        this.storage = storage;
         Product product = new Product();
         product.setId(productId);
         this.product = product;

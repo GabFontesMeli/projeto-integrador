@@ -31,23 +31,15 @@ public class Batch {
     @Column(nullable = false)
     private LocalDate expirationDate;
 
+    @ManyToOne
+    @JoinColumn(name = "storage_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"batches", "sections"})
+    private Storage storage;
+
     @ManyToOne()
     @JoinColumn(name = "section_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"batches", "storage"})
     private Section section;
-
-    // @OneToMany(mappedBy = "batch")
-    // @JsonIgnoreProperties({"batch", "inventory", "users"})
-    // private Set<Product> products = new HashSet<>();
-
-    // @ManyToMany
-    // @JoinTable(
-    //     name = "batch_product",
-    //     joinColumns = @JoinColumn(name = "batch_id", referencedColumnName = "id"),
-    //     inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id")
-    // )
-    // @JsonIgnoreProperties("batches")
-    // private Set<Product> products = new HashSet<>();
 
     @OneToMany(mappedBy = "batch", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"batch", "product"})
@@ -66,17 +58,25 @@ public class Batch {
             newBatchProduct.setManufacturingTime(batchProduct.getManufacturingTime());
             this.batchProduct.add(newBatchProduct);
         }
-        // newBatchProduct.setQuantity(batchDTO.getQuantity());
-        // newBatchProduct.setManufacturingDate(batchDTO.getManufacturingDate());
-        // newBatchProduct.setManufacturingTime(batchDTO.getManufacturingTime());
-        // Product newProduct = new Product();
-        // newProduct.setId(batchDTO.getProductId());
-        // newBatchProduct.setProduct(newProduct);
-        // this.batchProduct.add(newBatchProduct);
+
+        Storage storage = new Storage();
+        storage.setId(batchDTO.getStorageId());
+        this.storage = storage;
 
         Section section = new Section();
         section.setId(batchDTO.getSectionId());
         this.section = section;
+    }
 
+    public void addProducts(List<BatchProduct> batchProductList) {
+        for (BatchProduct batchProduct : batchProductList) {
+            BatchProduct newBatchProduct = new BatchProduct();
+            newBatchProduct.setBatch(this);
+            newBatchProduct.setProduct(batchProduct.getProduct());
+            newBatchProduct.setQuantity(batchProduct.getQuantity());
+            newBatchProduct.setManufacturingDate(batchProduct.getManufacturingDate());
+            newBatchProduct.setManufacturingTime(batchProduct.getManufacturingTime());
+            this.batchProduct.add(newBatchProduct);
+        }
     }
 }

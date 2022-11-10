@@ -1,5 +1,7 @@
 package com.example.projetointegrador.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.projetointegrador.dto.BatchDTO;
 import com.example.projetointegrador.model.Batch;
+import com.example.projetointegrador.model.BatchProduct;
 import com.example.projetointegrador.service.interfaces.IBatchService;
 
 @RestController
@@ -27,7 +30,7 @@ public class BatchController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Batch> update(@PathVariable Long id, @RequestBody BatchDTO batchDTO) {
-        return new ResponseEntity<Batch>(batchService.update(id, batchDTO), HttpStatus.ACCEPTED);
+    public ResponseEntity<Batch> update(@PathVariable Long id, @RequestBody List<BatchProduct> batchProductList) {
+        return new ResponseEntity<Batch>(batchService.update(id, batchProductList), HttpStatus.ACCEPTED);
     }
 }

@@ -51,15 +51,6 @@ public class Product {
     @JsonIgnoreProperties("product")
     private Inventory inventory;
 
-    // @ManyToOne
-    // @JoinColumn(name = "batch_id", referencedColumnName = "id")
-    // @JsonIgnoreProperties("products")
-    // private Batch batch;
-
-    // @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
-    // @JsonIgnoreProperties("products")
-    // private Set<Batch> batches;
-
     @OneToMany(mappedBy = "product")
     @JsonIgnoreProperties({"batch", "product"})
     Set<BatchProduct> batchProduct = new HashSet<>();
