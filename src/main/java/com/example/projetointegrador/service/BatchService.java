@@ -2,6 +2,7 @@ package com.example.projetointegrador.service;
 
 import com.example.projetointegrador.dto.BatchDTO;
 import com.example.projetointegrador.model.Batch;
+import com.example.projetointegrador.model.BatchProduct;
 import com.example.projetointegrador.model.Inventory;
 import com.example.projetointegrador.model.Product;
 import com.example.projetointegrador.repository.BatchRepository;
@@ -10,6 +11,7 @@ import com.example.projetointegrador.repository.SectionRepository;
 import com.example.projetointegrador.service.interfaces.IBatchService;
 
 import java.util.HashSet;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,19 +37,15 @@ public class BatchService implements IBatchService {
 
         Batch batch = new Batch(batchDTO);
         
-        Inventory inventory = new Inventory(
-            batchDTO.getQuantity(), 
-            batchDTO.getStorageId(), 
-            batchDTO.getProductId()
-        );
-
-            
-        if (repository.existsBatchByProviderBatchNumber(batch.getProviderBatchNumber())) {
-            System.out.println("Existent Provider Number Batch");
-            return null;
+        List<BatchProduct> batchProducts = batchDTO.getBatchProduct();
+        for (BatchProduct batchProduct : batchProducts) {
+            Inventory inventory = new Inventory(
+                batchProduct.getQuantity(), 
+                batchDTO.getStorageId(), 
+                batchProduct.getProduct().getId()
+            );
+            inventoryService.saveInventory(inventory);
         }
-        
-        inventoryService.saveInventory(inventory);
         
         // // TODO: validar se o product id existe, e se o section id também existe
         // HashSet<Product> productList = new HashSet<Product>();
