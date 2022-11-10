@@ -1,13 +1,13 @@
 package com.example.projetointegrador.setup;
 
-import com.example.projetointegrador.model.Batch;
-import com.example.projetointegrador.model.BatchProduct;
-import com.example.projetointegrador.model.Section;
-import com.example.projetointegrador.model.Storage;
+import com.example.projetointegrador.dto.BatchDTO;
+import com.example.projetointegrador.model.*;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 abstract public class BaseTest {
@@ -15,7 +15,9 @@ abstract public class BaseTest {
    protected Section section = new Section();
    protected Storage storage = new Storage();
    protected BatchProduct batchProduct = new BatchProduct();
-   protected Set<BatchProduct> batchProducts = new HashSet<>();
+   protected Set<BatchProduct> batchProductsPayload = new HashSet<>();
+   protected Set<BatchProduct> batchProductsResponse = new HashSet<>();
+   protected BatchDTO batchDTO = new BatchDTO();
 
     @BeforeEach
     void setup() {
@@ -27,16 +29,29 @@ abstract public class BaseTest {
         section.setName("teste1");
         section.setTemperature(3.1f);
 
-        batchProduct.setId(1L);
+        Product product = new Product();
+        product.setId(1L);
+        batchProduct.setProduct(product);
         batchProduct.setQuantity(10);
         batchProduct.setManufacturingDate(LocalDate.parse("2022-12-10"));
-        batchProducts.add(batchProduct);
+        batchProductsPayload.add(batchProduct);
+
+        BatchProduct batchProductResponse = new BatchProduct();
+        batchProductResponse.setQuantity(10);
+        batchProductResponse.setManufacturingDate(LocalDate.parse("2022-12-10"));
+        batchProductsResponse.add(batchProductResponse);
 
         storage.setId(1L);
         storage.setVolume(100.0f);
 
         batch.setSection(section);
         batch.setStorage(storage);
-        batch.setBatchProduct(batchProducts);
+        batch.setBatchProduct(batchProductsResponse);
+
+        batchDTO.setSectionId(1L);
+        batchDTO.setStorageId(1L);
+        batchDTO.setExpirationDate(LocalDate.parse("2023-01-01"));
+        batchDTO.setProducts(batchProductsPayload);
+
     }
 }
