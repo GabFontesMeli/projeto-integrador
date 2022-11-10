@@ -14,10 +14,13 @@ abstract public class BaseTest {
    protected Batch batch = new Batch();
    protected Section section = new Section();
    protected Storage storage = new Storage();
-   protected BatchProduct batchProduct = new BatchProduct();
+
+   protected BatchProduct batchProductPayload = new BatchProduct();
    protected Set<BatchProduct> batchProductsPayload = new HashSet<>();
    protected Set<BatchProduct> batchProductsResponse = new HashSet<>();
    protected BatchDTO batchDTO = new BatchDTO();
+
+   protected Inventory inventory = new Inventory();
 
     @BeforeEach
     void setup() {
@@ -31,12 +34,13 @@ abstract public class BaseTest {
 
         Product product = new Product();
         product.setId(1L);
-        batchProduct.setProduct(product);
-        batchProduct.setQuantity(10);
-        batchProduct.setManufacturingDate(LocalDate.parse("2022-12-10"));
-        batchProductsPayload.add(batchProduct);
+        batchProductPayload.setProduct(product);
+        batchProductPayload.setQuantity(10);
+        batchProductPayload.setManufacturingDate(LocalDate.parse("2022-12-10"));
+        batchProductsPayload.add(batchProductPayload);
 
         BatchProduct batchProductResponse = new BatchProduct();
+        batchProductResponse.setId(1L);
         batchProductResponse.setQuantity(10);
         batchProductResponse.setManufacturingDate(LocalDate.parse("2022-12-10"));
         batchProductsResponse.add(batchProductResponse);
