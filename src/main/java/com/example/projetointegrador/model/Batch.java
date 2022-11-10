@@ -8,11 +8,9 @@ import lombok.Setter;
 import javax.persistence.*;
 
 import com.example.projetointegrador.dto.BatchDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,7 +34,7 @@ public class Batch {
     @JsonIgnoreProperties({"batches", "sections"})
     private Storage storage;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "section_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"batches", "storage"})
     private Section section;
@@ -48,7 +46,7 @@ public class Batch {
     public Batch(BatchDTO batchDTO) {
         this.expirationDate = batchDTO.getExpirationDate();
 
-        List<BatchProduct> batchProducts = batchDTO.getBatchProduct();
+        List<BatchProduct> batchProducts = batchDTO.getProducts();
         for (BatchProduct batchProduct : batchProducts) {
             BatchProduct newBatchProduct = new BatchProduct();
             newBatchProduct.setBatch(this);

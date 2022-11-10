@@ -4,13 +4,11 @@ import com.example.projetointegrador.dto.BatchDTO;
 import com.example.projetointegrador.model.Batch;
 import com.example.projetointegrador.model.BatchProduct;
 import com.example.projetointegrador.model.Inventory;
-import com.example.projetointegrador.model.Product;
 import com.example.projetointegrador.repository.BatchRepository;
-import com.example.projetointegrador.repository.ProductRepository;
 import com.example.projetointegrador.repository.SectionRepository;
+import com.example.projetointegrador.repository.StorageRepository;
 import com.example.projetointegrador.service.interfaces.IBatchService;
 
-import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,7 @@ public class BatchService implements IBatchService {
     private InventoryService inventoryService;
 
     @Autowired
-    private ProductRepository productRepo;
+    private StorageRepository storageRepository;
 
     @Autowired
     private SectionRepository sectionRepo;
@@ -37,7 +35,7 @@ public class BatchService implements IBatchService {
 
         Batch batch = new Batch(batchDTO);
         
-        List<BatchProduct> batchProducts = batchDTO.getBatchProduct();
+        List<BatchProduct> batchProducts = batchDTO.getProducts();
         for (BatchProduct batchProduct : batchProducts) {
             // TODO: ver se o produto existe
             Inventory inventory = new Inventory(
@@ -47,6 +45,8 @@ public class BatchService implements IBatchService {
             inventoryService.saveInventory(inventory);
         }
 
+        batch.setSection(sectionRepo.findById(batchDTO.getStorageId()).get());
+        batch.setStorage(storageRepository.findById(batchDTO.getStorageId()).get());
         return repository.save(batch);
     }
 

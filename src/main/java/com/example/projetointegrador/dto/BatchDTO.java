@@ -1,7 +1,6 @@
 package com.example.projetointegrador.dto;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 import com.example.projetointegrador.model.BatchProduct;
@@ -23,5 +22,5 @@ public class BatchDTO {
     // private LocalDate manufacturingDate;
     // private LocalTime manufacturingTime;
     // private Integer quantity;
-    private List<BatchProduct> batchProduct;
+    private List<BatchProduct> products;
 }
