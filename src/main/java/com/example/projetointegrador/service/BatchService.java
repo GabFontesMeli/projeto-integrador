@@ -50,11 +50,11 @@ public class BatchService implements IBatchService {
         inventoryService.saveInventory(inventory);
         
         // // TODO: validar se o product id existe, e se o section id também existe
-        HashSet<Product> productList = new HashSet<Product>();
-        Product product = productRepo.findById(batchDTO.getProductId()).get();
-        productList.add(product);
-        batch.setProducts(productList);
-        batch.setSection(sectionRepo.findById(batchDTO.getStorageId()).get());
+        // HashSet<Product> productList = new HashSet<Product>();
+        // Product product = productRepo.findById(batchDTO.getProductId()).get();
+        // productList.add(product);
+        // batch.setProducts(productList);
+        // batch.setSection(sectionRepo.findById(batchDTO.getStorageId()).get());
         return repository.save(batch);
     }
 
@@ -65,11 +65,11 @@ public class BatchService implements IBatchService {
             return null;
         }
 
-        Integer actualQuantity = batchDTO.getQuantity();
-        Integer oldQuantity = repository.findById(id).get().getQuantity();
-        Integer newQuantity = actualQuantity - oldQuantity;
+        // Integer actualQuantity = batchDTO.getQuantity();
+        // Integer oldQuantity = repository.findById(id).get().getQuantity();
+        // Integer newQuantity = actualQuantity - oldQuantity;
 
-        inventoryService.updaInventory(batchDTO.getProductId(), newQuantity);
+        // inventoryService.updateInventory(batchDTO.getProductId(), newQuantity);
 
         Batch newBatch = new Batch(batchDTO);
         newBatch.setId(id);

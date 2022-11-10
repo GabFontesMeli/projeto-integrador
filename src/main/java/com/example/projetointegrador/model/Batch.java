@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 import com.example.projetointegrador.dto.BatchDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDate;
@@ -29,39 +30,48 @@ public class Batch {
     @Column(nullable = false)
     private LocalDate expirationDate;
 
-    @Column(nullable = false)
-    private LocalDate manufacturingDate;
-
-    private LocalTime manufacturingTime;
-
     @ManyToOne()
     @JoinColumn(name = "section_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"batches", "storage"})
     private Section section;
 
     @Column(nullable = false)
-    private Integer quantity;
-
-    @Column(nullable = false)
     private Long providerBatchNumber;
 
-    @OneToMany(mappedBy = "batch")
-    @JsonIgnoreProperties({"batch", "inventory", "users"})
-    private Set<Product> products = new HashSet<>();
+    // @OneToMany(mappedBy = "batch")
+    // @JsonIgnoreProperties({"batch", "inventory", "users"})
+    // private Set<Product> products = new HashSet<>();
+
+    // @ManyToMany
+    // @JoinTable(
+    //     name = "batch_product",
+    //     joinColumns = @JoinColumn(name = "batch_id", referencedColumnName = "id"),
+    //     inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id")
+    // )
+    // @JsonIgnoreProperties("batches")
+    // private Set<Product> products = new HashSet<>();
+
+    @OneToMany(mappedBy = "batch", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"batch", "product"})
+    Set<BatchProduct> batchProduct = new HashSet<>();
 
     public Batch(BatchDTO batchDTO) {
         this.expirationDate = batchDTO.getExpirationDate();
-        this.manufacturingDate = batchDTO.getManufacturingDate();
-        this.manufacturingTime = batchDTO.getManufacturingTime();
-        this.quantity = batchDTO.getQuantity();
+
+        BatchProduct newBatchProduct = new BatchProduct();
+        newBatchProduct.setBatch(this);
+        newBatchProduct.setQuantity(batchDTO.getQuantity());
+        newBatchProduct.setManufacturingDate(batchDTO.getManufacturingDate());
+        newBatchProduct.setManufacturingTime(batchDTO.getManufacturingTime());
+        Product newProduct = new Product();
+        newProduct.setId(batchDTO.getProductId());
+        newBatchProduct.setProduct(newProduct);
+        this.batchProduct.add(newBatchProduct);
+
         this.providerBatchNumber = batchDTO.getProviderBatchNumber();
+
         Section section = new Section();
         section.setId(batchDTO.getSectionId());
         this.section = section;
-        HashSet<Product> productList = new HashSet<>();
-        Product product = new Product();
-        product.setId(batchDTO.getProductId());
-        productList.add(product);
-        this.products = productList;
     }
 }
