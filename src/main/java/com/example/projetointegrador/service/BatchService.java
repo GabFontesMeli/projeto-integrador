@@ -5,6 +5,7 @@ import com.example.projetointegrador.model.Batch;
 import com.example.projetointegrador.model.Inventory;
 import com.example.projetointegrador.model.Product;
 import com.example.projetointegrador.repository.BatchRepository;
+import com.example.projetointegrador.repository.InventoryRepository;
 import com.example.projetointegrador.repository.ProductRepository;
 import com.example.projetointegrador.repository.SectionRepository;
 import com.example.projetointegrador.service.interfaces.IBatchService;
@@ -21,8 +22,8 @@ public class BatchService implements IBatchService {
     @Autowired
     private BatchRepository repository;
 
-    // @Autowired
-    // private InventoryRepository inventoryRepo;
+    @Autowired
+    private InventoryRepository inventoryRepo;
 
     @Autowired
     private InventoryService inventoryService;
@@ -50,7 +51,6 @@ public class BatchService implements IBatchService {
             return null;
         }
         
-        
         inventoryService.saveInventory(inventory);
         
         // // TODO: validar se o product id existe, e se o section id também existe
@@ -63,11 +63,21 @@ public class BatchService implements IBatchService {
     }
 
     @Override
-    public Batch update(Long id, Batch batch) {
+    public Batch update(Long id, BatchDTO batchDTO) {
         if(!repository.existsById(id)){
             System.out.println("Batch doesn't exists");
             return null;
         }
-        return repository.save(batch);
+
+        Integer actualQuantity = batchDTO.getQuantity();
+        Integer oldQuantity = repository.findById(id).get().getQuantity();
+        Integer newQuantity = actualQuantity - oldQuantity;
+
+        inventoryService.updaInventory(batchDTO.getProductId(), newQuantity);
+
+        Batch newBatch = new Batch(batchDTO);
+        newBatch.setId(id);
+
+        return repository.save(newBatch);
     }
 }

@@ -27,7 +27,7 @@ public class BatchController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Batch> update(@PathVariable Long id, @RequestBody Batch batch) {
-        return new ResponseEntity<Batch>(batchService.update(id, batch), HttpStatus.ACCEPTED);
+    public ResponseEntity<Batch> update(@PathVariable Long id, @RequestBody BatchDTO batchDTO) {
+        return new ResponseEntity<Batch>(batchService.update(id, batchDTO), HttpStatus.ACCEPTED);
     }
 }

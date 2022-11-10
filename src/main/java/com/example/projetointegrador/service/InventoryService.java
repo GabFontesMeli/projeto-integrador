@@ -23,4 +23,11 @@ public class InventoryService {
 
         return inventoryRepo.save(inventory);
     }
+
+    public Inventory updaInventory(Long productId, Integer quantity) {
+        Inventory inventoryFound = inventoryRepo.findInventoryByProductId(productId);
+        Integer oldQuantity = inventoryFound.getQuantity();
+        inventoryFound.setQuantity(oldQuantity + quantity);
+        return inventoryRepo.save(inventoryFound);
+    }
 }
