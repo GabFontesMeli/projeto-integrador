@@ -4,6 +4,7 @@ import com.example.projetointegrador.controller.BatchController;
 import com.example.projetointegrador.dto.BatchDTO;
 import com.example.projetointegrador.model.*;
 import com.example.projetointegrador.service.BatchService;
+import com.example.projetointegrador.setup.BaseTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 //@ActiveProfiles("test")
 @WebMvcTest(BatchController.class)
-public class BatchControllerTest {
+public class BatchControllerTest extends BaseTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -42,31 +43,6 @@ public class BatchControllerTest {
 
     @Test
     void createBatchshouldReturnBatch() throws Exception {
-        Batch batch = new Batch();
-        batch.setId(3L);
-        batch.setExpirationDate(LocalDate.parse("2023-01-01"));
-
-        Section section = new Section();
-        section.setId(1L);
-        section.setName("teste1");
-        section.setTemperature(3.1f);
-
-        Set<BatchProduct> batchProducts = new HashSet<>();
-        BatchProduct batchProduct = new BatchProduct();
-        batchProduct.setId(1L);
-        batchProduct.setQuantity(10);
-        batchProduct.setManufacturingDate(LocalDate.parse("2022-12-10"));
-
-        batchProducts.add(batchProduct);
-
-        Storage storage = new Storage();
-        storage.setId(1L);
-        storage.setVolume(100.0f);
-
-        batch.setSection(section);
-        batch.setStorage(storage);
-        batch.setBatchProduct(batchProducts);
-
         BDDMockito.given(batchService.createBatch(any(BatchDTO.class)))
                 .willReturn(batch);
 
