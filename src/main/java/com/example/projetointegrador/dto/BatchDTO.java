@@ -1,7 +1,6 @@
 package com.example.projetointegrador.dto;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 import com.example.projetointegrador.model.BatchProduct;
