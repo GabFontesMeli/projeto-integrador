@@ -1,6 +1,5 @@
 package com.example.projetointegrador.service.interfaces;
 
-import java.util.List;
 import java.util.Set;
 
 import com.example.projetointegrador.dto.BatchDTO;

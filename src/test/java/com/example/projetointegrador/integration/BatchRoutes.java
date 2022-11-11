@@ -1,17 +1,14 @@
 package com.example.projetointegrador.integration;
 
-import com.example.projetointegrador.model.Batch;
 import com.example.projetointegrador.model.BatchProduct;
-import com.example.projetointegrador.model.Product;
-import com.example.projetointegrador.repository.BatchRepository;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -20,9 +17,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.example.projetointegrador.repository.ProductRepository;
-import com.example.projetointegrador.repository.SectionRepository;
-import com.example.projetointegrador.repository.StorageRepository;
 import com.example.projetointegrador.setup.BaseTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -31,6 +25,7 @@ import java.util.Set;
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestMethodOrder(OrderAnnotation.class)
 public class BatchRoutes extends BaseTest {
     @Autowired
     private MockMvc mockMvc;
@@ -39,6 +34,7 @@ public class BatchRoutes extends BaseTest {
     private ObjectMapper objectMapper;
 
     @Test
+    @Order(1)
     void createBatchShouldReturnBatch() throws Exception {
         String payload = objectMapper.writeValueAsString(batchDTO);
 
@@ -63,6 +59,7 @@ public class BatchRoutes extends BaseTest {
     }
 
     @Test
+    @Order(2)
     void updateBatchShouldReturnBatch() throws Exception {
 
         Set<BatchProduct> batchProducts = batchProductsBuilder(productForTest);
@@ -77,9 +74,9 @@ public class BatchRoutes extends BaseTest {
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.batchProduct", hasSize(3)))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 3)].id").value(3))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 3)].quantity").value(10))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 3)].manufacturingDate").value("2022-12-10"))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 3)].manufacturingTime").value("11:00:00"));
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 4)].id").value(4))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 4)].quantity").value(10))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 4)].manufacturingDate").value("2022-12-10"))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 4)].manufacturingTime").value("11:00:00"));
     }
 }
