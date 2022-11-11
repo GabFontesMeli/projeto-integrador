@@ -52,7 +52,7 @@ public class BatchService implements IBatchService {
     }
 
     @Override
-    public Batch update(Long id, List<BatchProduct> batchProductList) {
+    public Batch update(Long id, Set<BatchProduct> batchProductList) {
 
         if(!repository.existsById(id)){
             System.out.println("Batch doesn't exists");

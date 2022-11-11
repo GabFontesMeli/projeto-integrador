@@ -66,7 +66,7 @@ public class Batch {
         this.section = section;
     }
 
-    public void addProducts(List<BatchProduct> batchProductList) {
+    public void addProducts(Set<BatchProduct> batchProductList) {
         for (BatchProduct batchProduct : batchProductList) {
             BatchProduct newBatchProduct = new BatchProduct();
             newBatchProduct.setBatch(this);

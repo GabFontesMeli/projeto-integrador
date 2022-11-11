@@ -1,6 +1,7 @@
 package com.example.projetointegrador.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class BatchController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Batch> update(@PathVariable Long id, @RequestBody List<BatchProduct> batchProductList) {
+    public ResponseEntity<Batch> update(@PathVariable Long id, @RequestBody Set<BatchProduct> batchProductList) {
         return new ResponseEntity<Batch>(batchService.update(id, batchProductList), HttpStatus.ACCEPTED);
     }
 }

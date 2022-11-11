@@ -51,4 +51,17 @@ public class BatchServiceTest extends BaseTest {
 
         assertThat(response).isEqualTo(batch);
     }
+
+    @Test
+    void updateBatchShouldReturnBatch() {
+        BDDMockito.given(batchRepository.existsById(any(Long.class))).willReturn(true);
+        BDDMockito.given(batchRepository.findById(any(Long.class))).willReturn(Optional.ofNullable(batch));
+        BDDMockito.doNothing().when(inventoryService).saveInventory(any(Inventory.class));
+        batch.addProducts(batchProductsPayload);
+        BDDMockito.given(batchRepository.save(any(Batch.class))).willReturn(batch);
+
+        Batch response = batchService.update(1L, batchProductsPayload);
+
+        assertThat(response).isEqualTo(batch);
+    }
 }
