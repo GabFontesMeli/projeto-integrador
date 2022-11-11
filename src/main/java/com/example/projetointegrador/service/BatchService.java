@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class BatchService implements IBatchService {
     
     @Autowired
-    private BatchRepository repository;
+    private BatchRepository batchRepository;
 
     @Autowired
     private InventoryService inventoryService;
@@ -28,7 +28,7 @@ public class BatchService implements IBatchService {
     private StorageRepository storageRepository;
 
     @Autowired
-    private SectionRepository sectionRepo;
+    private SectionRepository sectionRepository;
 
     @Override
     public Batch createBatch(BatchDTO batchDTO) {
@@ -45,20 +45,20 @@ public class BatchService implements IBatchService {
             inventoryService.saveInventory(inventory);
         }
 
-        batch.setSection(sectionRepo.findById(batchDTO.getStorageId()).get());
+        batch.setSection(sectionRepository.findById(batchDTO.getStorageId()).get());
         batch.setStorage(storageRepository.findById(batchDTO.getStorageId()).get());
-        return repository.save(batch);
+        return batchRepository.save(batch);
     }
 
     @Override
     public Batch update(Long id, List<BatchProduct> batchProductList) {
 
-        if(!repository.existsById(id)){
+        if(!batchRepository.existsById(id)){
             System.out.println("Batch doesn't exists");
             return null;
         }
 
-        Batch batch = repository.findById(id).get();
+        Batch batch = batchRepository.findById(id).get();
 
         for (BatchProduct batchProduct : batchProductList) {
             // TODO: ver se o produto existe
@@ -71,6 +71,6 @@ public class BatchService implements IBatchService {
 
         batch.addProducts(batchProductList);
 
-        return repository.save(batch);
+        return batchRepository.save(batch);
     }
 }

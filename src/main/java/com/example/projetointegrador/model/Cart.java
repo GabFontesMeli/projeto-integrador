@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.example.projetointegrador.dto.CartDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -43,6 +44,18 @@ public class Cart {
     @JsonIgnoreProperties({"cart", "cartItem"})
     Set<CartItem> cartItems = new HashSet<>();
 
+    public Cart(CartDTO cartDTO) {
+        List<CartItem> cartItems = cartDTO.getProducts();
+
+        for (CartItem cartItem : cartItems) {
+            CartItem newCartItem = new CartItem();
+            newCartItem.setCart(this);
+            newCartItem.setProduct(cartItem.getProduct());
+            newCartItem.setQuantity(cartItem.getQuantity());
+            this.cartItems.add(newCartItem);
+        }
+    }
+
     public void addCartItems(List<CartItem> cartItemList) {
         for (CartItem cartItem : cartItemList) {
             CartItem newCartItem = new CartItem();
@@ -53,4 +66,6 @@ public class Cart {
             this.cartItems.add(newCartItem);
         }
     }
+
+
 }
