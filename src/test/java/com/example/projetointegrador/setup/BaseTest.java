@@ -5,6 +5,7 @@ import com.example.projetointegrador.model.*;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,10 +23,12 @@ abstract public class BaseTest {
 
    protected Inventory inventory = new Inventory();
 
+    protected Product productForTest = new Product();
+
     @BeforeEach
     void setup() {
 
-        batch.setId(3L);
+        batch.setId(1L);
         batch.setExpirationDate(LocalDate.parse("2023-01-01"));
 
         section.setId(1L);
@@ -37,12 +40,14 @@ abstract public class BaseTest {
         batchProductPayload.setProduct(product);
         batchProductPayload.setQuantity(10);
         batchProductPayload.setManufacturingDate(LocalDate.parse("2022-12-10"));
+        batchProductPayload.setManufacturingTime(LocalTime.parse("11:00:00"));
         batchProductsPayload.add(batchProductPayload);
 
         BatchProduct batchProductResponse = new BatchProduct();
         batchProductResponse.setId(1L);
         batchProductResponse.setQuantity(10);
         batchProductResponse.setManufacturingDate(LocalDate.parse("2022-12-10"));
+        batchProductResponse.setManufacturingTime(LocalTime.parse("11:00:00"));
         batchProductsResponse.add(batchProductResponse);
 
         storage.setId(1L);
@@ -56,6 +61,10 @@ abstract public class BaseTest {
         batchDTO.setStorageId(1L);
         batchDTO.setExpirationDate(LocalDate.parse("2023-01-01"));
         batchDTO.setProducts(batchProductsPayload);
+
+        productForTest.setName("laranja");
+        productForTest.setPrice(10.0D);
+        productForTest.setVolume(10F);
 
     }
 }

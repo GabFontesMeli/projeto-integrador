@@ -25,7 +25,6 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-//@ActiveProfiles("test")
 @WebMvcTest(BatchController.class)
 public class BatchControllerTest extends BaseTest {
 

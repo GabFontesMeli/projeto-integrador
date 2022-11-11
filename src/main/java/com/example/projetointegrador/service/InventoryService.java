@@ -19,9 +19,9 @@ public class InventoryService {
             Inventory inventoryFound = inventoryRepo.findInventoryByProductId(inventory.getProduct().getId());
             inventoryFound.setQuantity(quantity + inventoryFound.getQuantity());
             inventoryRepo.save(inventoryFound);
+        } else {
+            inventoryRepo.save(inventory);
         }
-
-         inventoryRepo.save(inventory);
     }
 
     public Inventory updateInventory(Long productId, Integer quantity) {
