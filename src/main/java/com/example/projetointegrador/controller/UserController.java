@@ -1,7 +1,7 @@
 package com.example.projetointegrador.controller;
 
 
-import com.example.projetointegrador.model.User;
+import com.example.projetointegrador.model.UserU;
 import com.example.projetointegrador.service.interfaces.IUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
+    public ResponseEntity<UserU> saveUser(@RequestBody UserU user) {
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
     }
 }

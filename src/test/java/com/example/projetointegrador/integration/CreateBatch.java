@@ -1,28 +1,17 @@
 package com.example.projetointegrador.integration;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
-import org.aspectj.lang.annotation.Before;
 
 import com.example.projetointegrador.repository.ProductRepository;
 import com.example.projetointegrador.repository.SectionRepository;
@@ -31,6 +20,7 @@ import com.example.projetointegrador.setup.BaseTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ActiveProfiles("test")
+// @Profile("test")
 @SpringBootTest
 @AutoConfigureMockMvc
 // @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
@@ -52,17 +42,10 @@ public class CreateBatch extends BaseTest {
 
     @BeforeEach
     void databaseSetup() {
-        productRepository.save(productForTest);
         storageRepository.save(storage);
         sectionRepository.save(section);
+        productRepository.save(productForTest);
     }
-
-    // @AfterEach
-    // void databaseCleanup() {
-    //     EntityManagerFactory emf = Persistence.createEntityManagerFactory("projetointegrador_test");
-    //     EntityManager em = emf.createEntityManager();
-    //     em.clear();
-    // }
 
     @Test
     void createBatchShouldReturnBatch() throws Exception {

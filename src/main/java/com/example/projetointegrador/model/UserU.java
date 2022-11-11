@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class User {
+public class UserU {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
