@@ -1,15 +1,11 @@
 package com.example.projetointegrador.model;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
 
-import com.example.projetointegrador.dto.CartDTO;
-import com.example.projetointegrador.dto.CartItemDTO;
 import com.example.projetointegrador.enums.CartStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
