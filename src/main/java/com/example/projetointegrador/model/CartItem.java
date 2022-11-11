@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 
 import com.example.projetointegrador.dto.CartItemDTO;
 
+import com.example.projetointegrador.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,11 +41,9 @@ public class CartItem {
     @Column(nullable = false)
     private Double value;
 
-    public CartItem(CartItemDTO cartItemDTO) {
-        Product newProduct = new Product();
-        newProduct.setId(cartItemDTO.getProductId());
-        this.product = newProduct;
-        this.quantity = cartItemDTO.getQuantity();
-        this.value = 100000000.00;
+    public CartItem(Integer incomingQuantity, Product incomingProduct) {
+        this.product = incomingProduct;
+        this.quantity = incomingQuantity;
+        this.value = incomingProduct.getPrice() * incomingQuantity;
     }
 }

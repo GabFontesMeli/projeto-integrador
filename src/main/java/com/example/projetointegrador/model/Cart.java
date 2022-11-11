@@ -45,34 +45,6 @@ public class Cart {
     @JsonIgnoreProperties({"cart", "cartItem"})
     Set<CartItem> cartItems = new HashSet<>();
 
-    public Cart(CartDTO cartDTO) {
-        List<CartItemDTO> cartItems = cartDTO.getProducts();
-        User newUser = new User();
-        newUser.setId(cartDTO.getUserId());
-
-        this.date = cartDTO.getDate();
-        this.user = newUser;
-        this.status = cartDTO.getStatus();
-        this.totalValue = 10.0;
-
-        for (CartItemDTO cartItemDTO : cartItems) {
-            CartItem newCartItem = new CartItem(cartItemDTO);
-            newCartItem.setCart(this);
-            this.cartItems.add(newCartItem);
-        }
-    }
-
-//    public void addCartItems(List<CartItem> cartItemList) {
-//        for (CartItem cartItem : cartItemList) {
-//            CartItem newCartItem = new CartItem();
-//            newCartItem.setCart(this);
-//            newCartItem.setProduct(cartItem.getProduct());
-//            newCartItem.setQuantity(cartItem.getQuantity());
-//            newCartItem.setValue(cartItem.getProduct().getPrice() * cartItem.getQuantity());
-//            this.cartItems.add(newCartItem);
-//        }
-//    }
-
     public boolean isOpen() {
         if (getStatus() == CartStatusEnum.OPEN) {
             return true;
