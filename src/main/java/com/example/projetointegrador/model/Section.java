@@ -44,5 +44,6 @@ public class Section {
     private Set<Batch> batches;
 
     @OneToMany(mappedBy = "section")
+    @JsonIgnoreProperties("section")
     private Set<Product> products;
 }

@@ -7,4 +7,5 @@ import com.example.projetointegrador.model.Product;
 public interface IProductService {
     Product saveProduct(Product product);
     List<Product> getAllProducts();
+    List<Product> getAllProductsBySection(String section);
 }

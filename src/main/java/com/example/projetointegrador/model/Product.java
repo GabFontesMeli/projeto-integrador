@@ -20,7 +20,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Getter
 @Setter
@@ -56,7 +55,7 @@ public class Product {
     Set<BatchProduct> batchProduct = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties("storage")
+    @JsonIgnore
     private Section section;
 
 }

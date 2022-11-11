@@ -25,4 +25,9 @@ public class ProductService implements IProductService {
         return productRepository.findAll();
     }
 
+    @Override
+    public List<Product> getAllProductsBySection(String section) {
+        return productRepository.findProductsBySectionName(section);
+    }
+
 }
