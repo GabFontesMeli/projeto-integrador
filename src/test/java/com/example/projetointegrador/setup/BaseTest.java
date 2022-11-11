@@ -26,21 +26,6 @@ abstract public class BaseTest {
     protected Set<BatchProduct> batchProductsBuilder(Product product) {
         Set<BatchProduct> batchProducts = new HashSet<>();
         BatchProduct batchProduct = new BatchProduct();
-        batchProduct.setId(2L);
-        batchProduct.setProduct(product);
-        batchProduct.setQuantity(10);
-        batchProduct.setManufacturingDate(LocalDate.parse("2022-12-10"));
-        batchProduct.setManufacturingTime(LocalTime.parse("11:00:00"));
-        batchProducts.add(batchProduct);
-
-        return batchProducts;
-    }
-
-    protected Set<BatchProduct> batchProductsBuilder2(Product product, Batch batch) {
-        Set<BatchProduct> batchProducts = new HashSet<>();
-        BatchProduct batchProduct = new BatchProduct();
-        batchProduct.setId(1L);
-        batchProduct.setBatch(batch);
         batchProduct.setProduct(product);
         batchProduct.setQuantity(10);
         batchProduct.setManufacturingDate(LocalDate.parse("2022-12-10"));
@@ -87,8 +72,6 @@ abstract public class BaseTest {
         batchDTO.setExpirationDate(LocalDate.parse("2023-01-01"));
         batchDTO.setProducts(batchProductsPayload);
 
-        productForTest.setName("laranja");
-        productForTest.setPrice(10.0D);
-        productForTest.setVolume(10F);
+        productForTest.setId(3L);
     }
 }

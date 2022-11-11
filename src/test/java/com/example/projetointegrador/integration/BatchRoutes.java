@@ -13,10 +13,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.example.projetointegrador.repository.ProductRepository;
 import com.example.projetointegrador.repository.SectionRepository;
@@ -49,12 +49,12 @@ public class BatchRoutes extends BaseTest {
     @Autowired
     private SectionRepository sectionRepository;
 
-    @BeforeEach
-    void databaseSetup() {
-        storageRepository.save(storage);
-        sectionRepository.save(section);
-        productRepository.save(productForTest);
-    }
+//    @BeforeEach
+//    void databaseSetup() {
+//        storageRepository.save(storage);
+//        sectionRepository.save(section);
+//        productRepository.save(productForTest);
+//    }
 
     @Test
     void createBatchShouldReturnBatch() throws Exception {
@@ -73,23 +73,9 @@ public class BatchRoutes extends BaseTest {
 
     @Test
     void updateBatchShouldReturnBatch() throws Exception {
-        Set<BatchProduct> newBatchProducts = batchProductsBuilder2(productForTest, batch);
 
-        batch.setBatchProduct(newBatchProducts);
-        batchRepository.save(batch);
-
-        Product product = new Product();
-        product.setName("teste");
-        product.setVolume(10.0f);
-        product.setPrice(10.0d);
-        productRepository.save(product);
-
-        Set<BatchProduct> batchProducts = batchProductsBuilder(product);
+        Set<BatchProduct> batchProducts = batchProductsBuilder(productForTest);
         String payload = objectMapper.writeValueAsString(batchProducts);
-
-        batch.addProducts(batchProducts);
-
-        String jsonExpected = objectMapper.writeValueAsString(batch);
 
         this.mockMvc
                 .perform(
@@ -98,6 +84,11 @@ public class BatchRoutes extends BaseTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isAccepted())
-                .andExpect(content().json(jsonExpected));
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.batchProduct", hasSize(3)))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 3)].id").value(3))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 3)].quantity").value(10))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 3)].manufacturingDate").value("2022-12-10"))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 3)].manufacturingTime").value("11:00:00"));
     }
 }
