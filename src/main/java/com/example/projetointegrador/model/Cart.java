@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.*;
 
 import com.example.projetointegrador.dto.CartDTO;
+import com.example.projetointegrador.enums.CartStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -35,10 +36,11 @@ public class Cart {
     private User user;
 
     @Column(nullable = false)
-    private BigDecimal totalValue;
+    private Double totalValue;
 
     @Column(nullable = false)
-    private Boolean status;
+    @Enumerated(EnumType.STRING)
+    private CartStatusEnum status;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"cart", "cartItem"})
@@ -67,5 +69,10 @@ public class Cart {
         }
     }
 
-
+    public boolean isOpen() {
+        if (getStatus() == CartStatusEnum.OPEN) {
+            return true;
+        }
+        return false;
+    }
 }
