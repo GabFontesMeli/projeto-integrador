@@ -1,9 +1,7 @@
 package com.example.projetointegrador.service;
 
-import com.example.projetointegrador.dto.BatchDTO;
 import com.example.projetointegrador.model.Batch;
 import com.example.projetointegrador.model.Inventory;
-import com.example.projetointegrador.model.Section;
 import com.example.projetointegrador.repository.BatchRepository;
 import com.example.projetointegrador.repository.InventoryRepository;
 import com.example.projetointegrador.repository.SectionRepository;
@@ -15,14 +13,11 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.willReturn;
 
 @ExtendWith(MockitoExtension.class)
 public class BatchServiceTest extends BaseTest {

@@ -1,10 +1,6 @@
 package com.example.projetointegrador.controller;
 
 import com.example.projetointegrador.dto.BatchDTO;
-import com.example.projetointegrador.model.Batch;
-import com.example.projetointegrador.model.BatchProduct;
-import com.example.projetointegrador.model.Section;
-import com.example.projetointegrador.model.Storage;
 import com.example.projetointegrador.service.BatchService;
 import com.example.projetointegrador.setup.BaseTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,10 +16,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 @WebMvcTest(BatchController.class)
 public class BatchControllerTest extends BaseTest {
