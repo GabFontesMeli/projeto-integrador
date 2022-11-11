@@ -41,7 +41,7 @@ public class BatchServiceTest extends BaseTest {
     private InventoryService inventoryService;
 
     @Test
-    void createBatchShoulReturnBatch() {
+    void createBatchShouldReturnBatch() {
         BDDMockito.given(batchRepository.save(any(Batch.class))).willReturn(batch);
         BDDMockito.doNothing().when(inventoryService).saveInventory(any(Inventory.class));
         BDDMockito.given(sectionRepository.findById(any(Long.class))).willReturn(Optional.ofNullable(section));
