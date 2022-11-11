@@ -41,11 +41,10 @@ public class CartItem {
     private Double value;
 
     public CartItem(CartItemDTO cartItemDTO) {
-        
-        Long productId  = this.product.getId();
-        Integer quantity  = this.quantity;
-
-        cartItemDTO.setProductId(productId);
-        cartItemDTO.setQuantity(quantity);
+        Product newProduct = new Product();
+        newProduct.setId(cartItemDTO.getProductId());
+        this.product = newProduct;
+        this.quantity = cartItemDTO.getQuantity();
+        this.value = 100000000.00;
     }
 }

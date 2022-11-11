@@ -3,6 +3,7 @@ package com.example.projetointegrador.dto;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.example.projetointegrador.enums.CartStatusEnum;
 import com.example.projetointegrador.model.CartItem;
 
 import lombok.AllArgsConstructor;
@@ -15,9 +16,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartDTO {
-    
+
     private LocalDate date;
     private Long userId;
-    private Boolean status;
-    private List<CartItem> products;
+    private CartStatusEnum status;
+    private List<CartItemDTO> products;
 }

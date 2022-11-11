@@ -22,16 +22,14 @@ public class CartService implements ICartService{
     public Double createCart(CartDTO cartDTO) {
         
         Cart cart = new Cart(cartDTO);
-
-        List<CartItem> cartItems = new ArrayList<>();
-        cartItems.addAll(cart.getCartItems());
-
-        cart.addCartItems(cartItems);
+        System.out.println(cart.toString());
 
         cartRepository.save(cart);
 
-        Double totalValue = cart.getTotalValue();
+        return 1.0;
 
-        return totalValue;
-    }  
+//        Double totalValue = cart.getTotalValue();
+
+//        return totalValue;
+    }
 }

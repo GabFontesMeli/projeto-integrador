@@ -9,19 +9,18 @@ import java.util.Set;
 import javax.persistence.*;
 
 import com.example.projetointegrador.dto.CartDTO;
+import com.example.projetointegrador.dto.CartItemDTO;
 import com.example.projetointegrador.enums.CartStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,27 +46,32 @@ public class Cart {
     Set<CartItem> cartItems = new HashSet<>();
 
     public Cart(CartDTO cartDTO) {
-        List<CartItem> cartItems = cartDTO.getProducts();
+        List<CartItemDTO> cartItems = cartDTO.getProducts();
+        User newUser = new User();
+        newUser.setId(cartDTO.getUserId());
 
-        for (CartItem cartItem : cartItems) {
-            CartItem newCartItem = new CartItem();
+        this.date = cartDTO.getDate();
+        this.user = newUser;
+        this.status = cartDTO.getStatus();
+        this.totalValue = 10.0;
+
+        for (CartItemDTO cartItemDTO : cartItems) {
+            CartItem newCartItem = new CartItem(cartItemDTO);
             newCartItem.setCart(this);
-            newCartItem.setProduct(cartItem.getProduct());
-            newCartItem.setQuantity(cartItem.getQuantity());
             this.cartItems.add(newCartItem);
         }
     }
 
-    public void addCartItems(List<CartItem> cartItemList) {
-        for (CartItem cartItem : cartItemList) {
-            CartItem newCartItem = new CartItem();
-            newCartItem.setCart(this);
-            newCartItem.setProduct(cartItem.getProduct());
-            newCartItem.setQuantity(cartItem.getQuantity());
-            newCartItem.setValue(cartItem.getProduct().getPrice() * cartItem.getQuantity());
-            this.cartItems.add(newCartItem);
-        }
-    }
+//    public void addCartItems(List<CartItem> cartItemList) {
+//        for (CartItem cartItem : cartItemList) {
+//            CartItem newCartItem = new CartItem();
+//            newCartItem.setCart(this);
+//            newCartItem.setProduct(cartItem.getProduct());
+//            newCartItem.setQuantity(cartItem.getQuantity());
+//            newCartItem.setValue(cartItem.getProduct().getPrice() * cartItem.getQuantity());
+//            this.cartItems.add(newCartItem);
+//        }
+//    }
 
     public boolean isOpen() {
         if (getStatus() == CartStatusEnum.OPEN) {
