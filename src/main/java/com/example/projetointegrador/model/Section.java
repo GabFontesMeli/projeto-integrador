@@ -35,11 +35,14 @@ public class Section {
     @Column(nullable = false, length = 100)
     private Float temperature;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "storage_id", referencedColumnName = "id")
     @JsonIgnoreProperties("sections")
     private Storage storage;
 
     @OneToMany(mappedBy = "section")
     private Set<Batch> batches;
+
+    @OneToMany(mappedBy = "section")
+    private Set<Product> products;
 }
