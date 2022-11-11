@@ -7,9 +7,11 @@ import com.example.projetointegrador.repository.BatchRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -29,7 +31,6 @@ import java.util.Set;
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
-// @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class BatchRoutes extends BaseTest {
     @Autowired
     private MockMvc mockMvc;
@@ -37,29 +38,9 @@ public class BatchRoutes extends BaseTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
-    private BatchRepository batchRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private StorageRepository storageRepository;
-
-    @Autowired
-    private SectionRepository sectionRepository;
-
-//    @BeforeEach
-//    void databaseSetup() {
-//        storageRepository.save(storage);
-//        sectionRepository.save(section);
-//        productRepository.save(productForTest);
-//    }
-
     @Test
     void createBatchShouldReturnBatch() throws Exception {
         String payload = objectMapper.writeValueAsString(batchDTO);
-        String jsonExpected = objectMapper.writeValueAsString(batch);
 
         this.mockMvc
                 .perform(
@@ -68,7 +49,17 @@ public class BatchRoutes extends BaseTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isCreated())
-                .andExpect(content().json(jsonExpected));
+                .andExpect(jsonPath("$.id").value(2))
+                .andExpect(jsonPath("$.expirationDate").value("2023-01-01"))
+                .andExpect(jsonPath("$.storage.id").value(1))
+                .andExpect(jsonPath("$.storage.volume").value(100000.0))
+                .andExpect(jsonPath("$.section.id").value(1))
+                .andExpect(jsonPath("$.section.name").value("frescos"))
+                .andExpect(jsonPath("$.section.temperature").value(20.0))
+                .andExpect(jsonPath("$.batchProduct[0].id").value(3))
+                .andExpect(jsonPath("$.batchProduct[0].quantity").value(10))
+                .andExpect(jsonPath("$.batchProduct[0].manufacturingDate").value("2022-12-10"))
+                .andExpect(jsonPath("$.batchProduct[0].manufacturingTime").value("11:00:00"));
     }
 
     @Test
