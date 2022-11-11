@@ -3,6 +3,9 @@ package com.example.projetointegrador.service;
 import com.example.projetointegrador.model.Product;
 import com.example.projetointegrador.repository.ProductRepository;
 import com.example.projetointegrador.service.interfaces.IProductService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,11 @@ public class ProductService implements IProductService {
     @Override
     public Product saveProduct(Product product) {
         return productRepository.save(product);
+    }
+
+    @Override
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
     }
 
 }

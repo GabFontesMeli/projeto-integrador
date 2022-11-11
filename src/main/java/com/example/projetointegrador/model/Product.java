@@ -18,7 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Getter
 @Setter
@@ -42,15 +42,15 @@ public class Product {
     private Float volume;
 
     @ManyToMany(mappedBy = "products")
-    @JsonIgnoreProperties("products")
+    @JsonIgnore
     private Set<User> users;
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("product")
+    @JsonIgnore
     private Inventory inventory;
 
     @OneToMany(mappedBy = "product")
-    @JsonIgnoreProperties({"batch", "product"})
+    @JsonIgnore
     Set<BatchProduct> batchProduct = new HashSet<>();
 
      //TODO: relation with category
