@@ -43,7 +43,7 @@ public class Product {
 
     @ManyToMany(mappedBy = "products")
     @JsonIgnoreProperties("products")
-    private Set<User> users;
+    private Set<UserU> users;
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("product")

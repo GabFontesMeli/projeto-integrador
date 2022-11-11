@@ -8,4 +8,5 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
     boolean existsInventoryByProductId(Long productId);
 
     Inventory findInventoryByProductId(Long productId);
+
 }

@@ -46,7 +46,7 @@ public class Batch {
     public Batch(BatchDTO batchDTO) {
         this.expirationDate = batchDTO.getExpirationDate();
 
-        List<BatchProduct> batchProducts = batchDTO.getProducts();
+        Set<BatchProduct> batchProducts = batchDTO.getProducts();
         for (BatchProduct batchProduct : batchProducts) {
             BatchProduct newBatchProduct = new BatchProduct();
             newBatchProduct.setBatch(this);

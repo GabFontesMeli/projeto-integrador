@@ -1,7 +1,7 @@
 package com.example.projetointegrador.service.interfaces;
 
-import com.example.projetointegrador.model.User;
+import com.example.projetointegrador.model.UserU;
 
 public interface IUserService {
-    User saveUser(User user);
+    UserU saveUser(UserU user);
 }

@@ -28,5 +28,5 @@ public class UserType {
 
     @OneToMany(mappedBy = "userType")
     @JsonIgnoreProperties("userType")
-    private Set<User> users = new HashSet<>();
+    private Set<UserU> users = new HashSet<>();
 }
