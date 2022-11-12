@@ -1,14 +1,17 @@
 package com.example.projetointegrador.service;
 
 import com.example.projetointegrador.dto.BatchDTO;
+import com.example.projetointegrador.exceptions.SectionInvalidException;
 import com.example.projetointegrador.model.Batch;
 import com.example.projetointegrador.model.BatchProduct;
 import com.example.projetointegrador.model.Inventory;
+import com.example.projetointegrador.model.Section;
 import com.example.projetointegrador.repository.BatchRepository;
 import com.example.projetointegrador.repository.SectionRepository;
 import com.example.projetointegrador.repository.StorageRepository;
 import com.example.projetointegrador.service.interfaces.IBatchService;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,24 +31,30 @@ public class BatchService implements IBatchService {
     private StorageRepository storageRepository;
 
     @Autowired
-    private SectionRepository sectionRepo;
+    private SectionRepository sectionRepository;
 
     @Override
-    public Batch createBatch(BatchDTO batchDTO) {
+    public Batch createBatch(BatchDTO batchDTO) throws SectionInvalidException {
 
         Batch batch = new Batch(batchDTO);
         
         Set<BatchProduct> batchProducts = batchDTO.getProducts();
         for (BatchProduct batchProduct : batchProducts) {
             // TODO: ver se o produto existe
+
             Inventory inventory = new Inventory(
                 batchProduct.getQuantity(), 
                 batchProduct.getProduct().getId()
             );
             inventoryService.saveInventory(inventory);
         }
+        Optional<Section> sectionOptional = sectionRepository.findById(batchDTO.getSectionId());
+        if (sectionOptional.isPresent()) {
+            batch.setSection(sectionOptional.get());
+        } else {
+            throw new SectionInvalidException("section not found");
+        }
 
-        batch.setSection(sectionRepo.findById(batchDTO.getStorageId()).get());
         batch.setStorage(storageRepository.findById(batchDTO.getStorageId()).get());
         return repository.save(batch);
     }

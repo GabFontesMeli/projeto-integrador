@@ -1,5 +1,6 @@
 package com.example.projetointegrador.controller;
 
+import com.example.projetointegrador.controller.BatchController;
 import com.example.projetointegrador.dto.BatchDTO;
 import com.example.projetointegrador.service.BatchService;
 import com.example.projetointegrador.setup.BaseTest;

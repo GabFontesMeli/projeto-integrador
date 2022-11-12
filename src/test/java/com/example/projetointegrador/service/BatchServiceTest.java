@@ -1,5 +1,6 @@
 package com.example.projetointegrador.service;
 
+import com.example.projetointegrador.exceptions.SectionInvalidException;
 import com.example.projetointegrador.model.Batch;
 import com.example.projetointegrador.model.Inventory;
 import com.example.projetointegrador.repository.BatchRepository;
@@ -47,7 +48,12 @@ public class BatchServiceTest extends BaseTest {
         BDDMockito.given(sectionRepository.findById(any(Long.class))).willReturn(Optional.ofNullable(section));
         BDDMockito.given(storageRepository.findById(any(Long.class))).willReturn(Optional.ofNullable(storage));
 
-        Batch response = batchService.createBatch(batchDTO);
+        Batch response = null;
+        try {
+            response = batchService.createBatch(batchDTO);
+        } catch (SectionInvalidException e) {
+            throw new RuntimeException(e);
+        }
 
         assertThat(response).isEqualTo(batch);
     }

@@ -2,6 +2,7 @@ package com.example.projetointegrador.controller;
 
 import java.util.Set;
 
+import com.example.projetointegrador.exceptions.SectionInvalidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class BatchController {
     private IBatchService batchService;
 
     @PostMapping
-    public ResponseEntity<Batch> create(@RequestBody BatchDTO batchDTO){
+    public ResponseEntity<Batch> create(@RequestBody BatchDTO batchDTO) throws SectionInvalidException {
         return new ResponseEntity<>(batchService.createBatch(batchDTO), HttpStatus.CREATED);
     }
 
