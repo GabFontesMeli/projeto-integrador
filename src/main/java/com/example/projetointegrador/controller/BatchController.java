@@ -2,6 +2,7 @@ package com.example.projetointegrador.controller;
 
 import java.util.Set;
 
+import com.example.projetointegrador.exceptions.BatchInvalidException;
 import com.example.projetointegrador.exceptions.SectionInvalidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ public class BatchController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Batch> update(@PathVariable Long id, @RequestBody Set<BatchProduct> batchProductList) {
+    public ResponseEntity<Batch> update(@PathVariable Long id, @RequestBody Set<BatchProduct> batchProductList) throws BatchInvalidException {
         return new ResponseEntity<Batch>(batchService.update(id, batchProductList), HttpStatus.ACCEPTED);
     }
 }

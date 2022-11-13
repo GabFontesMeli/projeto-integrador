@@ -1,6 +1,7 @@
 package com.example.projetointegrador.service;
 
 import com.example.projetointegrador.dto.BatchDTO;
+import com.example.projetointegrador.exceptions.BatchInvalidException;
 import com.example.projetointegrador.exceptions.SectionInvalidException;
 import com.example.projetointegrador.model.Batch;
 import com.example.projetointegrador.model.BatchProduct;
@@ -74,11 +75,10 @@ public class BatchService implements IBatchService {
      * @return
      */
     @Override
-    public Batch update(Long id, Set<BatchProduct> batchProductList) {
+    public Batch update(Long id, Set<BatchProduct> batchProductList) throws BatchInvalidException {
 
         if(!repository.existsById(id)){
-            System.out.println("Batch doesn't exists");
-            return null;
+            throw new BatchInvalidException("Batch doesn't exists");
         }
 
         Batch batch = repository.findById(id).get();

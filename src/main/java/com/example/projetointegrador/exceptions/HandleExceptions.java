@@ -21,5 +21,18 @@ public class HandleExceptions {
 
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(BatchInvalidException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(BatchInvalidException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("batch invalid")
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
+
 
 }
