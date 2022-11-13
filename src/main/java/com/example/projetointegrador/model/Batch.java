@@ -1,9 +1,6 @@
 package com.example.projetointegrador.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -55,14 +52,14 @@ public class Batch {
             newBatchProduct.setManufacturingTime(batchProduct.getManufacturingTime());
             this.batchProduct.add(newBatchProduct);
         }
-
-        Storage storage = new Storage();
-        storage.setId(batchDTO.getStorageId());
-        this.storage = storage;
-
-        Section section = new Section();
-        section.setId(batchDTO.getSectionId());
-        this.section = section;
+//  redundante
+//        Storage storage = new Storage();
+//        storage.setId(batchDTO.getStorageId());
+//        this.storage = storage;
+//
+//        Section section = new Section();
+//        section.setId(batchDTO.getSectionId());
+//        this.section = section;
     }
 
     public void addProducts(Set<BatchProduct> batchProductList) {

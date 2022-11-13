@@ -33,6 +33,12 @@ public class BatchService implements IBatchService {
     @Autowired
     private SectionRepository sectionRepository;
 
+    /**
+     * método que valida e insere um novo batch
+     * @param batchDTO
+     * @return
+     * @throws SectionInvalidException
+     */
     @Override
     public Batch createBatch(BatchDTO batchDTO) throws SectionInvalidException {
 
@@ -48,6 +54,7 @@ public class BatchService implements IBatchService {
             );
             inventoryService.saveInventory(inventory);
         }
+        // TODO: mudar esse tratamento para o serviço de section
         Optional<Section> sectionOptional = sectionRepository.findById(batchDTO.getSectionId());
         if (sectionOptional.isPresent()) {
             batch.setSection(sectionOptional.get());
@@ -55,10 +62,17 @@ public class BatchService implements IBatchService {
             throw new SectionInvalidException("section not found");
         }
 
-        batch.setStorage(storageRepository.findById(batchDTO.getStorageId()).get());
+        batch.setStorage(
+                storageRepository.findById(batchDTO.getStorageId()).get());
         return repository.save(batch);
     }
 
+    /***
+     * método que atualiza o batch existente
+     * @param id
+     * @param batchProductList
+     * @return
+     */
     @Override
     public Batch update(Long id, Set<BatchProduct> batchProductList) {
 
