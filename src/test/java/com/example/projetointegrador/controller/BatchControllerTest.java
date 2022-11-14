@@ -1,6 +1,5 @@
 package com.example.projetointegrador.controller;
 
-import com.example.projetointegrador.controller.BatchController;
 import com.example.projetointegrador.dto.BatchDTO;
 import com.example.projetointegrador.service.BatchService;
 import com.example.projetointegrador.setup.BaseTest;
@@ -13,7 +12,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
 import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;

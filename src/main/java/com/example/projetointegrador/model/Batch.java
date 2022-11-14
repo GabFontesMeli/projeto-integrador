@@ -15,7 +15,6 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Batch {
 
     @Id
@@ -52,14 +51,6 @@ public class Batch {
             newBatchProduct.setManufacturingTime(batchProduct.getManufacturingTime());
             this.batchProduct.add(newBatchProduct);
         }
-//  redundante
-//        Storage storage = new Storage();
-//        storage.setId(batchDTO.getStorageId());
-//        this.storage = storage;
-//
-//        Section section = new Section();
-//        section.setId(batchDTO.getSectionId());
-//        this.section = section;
     }
 
     public void addProducts(Set<BatchProduct> batchProductList) {
