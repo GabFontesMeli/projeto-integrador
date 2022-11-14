@@ -8,7 +8,7 @@ import com.example.projetointegrador.dto.CartItemDTO;
 import com.example.projetointegrador.dto.CartStatusDTO;
 import com.example.projetointegrador.enums.CartStatusEnum;
 import com.example.projetointegrador.model.Product;
-import com.example.projetointegrador.model.User;
+import com.example.projetointegrador.model.UserU;
 import com.example.projetointegrador.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class CartService implements ICartService{
 
     @Override
     public Double createCart(CartDTO cartDTO) {
-        User newUser = new User();
+        UserU newUser = new UserU();
         newUser.setId(cartDTO.getUserId());
 
         Cart cart = new Cart();

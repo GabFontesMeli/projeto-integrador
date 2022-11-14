@@ -5,7 +5,6 @@ import java.util.Set;
 
 import com.example.projetointegrador.model.BatchProduct;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
