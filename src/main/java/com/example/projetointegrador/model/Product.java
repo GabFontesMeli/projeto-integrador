@@ -15,10 +15,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Getter
 @Setter
@@ -41,17 +42,24 @@ public class Product {
     private Float volume;
 
     @ManyToMany(mappedBy = "products")
+<<<<<<< HEAD
     @JsonIgnoreProperties("products")
     private Set<UserU> users;
+=======
+    @JsonIgnore
+    private Set<User> users;
+>>>>>>> origin/feature/requirement2
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("product")
+    @JsonIgnore
     private Inventory inventory;
 
     @OneToMany(mappedBy = "product")
-    @JsonIgnoreProperties({"batch", "product"})
+    @JsonIgnore
     Set<BatchProduct> batchProduct = new HashSet<>();
 
-     //TODO: relation with category
+    @ManyToOne
+    @JsonIgnore
+    private Section section;
 
 }

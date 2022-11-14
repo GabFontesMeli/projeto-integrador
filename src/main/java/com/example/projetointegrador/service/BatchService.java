@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class BatchService implements IBatchService {
     
     @Autowired
-    private BatchRepository repository;
+    private BatchRepository batchRepository;
 
     @Autowired
     private InventoryService inventoryService;
@@ -34,12 +34,15 @@ public class BatchService implements IBatchService {
     @Autowired
     private SectionRepository sectionRepository;
 
+<<<<<<< HEAD
     /**
      * método que valida e insere um novo batch
      * @param batchDTO
      * @return
      * @throws SectionInvalidException
      */
+=======
+>>>>>>> origin/feature/requirement2
     @Override
     public Batch createBatch(BatchDTO batchDTO) throws SectionInvalidException {
 
@@ -63,9 +66,15 @@ public class BatchService implements IBatchService {
             throw new SectionInvalidException("section not found");
         }
 
+<<<<<<< HEAD
         batch.setStorage(
                 storageRepository.findById(batchDTO.getStorageId()).get());
         return repository.save(batch);
+=======
+        batch.setSection(sectionRepository.findById(batchDTO.getStorageId()).get());
+        batch.setStorage(storageRepository.findById(batchDTO.getStorageId()).get());
+        return batchRepository.save(batch);
+>>>>>>> origin/feature/requirement2
     }
 
     /***
@@ -77,11 +86,17 @@ public class BatchService implements IBatchService {
     @Override
     public Batch update(Long id, Set<BatchProduct> batchProductList) throws BatchInvalidException {
 
+<<<<<<< HEAD
         if(!repository.existsById(id)){
             throw new BatchInvalidException("Batch doesn't exists");
+=======
+        if(!batchRepository.existsById(id)){
+            System.out.println("Batch doesn't exists");
+            return null;
+>>>>>>> origin/feature/requirement2
         }
 
-        Batch batch = repository.findById(id).get();
+        Batch batch = batchRepository.findById(id).get();
 
         for (BatchProduct batchProduct : batchProductList) {
             // TODO: ver se o produto existe
@@ -94,6 +109,6 @@ public class BatchService implements IBatchService {
 
         batch.addProducts(batchProductList);
 
-        return repository.save(batch);
+        return batchRepository.save(batch);
     }
 }
