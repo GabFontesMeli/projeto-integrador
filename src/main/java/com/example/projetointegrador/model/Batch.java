@@ -29,10 +29,10 @@ public class Batch {
     @JsonIgnoreProperties({"batches", "sections"})
     private Storage storage;
 
-    @ManyToOne
-    @JoinColumn(name = "section_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"batches", "storage"})
-    private Section section;
+//    @ManyToOne
+//    @JoinColumn(name = "section_id", referencedColumnName = "id")
+//    @JsonIgnoreProperties({"batches", "storage"})
+//    private Section section;
 
     @OneToMany(mappedBy = "batch", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"batch", "product"})

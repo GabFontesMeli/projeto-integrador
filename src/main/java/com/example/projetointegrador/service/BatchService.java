@@ -2,11 +2,10 @@ package com.example.projetointegrador.service;
 
 import com.example.projetointegrador.dto.BatchDTO;
 import com.example.projetointegrador.exceptions.BatchInvalidException;
+import com.example.projetointegrador.exceptions.CategoryInvalidException;
+import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.exceptions.SectionInvalidException;
-import com.example.projetointegrador.model.Batch;
-import com.example.projetointegrador.model.BatchProduct;
-import com.example.projetointegrador.model.Inventory;
-import com.example.projetointegrador.model.Section;
+import com.example.projetointegrador.model.*;
 import com.example.projetointegrador.repository.BatchRepository;
 import com.example.projetointegrador.repository.SectionRepository;
 import com.example.projetointegrador.repository.StorageRepository;
@@ -18,10 +17,13 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 
 @Service
 public class BatchService implements IBatchService {
-    
+
+    // TODO: trocar as chamadas dos repositórios por serviços
     @Autowired
     private BatchRepository batchRepository;
 
@@ -34,47 +36,50 @@ public class BatchService implements IBatchService {
     @Autowired
     private SectionRepository sectionRepository;
 
-<<<<<<< HEAD
+    @Autowired
+    private ProductService productService;
+
     /**
      * método que valida e insere um novo batch
      * @param batchDTO
      * @return
      * @throws SectionInvalidException
      */
-=======
->>>>>>> origin/feature/requirement2
     @Override
-    public Batch createBatch(BatchDTO batchDTO) throws SectionInvalidException {
+    public Batch createBatch(BatchDTO batchDTO) throws SectionInvalidException, ProductNotFoundException, CategoryInvalidException {
 
         Batch batch = new Batch(batchDTO);
         
         Set<BatchProduct> batchProducts = batchDTO.getProducts();
         for (BatchProduct batchProduct : batchProducts) {
-            // TODO: ver se o produto existe
+
+            Product product = productService.findById(batchProduct.getProduct().getId());
+
+            //TODO: fazer tratamento dessa exceção no sectionService.
+            Section section = sectionRepository.findById(batchProduct.getSection().getId()).orElseThrow(() ->
+                    new SectionInvalidException("Could not found a section with this id."));
+
+            if(!product.getCategory().equals(section.getCategory())) throw new
+                    CategoryInvalidException("The product and section categories are different.");
 
             Inventory inventory = new Inventory(
                 batchProduct.getQuantity(), 
                 batchProduct.getProduct().getId()
             );
+
             inventoryService.saveInventory(inventory);
         }
-        // TODO: mudar esse tratamento para o serviço de section
-        Optional<Section> sectionOptional = sectionRepository.findById(batchDTO.getSectionId());
-        if (sectionOptional.isPresent()) {
-            batch.setSection(sectionOptional.get());
-        } else {
-            throw new SectionInvalidException("section not found");
-        }
 
-<<<<<<< HEAD
+//        Optional<Section> sectionOptional = sectionRepository.findById(batchDTO.getSectionId());
+//        if (sectionOptional.isPresent()) {
+//            batch.setSection(sectionOptional.get());
+//        } else {
+//            throw new SectionInvalidException("section not found");
+//        }
+
         batch.setStorage(
                 storageRepository.findById(batchDTO.getStorageId()).get());
-        return repository.save(batch);
-=======
-        batch.setSection(sectionRepository.findById(batchDTO.getStorageId()).get());
-        batch.setStorage(storageRepository.findById(batchDTO.getStorageId()).get());
         return batchRepository.save(batch);
->>>>>>> origin/feature/requirement2
     }
 
     /***
@@ -84,24 +89,22 @@ public class BatchService implements IBatchService {
      * @return
      */
     @Override
-    public Batch update(Long id, Set<BatchProduct> batchProductList) throws BatchInvalidException {
+    @Transactional
+    public Batch update(Long id, Set<BatchProduct> batchProductList) throws BatchInvalidException, ProductNotFoundException {
 
-<<<<<<< HEAD
-        if(!repository.existsById(id)){
-            throw new BatchInvalidException("Batch doesn't exists");
-=======
         if(!batchRepository.existsById(id)){
-            System.out.println("Batch doesn't exists");
-            return null;
->>>>>>> origin/feature/requirement2
+            throw new BatchInvalidException("Batch doesn't exists");
         }
 
         Batch batch = batchRepository.findById(id).get();
 
         for (BatchProduct batchProduct : batchProductList) {
-            // TODO: ver se o produto existe
+
+            sectionRepository.findById(batchProduct.getProduct().getId()).orElseThrow(() ->
+                    new ProductNotFoundException("Could not found a product with this id."));
+
             Inventory inventory = new Inventory(
-                batchProduct.getQuantity(), 
+                batchProduct.getQuantity(),
                 batchProduct.getProduct().getId()
             );
             inventoryService.saveInventory(inventory);

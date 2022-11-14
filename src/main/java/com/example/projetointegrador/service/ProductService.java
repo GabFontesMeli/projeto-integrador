@@ -1,5 +1,6 @@
 package com.example.projetointegrador.service;
 
+import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.model.Product;
 import com.example.projetointegrador.repository.ProductRepository;
 import com.example.projetointegrador.service.interfaces.IProductService;
@@ -18,6 +19,13 @@ public class ProductService implements IProductService {
     @Override
     public Product saveProduct(Product product) {
         return productRepository.save(product);
+    }
+
+    @Override
+    public Product findById(Long id) throws ProductNotFoundException {
+
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Could not found an product with this id."));
     }
 
     @Override

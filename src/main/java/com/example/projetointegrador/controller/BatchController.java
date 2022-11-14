@@ -3,6 +3,8 @@ package com.example.projetointegrador.controller;
 import java.util.Set;
 
 import com.example.projetointegrador.exceptions.BatchInvalidException;
+import com.example.projetointegrador.exceptions.CategoryInvalidException;
+import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.exceptions.SectionInvalidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,12 +29,12 @@ public class BatchController {
     private IBatchService batchService;
 
     @PostMapping
-    public ResponseEntity<Batch> create(@RequestBody BatchDTO batchDTO) throws SectionInvalidException {
+    public ResponseEntity<Batch> create(@RequestBody BatchDTO batchDTO) throws SectionInvalidException, ProductNotFoundException, CategoryInvalidException {
         return new ResponseEntity<>(batchService.createBatch(batchDTO), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Batch> update(@PathVariable Long id, @RequestBody Set<BatchProduct> batchProductList) throws BatchInvalidException {
-        return new ResponseEntity<Batch>(batchService.update(id, batchProductList), HttpStatus.ACCEPTED);
+    public ResponseEntity<Batch> update(@PathVariable Long id, @RequestBody Set<BatchProduct> batchProductList) throws BatchInvalidException, ProductNotFoundException {
+        return new ResponseEntity<>(batchService.update(id, batchProductList), HttpStatus.ACCEPTED);
     }
 }

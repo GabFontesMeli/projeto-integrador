@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BatchDTO {
     private Long storageId;
-    private Long sectionId;
+//    private Long sectionId;
     private LocalDate expirationDate;
     private Set<BatchProduct> products;
 }

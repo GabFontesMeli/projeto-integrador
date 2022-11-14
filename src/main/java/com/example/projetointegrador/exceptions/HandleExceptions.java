@@ -33,6 +33,28 @@ public class HandleExceptions {
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(ProductNotFoundException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("product not found")
+                .message(ex.getMessage())
+                .status(HttpStatus.NOT_FOUND.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
 
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CategoryInvalidException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(CategoryInvalidException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("category invalid")
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
 
 }

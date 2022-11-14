@@ -42,4 +42,13 @@ public class UserU {
     )
     @JsonIgnoreProperties("users")
     private Set<Product> products = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "seller_storage",
+        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "storage_id", referencedColumnName = "id")
+    )
+    private Set<Storage> storages = new HashSet<>();
+
 }

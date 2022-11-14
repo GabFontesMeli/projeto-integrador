@@ -4,12 +4,14 @@ import java.util.Set;
 
 import com.example.projetointegrador.dto.BatchDTO;
 import com.example.projetointegrador.exceptions.BatchInvalidException;
+import com.example.projetointegrador.exceptions.CategoryInvalidException;
+import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.exceptions.SectionInvalidException;
 import com.example.projetointegrador.model.Batch;
 import com.example.projetointegrador.model.BatchProduct;
 
 public interface IBatchService {
 
-    Batch createBatch(BatchDTO batchDTO) throws SectionInvalidException;
-    Batch update(Long id, Set<BatchProduct> batchProductList) throws BatchInvalidException;
+    Batch createBatch(BatchDTO batchDTO) throws SectionInvalidException, ProductNotFoundException, CategoryInvalidException;
+    Batch update(Long id, Set<BatchProduct> batchProductList) throws BatchInvalidException, ProductNotFoundException;
 }
