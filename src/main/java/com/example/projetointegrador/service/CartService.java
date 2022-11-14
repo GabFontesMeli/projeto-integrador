@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.example.projetointegrador.dto.CartItemDTO;
+import com.example.projetointegrador.dto.CartStatusDTO;
+import com.example.projetointegrador.enums.CartStatusEnum;
 import com.example.projetointegrador.model.Product;
 import com.example.projetointegrador.model.User;
 import com.example.projetointegrador.repository.ProductRepository;
@@ -55,5 +57,21 @@ public class CartService implements ICartService{
         cartRepository.save(cart);
 
         return totalValue;
+    }
+
+    @Override
+    public String changeCartStatus(Long cartId, CartStatusDTO cartStatusDTO) {
+        Cart cart = cartRepository.findById(cartId).orElseThrow();
+
+        if(cartStatusDTO.getStatus().equalsIgnoreCase("OPEN")) {
+            cart.setStatus(CartStatusEnum.OPEN);
+            cartRepository.save(cart);
+        }
+        if(cartStatusDTO.getStatus().equalsIgnoreCase("CLOSED")){
+            cart.setStatus(CartStatusEnum.CLOSED);
+            cartRepository.save(cart);
+        }
+
+        return "Cart is " + cart.getStatus();
     }
 }
