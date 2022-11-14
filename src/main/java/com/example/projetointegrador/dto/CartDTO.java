@@ -1,14 +1,13 @@
 package com.example.projetointegrador.dto;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import com.example.projetointegrador.enums.CartStatusEnum;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter

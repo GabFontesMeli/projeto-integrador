@@ -1,13 +1,12 @@
 package com.example.projetointegrador.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.projetointegrador.model.CartItem;
 import com.example.projetointegrador.repository.CartItemRepository;
 import com.example.projetointegrador.service.interfaces.ICartItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CartItemService implements ICartItemService{

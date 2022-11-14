@@ -1,13 +1,12 @@
 package com.example.projetointegrador.dto;
 
-import java.time.LocalDate;
-import java.util.Set;
-
 import com.example.projetointegrador.model.BatchProduct;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter

@@ -11,12 +11,11 @@ import com.example.projetointegrador.repository.BatchRepository;
 import com.example.projetointegrador.repository.SectionRepository;
 import com.example.projetointegrador.repository.StorageRepository;
 import com.example.projetointegrador.service.interfaces.IBatchService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 
 @Service

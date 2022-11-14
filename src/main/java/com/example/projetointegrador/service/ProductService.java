@@ -3,11 +3,10 @@ package com.example.projetointegrador.service;
 import com.example.projetointegrador.model.Product;
 import com.example.projetointegrador.repository.ProductRepository;
 import com.example.projetointegrador.service.interfaces.IProductService;
-
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProductService implements IProductService {

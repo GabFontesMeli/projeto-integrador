@@ -1,11 +1,10 @@
 package com.example.projetointegrador.service;
 
+import com.example.projetointegrador.model.Inventory;
+import com.example.projetointegrador.repository.InventoryRepository;
 import com.example.projetointegrador.service.interfaces.IInventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.example.projetointegrador.model.Inventory;
-import com.example.projetointegrador.repository.InventoryRepository;
 
 @Service
 public class InventoryService implements IInventoryService {

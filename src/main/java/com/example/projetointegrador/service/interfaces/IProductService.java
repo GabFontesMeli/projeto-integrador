@@ -1,8 +1,8 @@
 package com.example.projetointegrador.service.interfaces;
 
-import java.util.List;
-
 import com.example.projetointegrador.model.Product;
+
+import java.util.List;
 
 public interface IProductService {
     Product saveProduct(Product product);

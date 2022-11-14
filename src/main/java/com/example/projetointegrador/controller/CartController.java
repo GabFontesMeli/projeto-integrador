@@ -2,8 +2,9 @@ package com.example.projetointegrador.controller;
 
 import com.example.projetointegrador.dto.CartDTO;
 import com.example.projetointegrador.dto.CartStatusDTO;
+import com.example.projetointegrador.exceptions.InsufficientStockException;
+import com.example.projetointegrador.exceptions.UserUNotFoundException;
 import com.example.projetointegrador.service.CartService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping
-    public ResponseEntity<Double> createCart(@RequestBody CartDTO cartDTO){
+    public ResponseEntity<Double> createCart(@RequestBody CartDTO cartDTO) throws UserUNotFoundException, InsufficientStockException {
          return new ResponseEntity<>(cartService.createCart(cartDTO), HttpStatus.CREATED);
     }
 
