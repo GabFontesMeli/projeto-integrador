@@ -1,7 +1,6 @@
 package com.example.projetointegrador.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,7 +30,7 @@ public class Product {
     private Float volume;
 
     @ManyToMany(mappedBy = "products")
-    @JsonIgnoreProperties("products")
+    @JsonIgnore
     private Set<UserU> users;
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
