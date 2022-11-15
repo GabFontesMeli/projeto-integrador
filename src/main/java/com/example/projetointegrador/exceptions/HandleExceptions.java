@@ -56,5 +56,17 @@ public class HandleExceptions {
 
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(InsuficientVolumeException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(InsuficientVolumeException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("insuficient volume")
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
 
 }

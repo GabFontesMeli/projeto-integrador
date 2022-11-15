@@ -2,10 +2,7 @@ package com.example.projetointegrador.controller;
 
 import java.util.Set;
 
-import com.example.projetointegrador.exceptions.BatchInvalidException;
-import com.example.projetointegrador.exceptions.CategoryInvalidException;
-import com.example.projetointegrador.exceptions.ProductNotFoundException;
-import com.example.projetointegrador.exceptions.SectionInvalidException;
+import com.example.projetointegrador.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +26,7 @@ public class BatchController {
     private IBatchService batchService;
 
     @PostMapping
-    public ResponseEntity<Batch> create(@RequestBody BatchDTO batchDTO) throws SectionInvalidException, ProductNotFoundException, CategoryInvalidException {
+    public ResponseEntity<Batch> create(@RequestBody BatchDTO batchDTO) throws SectionInvalidException, ProductNotFoundException, CategoryInvalidException, InsuficientVolumeException {
         return new ResponseEntity<>(batchService.createBatch(batchDTO), HttpStatus.CREATED);
     }
 

@@ -1,16 +1,15 @@
 package com.example.projetointegrador.service;
 
 import com.example.projetointegrador.dto.BatchDTO;
-import com.example.projetointegrador.exceptions.BatchInvalidException;
-import com.example.projetointegrador.exceptions.CategoryInvalidException;
-import com.example.projetointegrador.exceptions.ProductNotFoundException;
-import com.example.projetointegrador.exceptions.SectionInvalidException;
+import com.example.projetointegrador.exceptions.*;
 import com.example.projetointegrador.model.*;
 import com.example.projetointegrador.repository.BatchRepository;
 import com.example.projetointegrador.repository.SectionRepository;
 import com.example.projetointegrador.repository.StorageRepository;
 import com.example.projetointegrador.service.interfaces.IBatchService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -46,16 +45,17 @@ public class BatchService implements IBatchService {
      * @throws SectionInvalidException
      */
     @Override
-    public Batch createBatch(BatchDTO batchDTO) throws SectionInvalidException, ProductNotFoundException, CategoryInvalidException {
-
+    public Batch createBatch(BatchDTO batchDTO) throws SectionInvalidException, ProductNotFoundException, CategoryInvalidException, InsuficientVolumeException {
         Batch batch = new Batch(batchDTO);
-        
+
+        Storage storage = storageRepository.findById(batchDTO.getStorageId()).get();
+        Float usedVolume = inventoryService.findVolumeByStorage(batchDTO.getStorageId());
+        Float expectedVolume = 0f;
+        List<Inventory> newInventorys = new ArrayList<>();
         Set<BatchProduct> batchProducts = batchDTO.getProducts();
         for (BatchProduct batchProduct : batchProducts) {
-
             Product product = productService.findById(batchProduct.getProduct().getId());
 
-            //TODO: fazer tratamento dessa exceção no sectionService.
             Section section = sectionRepository.findById(batchProduct.getSection().getId()).orElseThrow(() ->
                     new SectionInvalidException("Could not found a section with this id."));
 
@@ -63,22 +63,21 @@ public class BatchService implements IBatchService {
                     CategoryInvalidException("The product and section categories are different.");
 
             Inventory inventory = new Inventory(
-                batchProduct.getQuantity(), 
+                batchProduct.getQuantity(),
                 batchProduct.getProduct().getId()
             );
-
-            inventoryService.saveInventory(inventory);
+            newInventorys.add(inventory);
+            expectedVolume += product.getVolume() * inventory.getQuantity();
+        }
+        if(expectedVolume > (storage.getVolume() - usedVolume)) {
+            throw new InsuficientVolumeException("expected volume not found");
         }
 
-//        Optional<Section> sectionOptional = sectionRepository.findById(batchDTO.getSectionId());
-//        if (sectionOptional.isPresent()) {
-//            batch.setSection(sectionOptional.get());
-//        } else {
-//            throw new SectionInvalidException("section not found");
-//        }
+        newInventorys.stream().forEach(i -> {
+            inventoryService.saveInventory(i);
+        });
 
-        batch.setStorage(
-                storageRepository.findById(batchDTO.getStorageId()).get());
+        batch.setStorage(storage);
         return batchRepository.save(batch);
     }
 

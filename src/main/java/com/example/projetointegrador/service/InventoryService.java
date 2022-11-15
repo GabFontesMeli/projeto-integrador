@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import com.example.projetointegrador.model.Inventory;
 import com.example.projetointegrador.repository.InventoryRepository;
 
+import java.nio.channels.FileLock;
+import java.util.List;
+
 @Service
 public class InventoryService implements IInventoryService {
     
@@ -40,5 +43,16 @@ public class InventoryService implements IInventoryService {
         Integer oldQuantity = inventoryFound.getQuantity();
         inventoryFound.setQuantity(oldQuantity + quantity);
         return inventoryRepo.save(inventoryFound);
+    }
+
+    /**
+     * método que consulta o volume ocupado por storage
+     * @param storageId
+     * @return
+     */
+    @Override
+    public Float findVolumeByStorage(Long storageId) {
+        List<Float> volumes = inventoryRepo.findVolumeByStorage(storageId);
+        return volumes.stream().reduce(0f, Float::sum);
     }
 }

@@ -7,4 +7,5 @@ public interface IInventoryService {
     void saveInventory(Inventory inventory);
 
     Inventory updateInventory(Long productId, Integer quantity);
+    Float findVolumeByStorage(Long storageId);
 }
