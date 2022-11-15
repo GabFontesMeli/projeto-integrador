@@ -8,6 +8,7 @@ import com.example.projetointegrador.exceptions.InsufficientStockException;
 import com.example.projetointegrador.exceptions.UserUNotFoundException;
 import com.example.projetointegrador.model.Cart;
 import com.example.projetointegrador.model.CartItem;
+import com.example.projetointegrador.model.Inventory;
 import com.example.projetointegrador.model.Product;
 import com.example.projetointegrador.model.UserU;
 import com.example.projetointegrador.repository.CartRepository;
@@ -99,6 +100,8 @@ public class CartService implements ICartService{
 
         for (CartItemDTO cartItemDTO : cartItems) {
             Product product = productRepository.findById(cartItemDTO.getProductId()).orElseThrow();
+            Inventory inventory = product.getInventory();
+            inventory.setQuantity(inventory.getQuantity() - cartItemDTO.getQuantity());
             CartItem newCartItem = new CartItem(cartItemDTO.getQuantity(), product);
             newCartItem.setCart(cart);
             cartItemList.add(newCartItem);
