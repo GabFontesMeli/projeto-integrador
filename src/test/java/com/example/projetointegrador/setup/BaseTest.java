@@ -63,11 +63,11 @@ abstract public class BaseTest {
         storage.setId(1L);
         storage.setVolume(100.0f);
 
-        batch.setSection(section);
+
         batch.setStorage(storage);
         batch.setBatchProduct(batchProductsResponse);
 
-        batchDTO.setSectionId(1L);
+
         batchDTO.setStorageId(1L);
         batchDTO.setExpirationDate(LocalDate.parse("2023-01-01"));
         batchDTO.setProducts(batchProductsPayload);

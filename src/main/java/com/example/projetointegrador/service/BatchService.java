@@ -30,10 +30,11 @@ public class BatchService implements IBatchService {
     private InventoryService inventoryService;
 
     @Autowired
-    private StorageRepository storageRepository;
+    private StorageService storageService;
 
     @Autowired
-    private SectionRepository sectionRepository;
+    private SectionService sectionService;
+
 
     @Autowired
     private ProductService productService;
@@ -45,10 +46,10 @@ public class BatchService implements IBatchService {
      * @throws SectionInvalidException
      */
     @Override
-    public Batch createBatch(BatchDTO batchDTO) throws SectionInvalidException, ProductNotFoundException, CategoryInvalidException, InsuficientVolumeException {
+    public Batch createBatch(BatchDTO batchDTO) throws SectionInvalidException, ProductNotFoundException, CategoryInvalidException, InsuficientVolumeException, StorageInvalidException {
         Batch batch = new Batch(batchDTO);
 
-        Storage storage = storageRepository.findById(batchDTO.getStorageId()).get();
+        Storage storage = storageService.findById(batchDTO.getStorageId());
         Float usedVolume = inventoryService.findVolumeByStorage(batchDTO.getStorageId());
         Float expectedVolume = 0f;
         List<Inventory> newInventorys = new ArrayList<>();
@@ -56,8 +57,7 @@ public class BatchService implements IBatchService {
         for (BatchProduct batchProduct : batchProducts) {
             Product product = productService.findById(batchProduct.getProduct().getId());
 
-            Section section = sectionRepository.findById(batchProduct.getSection().getId()).orElseThrow(() ->
-                    new SectionInvalidException("Could not found a section with this id."));
+            Section section = sectionService.findById(batchProduct.getSection().getId());
 
             if(!product.getCategory().equals(section.getCategory())) throw new
                     CategoryInvalidException("The product and section categories are different.");
@@ -99,8 +99,7 @@ public class BatchService implements IBatchService {
 
         for (BatchProduct batchProduct : batchProductList) {
 
-            sectionRepository.findById(batchProduct.getProduct().getId()).orElseThrow(() ->
-                    new ProductNotFoundException("Could not found a product with this id."));
+            productService.findById(batchProduct.getProduct().getId());
 
             Inventory inventory = new Inventory(
                 batchProduct.getQuantity(),
