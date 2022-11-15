@@ -6,11 +6,14 @@ import com.example.projetointegrador.dto.CartStatusDTO;
 import com.example.projetointegrador.enums.CartStatusEnum;
 import com.example.projetointegrador.exceptions.InsufficientStockException;
 import com.example.projetointegrador.exceptions.UserUNotFoundException;
+// import com.example.projetointegrador.model.Batch;
+// import com.example.projetointegrador.model.BatchProduct;
 import com.example.projetointegrador.model.Cart;
 import com.example.projetointegrador.model.CartItem;
 import com.example.projetointegrador.model.Inventory;
 import com.example.projetointegrador.model.Product;
 import com.example.projetointegrador.model.UserU;
+// import com.example.projetointegrador.repository.BatchRepository;
 import com.example.projetointegrador.repository.CartRepository;
 import com.example.projetointegrador.repository.ProductRepository;
 import com.example.projetointegrador.repository.UserRepository;
@@ -19,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+// import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,6 +40,9 @@ public class CartService implements ICartService{
 
     @Autowired
     private UserRepository userRepository;
+
+    // @Autowired
+    // private BatchRepository batchRepository;
 
     @Override
     public Double createCart(CartDTO cartDTO) throws UserUNotFoundException, InsufficientStockException {
@@ -110,4 +117,21 @@ public class CartService implements ICartService{
 
         return cartItemList;
     }
+    // private void verifyExpirationDate(BatchProduct product) {
+    //     Batch batch = batchRepository.findById(product.getBatch().getId()).get();
+
+    //     Date today = new Date();
+    //     Date saleDate = sale.getDate();
+    //     Long difference = today.getTime() - saleDate.getTime();
+    //     long days = TimeUnit.MILLISECONDS.toDays(difference);
+
+    //     if (days <= 5) {
+    //         sale.setStatus(false);
+    //         sale.setCanceledAt(today);
+    //         salesRepo.save(sale);
+    //         System.out.println("Sale canceled");
+    //     } else {
+    //         System.out.println("You can not cancel this sale");
+    //     }
+    // }
 }
