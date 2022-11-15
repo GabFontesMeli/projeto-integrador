@@ -22,9 +22,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+class Value{
+    static Double total = 0.0;
+}
 @Service
 public class CartService implements ICartService{
-
     @Autowired
     private CartRepository cartRepository;
 
@@ -46,29 +48,14 @@ public class CartService implements ICartService{
         cart.setUser(newUser);
         cart.setStatus(cartDTO.getStatus());
 
-        List<CartItemDTO> cartItems = cartDTO.getProducts();
-
-        Set<CartItem> cartItemList = new HashSet<>();
-        Double totalValue = 0.0;
-
-        List<String> errors = checkProductsQuantity(cartItems);
-
-        if(!errors.isEmpty()) throw new InsufficientStockException("Erros: ", errors);
-
-        for (CartItemDTO cartItemDTO : cartItems) {
-            Product product = productRepository.findById(cartItemDTO.getProductId()).orElseThrow();
-            CartItem newCartItem = new CartItem(cartItemDTO.getQuantity(), product);
-            newCartItem.setCart(cart);
-            cartItemList.add(newCartItem);
-            totalValue += newCartItem.getValue();
-        }
+        Set<CartItem> cartItemList = setCartItems(cartDTO, cart);
 
         cart.setCartItems(cartItemList);
-        cart.setTotalValue(totalValue);
+        cart.setTotalValue(Value.total);
 
         cartRepository.save(cart);
 
-        return totalValue;
+        return Value.total;
     }
 
     @Override
@@ -99,5 +86,25 @@ public class CartService implements ICartService{
             }
         }
         return errors;
+    }
+
+    private Set<CartItem> setCartItems(CartDTO cartDto, Cart cart) throws InsufficientStockException {
+        
+        List<CartItemDTO> cartItems = cartDto.getProducts();
+        List<String> errors = checkProductsQuantity(cartItems);
+        
+        if(!errors.isEmpty()) throw new InsufficientStockException("Erros: ", errors);
+
+        Set<CartItem> cartItemList = new HashSet<>();
+
+        for (CartItemDTO cartItemDTO : cartItems) {
+            Product product = productRepository.findById(cartItemDTO.getProductId()).orElseThrow();
+            CartItem newCartItem = new CartItem(cartItemDTO.getQuantity(), product);
+            newCartItem.setCart(cart);
+            cartItemList.add(newCartItem);
+            Value.total += newCartItem.getValue();
+        }
+
+        return cartItemList;
     }
 }
