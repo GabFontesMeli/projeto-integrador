@@ -32,12 +32,13 @@ public class BatchProduct {
     @Column(nullable = false)
     private LocalDate manufacturingDate;
 
+    @Column(nullable = false)
+    private LocalDate expirationDate;
+
     @Column
     private LocalTime manufacturingTime;
 
     @ManyToOne
     @JoinColumn(name = "section_id", referencedColumnName = "id")
     private Section section;
-
-
 }

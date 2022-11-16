@@ -1,6 +1,7 @@
 package com.example.projetointegrador.service;
 
 import com.example.projetointegrador.dto.BatchDTO;
+import com.example.projetointegrador.dto.CartItemDTO;
 import com.example.projetointegrador.exceptions.*;
 import com.example.projetointegrador.model.*;
 import com.example.projetointegrador.repository.BatchRepository;
@@ -61,6 +62,7 @@ public class BatchService implements IBatchService {
 
             Section section = sectionService.findById(batchProduct.getSection().getId());
 
+
             if(!product.getCategory().equals(section.getCategory())) throw new
                     CategoryInvalidException("The product and section categories are different.");
 
@@ -90,7 +92,6 @@ public class BatchService implements IBatchService {
      * @return
      */
     @Override
-    @Transactional
     public Batch update(Long id, Set<BatchProduct> batchProductList) throws BatchInvalidException, ProductNotFoundException {
 
         if(!batchRepository.existsById(id)){

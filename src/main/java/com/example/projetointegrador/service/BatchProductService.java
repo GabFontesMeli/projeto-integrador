@@ -4,7 +4,9 @@ import com.example.projetointegrador.model.BatchProduct;
 import com.example.projetointegrador.repository.BatchProductRepository;
 import com.example.projetointegrador.service.interfaces.IBatchProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BatchProductService implements IBatchProductService {
 
     @Autowired

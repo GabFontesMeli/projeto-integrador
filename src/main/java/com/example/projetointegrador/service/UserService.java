@@ -20,4 +20,8 @@ public class UserService implements IUserService {
         user.setUserType(userTypeRepo.findById(user.getUserType().getId()).get());
         return userRepo.save(user);
     }
+
+    public boolean existsById(Long userId) {
+        return userRepo.existsById(userId);
+    }
 }

@@ -31,7 +31,7 @@ public class CartItem {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @JsonIgnoreProperties("volume")
     @JsonUnwrapped
-    private Product product;
+    private BatchProduct batchProduct;
 
     @Column(nullable = false)
     private Integer quantity;
@@ -39,8 +39,8 @@ public class CartItem {
     @Column(nullable = false)
     private Double value;
 
-    public CartItem(Integer incomingQuantity, Product incomingProduct) {
-        this.product = incomingProduct;
+    public CartItem(Integer incomingQuantity, Product incomingProduct, BatchProduct batchProduct) {
+        this.batchProduct = batchProduct;
         this.quantity = incomingQuantity;
         this.value = incomingProduct.getPrice() * incomingQuantity;
     }

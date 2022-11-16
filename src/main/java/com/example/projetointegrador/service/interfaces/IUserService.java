@@ -4,4 +4,6 @@ import com.example.projetointegrador.model.UserU;
 
 public interface IUserService {
     UserU saveUser(UserU user);
+
+    boolean existsById(Long userId);
 }

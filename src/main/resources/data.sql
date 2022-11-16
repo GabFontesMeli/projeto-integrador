@@ -8,7 +8,7 @@ INSERT INTO Section(id, name, temperature, storage_id, category_id)
 VALUES (1, 'frescos', 20, 1, 1), (2, 'refrigerados', 8, 1, 2), (3, 'congelados', 1, 1, 3);
 
 INSERT INTO Batch
-VALUES (1, '2022-01-01', 1);
+VALUES (1, 1);
 
 INSERT INTO Product(id, name, price, volume, section_id, category_id)
 VALUES (1, 'banana', 4.00, 5.00, 1, 1), (2, 'morango', 4.00, 5.00, 1, 1), (3, 'abacaxi', 4.00, 5.00, 1, 1), (4, 'frango', 10.00, 5.00, 1, 3);
