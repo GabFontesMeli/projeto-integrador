@@ -52,8 +52,10 @@ public class BatchService implements IBatchService {
         Storage storage = storageService.findById(batchDTO.getStorageId());
         Float usedVolume = inventoryService.findVolumeByStorage(batchDTO.getStorageId());
         Float expectedVolume = 0f;
+
         List<Inventory> newInventorys = new ArrayList<>();
         Set<BatchProduct> batchProducts = batchDTO.getProducts();
+
         for (BatchProduct batchProduct : batchProducts) {
             Product product = productService.findById(batchProduct.getProduct().getId());
 
@@ -73,7 +75,7 @@ public class BatchService implements IBatchService {
             throw new InsuficientVolumeException("expected volume not found");
         }
 
-        newInventorys.stream().forEach(i -> {
+        newInventorys.forEach(i -> {
             inventoryService.saveInventory(i);
         });
 
