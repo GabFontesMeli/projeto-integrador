@@ -37,10 +37,6 @@ public class Product {
     @JsonIgnoreProperties("products")
     private Set<UserU> users;
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Inventory inventory;
-
     @OneToMany(mappedBy = "product")
     @JsonIgnore
     Set<BatchProduct> batchProduct = new HashSet<>();
@@ -48,8 +44,4 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
-
-    @ManyToOne
-    @JsonIgnore
-    private Section section;
 }

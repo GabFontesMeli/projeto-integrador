@@ -40,7 +40,6 @@ public class Batch {
             newBatchProduct.setQuantity(batchProduct.getQuantity());
             newBatchProduct.setManufacturingDate(batchProduct.getManufacturingDate());
             newBatchProduct.setExpirationDate(batchProduct.getExpirationDate());
-            newBatchProduct.setManufacturingTime(batchProduct.getManufacturingTime());
             newBatchProduct.setSection(batchProduct.getSection());
             this.batchProduct.add(newBatchProduct);
         }
@@ -54,7 +53,6 @@ public class Batch {
             newBatchProduct.setQuantity(batchProduct.getQuantity());
             newBatchProduct.setManufacturingDate(batchProduct.getManufacturingDate());
             newBatchProduct.setExpirationDate(batchProduct.getExpirationDate());
-            newBatchProduct.setManufacturingTime(batchProduct.getManufacturingTime());
             newBatchProduct.setSection(batchProduct.getSection());
             this.batchProduct.add(newBatchProduct);
         }

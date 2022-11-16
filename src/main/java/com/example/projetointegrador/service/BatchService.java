@@ -28,9 +28,6 @@ public class BatchService implements IBatchService {
     private BatchRepository batchRepository;
 
     @Autowired
-    private InventoryService inventoryService;
-
-    @Autowired
     private StorageService storageService;
 
     @Autowired
