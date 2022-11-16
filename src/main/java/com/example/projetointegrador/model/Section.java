@@ -29,10 +29,19 @@ public class Section {
     @JsonIgnoreProperties("sections")
     private Storage storage;
 
-    @OneToMany(mappedBy = "section")
-    private Set<Batch> batches;
+//    @OneToMany(mappedBy = "section")
+//    private Set<Batch> batches;
 
     @OneToMany(mappedBy = "section")
     @JsonIgnoreProperties("section")
     private Set<Product> products;
+
+    @OneToMany(mappedBy = "section")
+    @JsonIgnoreProperties("section")
+    private Set<BatchProduct> batchProducts;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    private Category category;
+
 }

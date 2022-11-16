@@ -41,6 +41,8 @@ public class BatchControllerTest extends BaseTest {
         String payload = objectMapper.writeValueAsString(batchDTO);
         String jsonExpected = objectMapper.writeValueAsString(batch);
 
+        System.out.println(payload);
+
        this.mockMvc
                 .perform(
                         post("/api/v1/batch")

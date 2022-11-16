@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @ControllerAdvice
 public class HandleExceptions {
@@ -35,10 +33,10 @@ public class HandleExceptions {
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(UserUNotFoundException.class)
-    public ResponseEntity<ExceptionDetails> handleInvalidFields(UserUNotFoundException ex) {
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(ProductNotFoundException ex) {
         ExceptionDetails exceptionDetails = ExceptionDetails.builder()
-                .title("user not found")
+                .title("product not found")
                 .message(ex.getMessage())
                 .status(HttpStatus.NOT_FOUND.value())
                 .timeStamp(LocalDateTime.now())
@@ -47,16 +45,39 @@ public class HandleExceptions {
         return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(InsufficientStockException.class)
-    public ResponseEntity<ExceptionDetails> handleInvalidFields(InsufficientStockException ex) {
-        List<ExceptionDetails> exceptionDetailsList = new ArrayList<>();
+    @ExceptionHandler(CategoryInvalidException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(CategoryInvalidException ex) {
         ExceptionDetails exceptionDetails = ExceptionDetails.builder()
-                .title("insufficient stock")
-                .message(ex.getErrors().toString())
-                .status(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .title("category invalid")
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
                 .timeStamp(LocalDateTime.now())
                 .build();
 
-        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(InsuficientVolumeException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(InsuficientVolumeException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("insuficient volume")
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(StorageInvalidException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(StorageInvalidException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("storage invalid")
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
+
 }

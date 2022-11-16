@@ -52,7 +52,7 @@ public class BatchServiceTest extends BaseTest {
         Batch response = null;
         try {
             response = batchService.createBatch(batchDTO);
-        } catch (SectionInvalidException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -70,7 +70,7 @@ public class BatchServiceTest extends BaseTest {
         Batch response = null;
         try {
             response = batchService.update(1L, batchProductsPayload);
-        } catch (BatchInvalidException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 

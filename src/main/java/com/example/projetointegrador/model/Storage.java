@@ -1,12 +1,15 @@
 package com.example.projetointegrador.model;
 
+import java.util.Set;
+
+import javax.persistence.*;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -27,5 +30,9 @@ public class Storage {
 
     @OneToMany(mappedBy = "storage")
     private Set<Section> sections;
+
+    @ManyToMany(mappedBy = "storages")
+    @JsonIgnoreProperties("storages")
+    private Set<UserU> users;
 
 }

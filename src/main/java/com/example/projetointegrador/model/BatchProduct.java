@@ -1,15 +1,13 @@
 package com.example.projetointegrador.model;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Data
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import lombok.*;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -36,4 +34,10 @@ public class BatchProduct {
 
     @Column
     private LocalTime manufacturingTime;
+
+    @ManyToOne
+    @JoinColumn(name = "section_id", referencedColumnName = "id")
+    private Section section;
+
+
 }
