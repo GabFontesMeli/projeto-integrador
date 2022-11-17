@@ -1,16 +1,14 @@
 package com.example.projetointegrador.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Getter
 @Setter
@@ -42,4 +40,13 @@ public class UserU {
     )
     @JsonIgnoreProperties("users")
     private Set<Product> products = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "seller_storage",
+        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "storage_id", referencedColumnName = "id")
+    )
+    private Set<Storage> storages = new HashSet<>();
+
 }

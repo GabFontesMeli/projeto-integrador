@@ -12,7 +12,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Set;
+
 import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,6 +41,8 @@ public class BatchControllerTest extends BaseTest {
         String payload = objectMapper.writeValueAsString(batchDTO);
         String jsonExpected = objectMapper.writeValueAsString(batch);
 
+        System.out.println(payload);
+
        this.mockMvc
                 .perform(
                         post("/api/v1/batch")
@@ -45,6 +50,25 @@ public class BatchControllerTest extends BaseTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isCreated())
+                .andExpect(content().json(jsonExpected));
+    }
+
+    @Test
+    void updateBatchShouldReturnBatch() throws Exception {
+
+        BDDMockito.given(batchService.update(any(Long.class), any(Set.class)))
+                .willReturn(batch);
+
+        String payload = objectMapper.writeValueAsString(batchProductsPayload);
+        String jsonExpected = objectMapper.writeValueAsString(batch);
+
+       this.mockMvc
+                .perform(
+                        patch("/api/v1/batch/1")
+                                .content(payload)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isAccepted())
                 .andExpect(content().json(jsonExpected));
     }
 }

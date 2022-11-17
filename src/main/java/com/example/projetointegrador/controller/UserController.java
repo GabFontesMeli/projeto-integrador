@@ -3,7 +3,6 @@ package com.example.projetointegrador.controller;
 
 import com.example.projetointegrador.model.UserU;
 import com.example.projetointegrador.service.interfaces.IUserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

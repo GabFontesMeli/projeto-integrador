@@ -3,23 +3,14 @@ package com.example.projetointegrador.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class BatchProduct {
 
@@ -42,5 +33,16 @@ public class BatchProduct {
     private LocalDate manufacturingDate;
 
     @Column
-    private LocalTime manufacturingTime;
+    private LocalDate expirationDate;
+    @ManyToOne
+    @JoinColumn(name = "section_id", referencedColumnName = "id")
+    private Section section;
+
+    @Column(name = "remaining_quantity")
+    private Integer remainingQuantity;
+
+    @PrePersist
+    private void setup(){
+        this.remainingQuantity = this.quantity;
+    }
 }
