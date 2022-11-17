@@ -19,8 +19,6 @@ abstract public class BaseTest {
    protected Set<BatchProduct> batchProductsResponse = new HashSet<>();
    protected BatchDTO batchDTO = new BatchDTO();
 
-   protected Inventory inventory = new Inventory();
-
     protected Product productForTest = new Product();
 
     protected Set<BatchProduct> batchProductsBuilder(Product product) {
@@ -29,7 +27,6 @@ abstract public class BaseTest {
         batchProduct.setProduct(product);
         batchProduct.setQuantity(10);
         batchProduct.setManufacturingDate(LocalDate.parse("2022-12-10"));
-        batchProduct.setManufacturingTime(LocalTime.parse("11:00:00"));
         batchProducts.add(batchProduct);
 
         return batchProducts;
@@ -39,7 +36,6 @@ abstract public class BaseTest {
     void setup() {
 
         batch.setId(1L);
-        batch.setExpirationDate(LocalDate.parse("2023-01-01"));
 
         section.setId(1L);
         section.setName("teste1");
@@ -50,14 +46,14 @@ abstract public class BaseTest {
         batchProductPayload.setProduct(product);
         batchProductPayload.setQuantity(10);
         batchProductPayload.setManufacturingDate(LocalDate.parse("2022-12-10"));
-        batchProductPayload.setManufacturingTime(LocalTime.parse("11:00:00"));
+        batchProductPayload.setExpirationDate(LocalDate.parse("2023-01-01"));
         batchProductsPayload.add(batchProductPayload);
 
         BatchProduct batchProductResponse = new BatchProduct();
         batchProductResponse.setId(1L);
         batchProductResponse.setQuantity(10);
         batchProductResponse.setManufacturingDate(LocalDate.parse("2022-12-10"));
-        batchProductResponse.setManufacturingTime(LocalTime.parse("11:00:00"));
+        batchProductResponse.setExpirationDate(LocalDate.parse("2023-01-01"));
         batchProductsResponse.add(batchProductResponse);
 
         storage.setId(1L);
@@ -67,7 +63,6 @@ abstract public class BaseTest {
         batch.setBatchProduct(batchProductsResponse);
 
         batchDTO.setStorageId(1L);
-        batchDTO.setExpirationDate(LocalDate.parse("2023-01-01"));
         batchDTO.setProducts(batchProductsPayload);
 
         productForTest.setId(3L);

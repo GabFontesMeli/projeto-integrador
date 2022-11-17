@@ -1,12 +1,12 @@
 package com.example.projetointegrador.model;
 
-import lombok.*;
-
-import javax.persistence.*;
-
 import com.example.projetointegrador.dto.BatchDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,25 +21,16 @@ public class Batch {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private LocalDate expirationDate;
-
     @ManyToOne
     @JoinColumn(name = "storage_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"batches", "sections"})
     private Storage storage;
-
-//    @ManyToOne
-//    @JoinColumn(name = "section_id", referencedColumnName = "id")
-//    @JsonIgnoreProperties({"batches", "storage"})
-//    private Section section;
 
     @OneToMany(mappedBy = "batch", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"batch", "product"})
     Set<BatchProduct> batchProduct = new HashSet<>();
 
     public Batch(BatchDTO batchDTO) {
-        this.expirationDate = batchDTO.getExpirationDate();
 
         Set<BatchProduct> batchProducts = batchDTO.getProducts();
         for (BatchProduct batchProduct : batchProducts) {
@@ -48,7 +39,8 @@ public class Batch {
             newBatchProduct.setProduct(batchProduct.getProduct());
             newBatchProduct.setQuantity(batchProduct.getQuantity());
             newBatchProduct.setManufacturingDate(batchProduct.getManufacturingDate());
-            newBatchProduct.setManufacturingTime(batchProduct.getManufacturingTime());
+            newBatchProduct.setExpirationDate(batchProduct.getExpirationDate());
+            newBatchProduct.setSection(batchProduct.getSection());
             this.batchProduct.add(newBatchProduct);
         }
     }
@@ -60,7 +52,8 @@ public class Batch {
             newBatchProduct.setProduct(batchProduct.getProduct());
             newBatchProduct.setQuantity(batchProduct.getQuantity());
             newBatchProduct.setManufacturingDate(batchProduct.getManufacturingDate());
-            newBatchProduct.setManufacturingTime(batchProduct.getManufacturingTime());
+            newBatchProduct.setExpirationDate(batchProduct.getExpirationDate());
+            newBatchProduct.setSection(batchProduct.getSection());
             this.batchProduct.add(newBatchProduct);
         }
     }

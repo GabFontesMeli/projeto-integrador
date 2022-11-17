@@ -1,22 +1,12 @@
 package com.example.projetointegrador.model;
 
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -42,9 +32,6 @@ public class Section {
 //    @OneToMany(mappedBy = "section")
 //    private Set<Batch> batches;
 
-    @OneToMany(mappedBy = "section")
-    @JsonIgnoreProperties("section")
-    private Set<Product> products;
 
     @OneToMany(mappedBy = "section")
     @JsonIgnoreProperties("section")
@@ -53,5 +40,8 @@ public class Section {
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
+
+    @Column
+    private Float volume;
 
 }

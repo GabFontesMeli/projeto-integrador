@@ -4,19 +4,10 @@ import com.example.projetointegrador.dto.BatchDTO;
 import com.example.projetointegrador.exceptions.*;
 import com.example.projetointegrador.model.*;
 import com.example.projetointegrador.repository.BatchRepository;
-import com.example.projetointegrador.repository.SectionRepository;
-import com.example.projetointegrador.repository.StorageRepository;
 import com.example.projetointegrador.service.interfaces.IBatchService;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 
 
 @Service
@@ -27,17 +18,16 @@ public class BatchService implements IBatchService {
     private BatchRepository batchRepository;
 
     @Autowired
-    private InventoryService inventoryService;
-
-    @Autowired
     private StorageService storageService;
 
     @Autowired
     private SectionService sectionService;
 
-
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private BatchProductService batchProductService;
 
     /**
      * método que valida e insere um novo batch
@@ -50,10 +40,10 @@ public class BatchService implements IBatchService {
         Batch batch = new Batch(batchDTO);
 
         Storage storage = storageService.findById(batchDTO.getStorageId());
-        Float usedVolume = inventoryService.findVolumeByStorage(batchDTO.getStorageId());
-        Float expectedVolume = 0f;
 
-        List<Inventory> newInventorys = new ArrayList<>();
+
+        Map<Section, Float> sectionExpectedVolume = new HashMap<Section, Float>();
+
         Set<BatchProduct> batchProducts = batchDTO.getProducts();
 
         for (BatchProduct batchProduct : batchProducts) {
@@ -61,26 +51,36 @@ public class BatchService implements IBatchService {
 
             Section section = sectionService.findById(batchProduct.getSection().getId());
 
+
             if(!product.getCategory().equals(section.getCategory())) throw new
                     CategoryInvalidException("The product and section categories are different.");
 
-            Inventory inventory = new Inventory(
-                batchProduct.getQuantity(),
-                batchProduct.getProduct().getId()
-            );
-            newInventorys.add(inventory);
-            expectedVolume += product.getVolume() * inventory.getQuantity();
+            if(sectionExpectedVolume.containsKey(section)) {
+                Float expectedVolume = sectionExpectedVolume.get(section);
+                expectedVolume += product.getVolume() * batchProduct.getQuantity();
+                sectionExpectedVolume.put(section, expectedVolume);
+            } else {
+                sectionExpectedVolume.put(section, product.getVolume() * batchProduct.getQuantity());
+            }
         }
-        if(expectedVolume > (storage.getVolume() - usedVolume)) {
-            throw new InsuficientVolumeException("expected volume not found");
-        }
-
-        newInventorys.forEach(i -> {
-            inventoryService.saveInventory(i);
-        });
-
+        hasRemainigVolume(sectionExpectedVolume);
         batch.setStorage(storage);
         return batchRepository.save(batch);
+    }
+
+    @Override
+    public void hasRemainigVolume(Map<Section, Float> sectionsVolumes) throws InsuficientVolumeException {
+        for(Section section : sectionsVolumes.keySet()) {
+            Float usedVolume = batchProductService.findVolumeBySection(section.getId());
+            if(sectionsVolumes.get(section)>(section.getVolume() - usedVolume)) {
+                throw new InsuficientVolumeException("expected volume not found");
+            }
+        }
+    }
+
+    @Override
+    public Batch findById(Long id) throws BatchInvalidException {
+        return batchRepository.findById(id).orElseThrow(() -> new BatchInvalidException("Batch doesn't exists"));
     }
 
     /***
@@ -90,28 +90,28 @@ public class BatchService implements IBatchService {
      * @return
      */
     @Override
-    @Transactional
-    public Batch update(Long id, Set<BatchProduct> batchProductList) throws BatchInvalidException, ProductNotFoundException {
-
-        if(!batchRepository.existsById(id)){
-            throw new BatchInvalidException("Batch doesn't exists");
-        }
-
-        Batch batch = batchRepository.findById(id).get();
+    public Batch update(Long id, Set<BatchProduct> batchProductList) throws BatchInvalidException, ProductNotFoundException, SectionInvalidException, InsuficientVolumeException {
+        Batch batch = this.findById(id);
+        Map<Section, Float> sectionExpectedVolume = new HashMap<Section, Float>();
 
         for (BatchProduct batchProduct : batchProductList) {
 
-            productService.findById(batchProduct.getProduct().getId());
+            Product product = productService.findById(batchProduct.getProduct().getId());
+            Section section = sectionService.findById(batchProduct.getSection().getId());
+            if(sectionExpectedVolume.containsKey(section)) {
+                Float expectedVolume = sectionExpectedVolume.get(section);
+                expectedVolume += product.getVolume() * batchProduct.getQuantity();
+                sectionExpectedVolume.put(section, expectedVolume);
+            } else {
+                sectionExpectedVolume.put(section, product.getVolume() * batchProduct.getQuantity());
+            }
 
-            Inventory inventory = new Inventory(
-                batchProduct.getQuantity(),
-                batchProduct.getProduct().getId()
-            );
-            inventoryService.saveInventory(inventory);
         }
+        hasRemainigVolume(sectionExpectedVolume);
 
         batch.addProducts(batchProductList);
 
         return batchRepository.save(batch);
     }
+
 }

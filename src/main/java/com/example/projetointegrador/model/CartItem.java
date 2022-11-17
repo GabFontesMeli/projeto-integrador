@@ -1,21 +1,14 @@
 package com.example.projetointegrador.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -38,7 +31,7 @@ public class CartItem {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @JsonIgnoreProperties("volume")
     @JsonUnwrapped
-    private Product product;
+    private BatchProduct batchProduct;
 
     @Column(nullable = false)
     private Integer quantity;
@@ -46,8 +39,8 @@ public class CartItem {
     @Column(nullable = false)
     private Double value;
 
-    public CartItem(Integer incomingQuantity, Product incomingProduct) {
-        this.product = incomingProduct;
+    public CartItem(Integer incomingQuantity, Product incomingProduct, BatchProduct batchProduct) {
+        this.batchProduct = batchProduct;
         this.quantity = incomingQuantity;
         this.value = incomingProduct.getPrice() * incomingQuantity;
     }
