@@ -105,6 +105,8 @@ public class CartService implements ICartService{
             CartItem newCartItem = new CartItem(batchProduct.getQuantity(), product, batchProduct);
             newCartItem.setCart(cart);
             cartItemList.add(newCartItem);
+            batchProduct.setRemainingQuantity(batchProduct.getRemainingQuantity()-cartItemDTO.getQuantity());
+            batchProductService.save(batchProduct);
             Value.total += newCartItem.getValue();
         }
 

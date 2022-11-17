@@ -32,9 +32,6 @@ public class Section {
 //    @OneToMany(mappedBy = "section")
 //    private Set<Batch> batches;
 
-    @OneToMany(mappedBy = "section")
-    @JsonIgnoreProperties("section")
-    private Set<Product> products;
 
     @OneToMany(mappedBy = "section")
     @JsonIgnoreProperties("section")
@@ -43,5 +40,8 @@ public class Section {
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
+
+    @Column
+    private Float volume;
 
 }

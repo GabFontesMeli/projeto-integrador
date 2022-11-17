@@ -32,10 +32,17 @@ public class BatchProduct {
     @Column(nullable = false)
     private LocalDate manufacturingDate;
 
-    @Column(nullable = false)
+    @Column
     private LocalDate expirationDate;
-
     @ManyToOne
     @JoinColumn(name = "section_id", referencedColumnName = "id")
     private Section section;
+
+    @Column(name = "remaining_quantity")
+    private Integer remainingQuantity;
+
+    @PrePersist
+    private void setup(){
+        this.remainingQuantity = this.quantity;
+    }
 }

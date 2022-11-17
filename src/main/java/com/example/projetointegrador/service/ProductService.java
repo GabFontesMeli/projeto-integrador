@@ -34,7 +34,7 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> getAllProductsBySection(String section) {
-        return productRepository.findProductsBySectionName(section);
+        return null; //productRepository.findProductsBySectionName(section);
     }
 
 }
