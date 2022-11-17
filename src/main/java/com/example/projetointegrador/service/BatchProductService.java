@@ -4,7 +4,6 @@ import com.example.projetointegrador.exceptions.ExpiredProductException;
 import com.example.projetointegrador.model.BatchProduct;
 import com.example.projetointegrador.repository.BatchProductRepository;
 import com.example.projetointegrador.service.interfaces.IBatchProductService;
-import com.example.projetointegrador.service.interfaces.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +16,6 @@ public class BatchProductService implements IBatchProductService {
 
     @Autowired
     private BatchProductRepository batchProductRepository;
-
-    @Autowired
-    private IProductService productService;
 
     @Override
     public BatchProduct getBatchProductByProductId(Long productId, Integer quantity) {

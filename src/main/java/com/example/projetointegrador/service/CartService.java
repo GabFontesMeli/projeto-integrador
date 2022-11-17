@@ -77,13 +77,12 @@ public class CartService implements ICartService{
         return "Cart is " + cart.getStatus();
     }
 
-    private List<String> checkProductsQuantity(List<CartItemDTO> cartItemsDTO) throws ProductNotFoundException {
+    private List<String> checkProductsQuantity(List<CartItemDTO> cartItemsDTO) {
         List<String> errors = new ArrayList<>();
         BatchProduct batchProduct;
 
         for (CartItemDTO cartItemDTO:cartItemsDTO) {
             batchProduct = batchProductService.getBatchProductByProductId(cartItemDTO.getProductId(), cartItemDTO.getQuantity());
-            //TODO expiration date exception
             if(batchProduct == null) {
                 errors.add("product with id " + cartItemDTO.getProductId() + " has insufficient stock");
             }
