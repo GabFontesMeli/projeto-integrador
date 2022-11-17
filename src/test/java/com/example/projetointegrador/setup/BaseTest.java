@@ -2,7 +2,10 @@ package com.example.projetointegrador.setup;
 
 import com.example.projetointegrador.dto.BatchDTO;
 import com.example.projetointegrador.model.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,19 +13,22 @@ import java.util.HashSet;
 import java.util.Set;
 
 abstract public class BaseTest {
-   protected Batch batch = new Batch();
-   protected Section section = new Section();
-   protected Storage storage = new Storage();
 
-   protected BatchProduct batchProductPayload = new BatchProduct();
-   protected Set<BatchProduct> batchProductsPayload = new HashSet<>();
-   protected Set<BatchProduct> batchProductsResponse = new HashSet<>();
-   protected BatchDTO batchDTO = new BatchDTO();
+    protected Batch batch = new Batch();
+    protected Section section = new Section();
+    protected Storage storage = new Storage();
+
+    protected BatchProduct batchProductPayload = new BatchProduct();
+    protected Set<BatchProduct> batchProductsPayload = new HashSet<>();
+    protected Set<BatchProduct> batchProductsResponse = new HashSet<>();
+    protected BatchDTO batchDTO = new BatchDTO();
 
     protected Category category = new Category();
     protected Product product = new Product();
 
     protected Product productForTest = new Product();
+
+    protected String path = "src/test/java/com/example/projetointegrador/utils";
 
     protected Set<BatchProduct> batchProductsBuilder(Product product) {
         Set<BatchProduct> batchProducts = new HashSet<>();

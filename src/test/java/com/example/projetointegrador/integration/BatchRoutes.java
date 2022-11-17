@@ -41,9 +41,7 @@ public class BatchRoutes extends BaseTest {
     @Order(1)
     void createBatchShouldReturnBatch() throws Exception {
 
-        final String path = "src/test/java/com/example/projetointegrador/mocks/requestsBody/createBatchPayload.json";
-
-        BatchDTO mock = objectMapper.readValue(new File(path), BatchDTO.class);
+        BatchDTO mock = objectMapper.readValue(new File(path + "/requestsBody/createBatchPayload.json"), BatchDTO.class);
         String payload = objectMapper.writeValueAsString(mock);
 
         this.mockMvc
@@ -69,13 +67,12 @@ public class BatchRoutes extends BaseTest {
     @Order(2)
     void updateBatchShouldReturnBatch() throws Exception {
 //        // response
-//        final String responsePath = "src/test/java/com/example/projetointegrador/mocks/responsesBody/updateBatchResponse.json";
+//        final String responsePath = "src/test/java/com/example/projetointegrador/mocks/responsesBody/updateBatchResponseIntegration.json";
 //        Batch response = objectMapper.readValue(new File(responsePath), Batch.class);
 //        String responseAsString = objectMapper.writeValueAsString(response);
 
         // payload
-        final String payloadPath = "src/test/java/com/example/projetointegrador/mocks/requestsBody/updateBatchPayload.json";
-        List<BatchProduct> request = Arrays.asList(objectMapper.readValue(new File(payloadPath), BatchProduct[].class));
+        List<BatchProduct> request = Arrays.asList(objectMapper.readValue(new File(path + "/requestsBody/updateBatchPayload.json"), BatchProduct[].class));
         String payload = objectMapper.writeValueAsString(request);
 
         this.mockMvc

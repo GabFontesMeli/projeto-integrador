@@ -1,6 +1,8 @@
 package com.example.projetointegrador.controller;
 
 import com.example.projetointegrador.dto.BatchDTO;
+import com.example.projetointegrador.model.Batch;
+import com.example.projetointegrador.model.BatchProduct;
 import com.example.projetointegrador.service.BatchService;
 import com.example.projetointegrador.setup.BaseTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.io.File;
 import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -35,40 +38,40 @@ public class BatchControllerTest extends BaseTest {
     @Test
     void createBatchShouldReturnBatch() throws Exception {
 
+        Batch returningBatch = objectMapper.readValue(new File(path + "/responsesBody/createBatchResponse.json"), Batch.class);
+
         BDDMockito.given(batchService.createBatch(any(BatchDTO.class)))
-                .willReturn(batch);
+                .willReturn(returningBatch);
 
-        String payload = objectMapper.writeValueAsString(batchDTO);
-        String jsonExpected = objectMapper.writeValueAsString(batch);
+        BatchDTO payload = objectMapper.readValue(new File(path + "/requestsBody/createBatchPayload.json"), BatchDTO.class);
 
-        System.out.println(payload);
-
-       this.mockMvc
+        this.mockMvc
                 .perform(
                         post("/api/v1/batch")
-                                .content(payload)
+                                .content(objectMapper.writeValueAsString(payload))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isCreated())
-                .andExpect(content().json(jsonExpected));
-    }
+                .andExpect(content().json(objectMapper.writeValueAsString(returningBatch)));
+        }
 
     @Test
     void updateBatchShouldReturnBatch() throws Exception {
 
+        Batch returningBatch = objectMapper.readValue(new File(path + "/responsesBody/updateBatchResponse.json"), Batch.class);
+
         BDDMockito.given(batchService.update(any(Long.class), any(Set.class)))
-                .willReturn(batch);
+                .willReturn(returningBatch);
 
-        String payload = objectMapper.writeValueAsString(batchProductsPayload);
-        String jsonExpected = objectMapper.writeValueAsString(batch);
+        Set<BatchProduct> payload = objectMapper.readValue(new File(path + "/requestsBody/updateBatchPayload.json"), Set.class);
 
-       this.mockMvc
+        this.mockMvc
                 .perform(
                         patch("/api/v1/batch/1")
-                                .content(payload)
+                                .content(objectMapper.writeValueAsString(payload))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isAccepted())
-                .andExpect(content().json(jsonExpected));
+                .andExpect(content().json(objectMapper.writeValueAsString(returningBatch)));
     }
 }
