@@ -84,7 +84,7 @@ public class HandleExceptions {
     @ExceptionHandler(ExpiredProductException.class)
     public ResponseEntity<ExceptionDetails> handleInvalidFields(ExpiredProductException ex) {
         ExceptionDetails exceptionDetails = ExceptionDetails.builder()
-                .title("expired product")
+                .title("product about to expire or expired")
                 .message(ex.getMessage())
                 .status(HttpStatus.CONFLICT.value())
                 .timeStamp(LocalDateTime.now())

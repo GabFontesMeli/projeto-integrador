@@ -1,5 +1,6 @@
 package com.example.projetointegrador.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,6 +36,14 @@ public class BatchProduct {
     private LocalDate expirationDate;
     @ManyToOne
     @JoinColumn(name = "section_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"batchProducts",
+                            "volume",
+                            "users",
+                            "name",
+                            "temperature",
+                            "storage",
+                            "category"
+    })
     private Section section;
 
     @Column(name = "remaining_quantity")

@@ -22,7 +22,7 @@ public class Batch {
 
     @ManyToOne
     @JoinColumn(name = "storage_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"batches", "sections"})
+    @JsonIgnoreProperties({"batches", "sections", "volume", "users"})
     private Storage storage;
 
     @OneToMany(mappedBy = "batch", cascade = CascadeType.ALL)

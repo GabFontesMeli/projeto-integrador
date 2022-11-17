@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -36,10 +36,10 @@ public class BatchProductService implements IBatchProductService {
     @Override
     public void verifyExpirationDate(LocalDate expirationDate) throws ExpiredProductException {
         LocalDate today = LocalDate.now();
-        Period difference = Period.between(today, expirationDate);
+        long difference =  ChronoUnit.DAYS.between(today, expirationDate);
 
-        if (difference.getDays() < 21) {
-            throw new ExpiredProductException("expired product");
+        if (difference < 21) {
+            throw new ExpiredProductException("product about to expire or expired");
         }
     }
 }

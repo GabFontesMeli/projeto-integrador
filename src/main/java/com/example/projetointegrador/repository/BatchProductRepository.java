@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface BatchProductRepository extends JpaRepository<BatchProduct, Long> {
 
-    @Query(value = "select * from batch_product where product_id = ?1 and quantity >= ?2 limit 1", nativeQuery = true)
+    @Query(value = "select * from batch_product where product_id = ?1 and remaining_quantity >= ?2 limit 1", nativeQuery = true)
     BatchProduct findBatchProductByProductId(Long productId, Integer quantity);
 
     @Query(value = "select sum(p.volume * bp.remaining_quantity) from batch_product bp " +
