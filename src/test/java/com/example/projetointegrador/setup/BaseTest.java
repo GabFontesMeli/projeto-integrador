@@ -19,6 +19,9 @@ abstract public class BaseTest {
    protected Set<BatchProduct> batchProductsResponse = new HashSet<>();
    protected BatchDTO batchDTO = new BatchDTO();
 
+    protected Category category = new Category();
+    protected Product product = new Product();
+
     protected Product productForTest = new Product();
 
     protected Set<BatchProduct> batchProductsBuilder(Product product) {
@@ -39,14 +42,24 @@ abstract public class BaseTest {
 
         section.setId(1L);
         section.setName("teste1");
+        section.setCategory(category);
         section.setTemperature(3.1f);
+        section.setVolume(20.0f);
 
-        Product product = new Product();
+        category.setId(1L);
+        category.setName("teste1");
+
         product.setId(1L);
+        product.setName("teste1");
+        product.setCategory(category);
+        product.setVolume(3.1f);
+        batchProductPayload.setBatch(batch);
         batchProductPayload.setProduct(product);
         batchProductPayload.setQuantity(10);
-        batchProductPayload.setManufacturingDate(LocalDate.parse("2022-12-10"));
-        batchProductPayload.setExpirationDate(LocalDate.parse("2023-01-01"));
+        batchProductPayload.setManufacturingDate(LocalDate.parse("2022-10-10"));
+        batchProductPayload.setExpirationDate(LocalDate.parse("2022-12-10"));
+        batchProductPayload.setSection(section);
+        batchProductPayload.setRemainingQuantity(10);
         batchProductsPayload.add(batchProductPayload);
 
         BatchProduct batchProductResponse = new BatchProduct();

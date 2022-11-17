@@ -5,6 +5,7 @@ import java.time.LocalTime;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.*;
 
@@ -12,6 +13,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "batch_product")
 public class BatchProduct {
 
     @Id
@@ -24,18 +26,20 @@ public class BatchProduct {
 
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("category")
     private Product product;
 
     @Column(nullable = false)
     private Integer quantity;
 
-    @Column(nullable = false)
+    @Column(name = "manufacturing_date" ,nullable = false)
     private LocalDate manufacturingDate;
 
-    @Column
+    @Column(name = "expiration_date")
     private LocalDate expirationDate;
     @ManyToOne
     @JoinColumn(name = "section_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"name", "temperature", "storage", "batchProducts", "category", "volume"})
     private Section section;
 
     @Column(name = "remaining_quantity")

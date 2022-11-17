@@ -1,17 +1,25 @@
 package com.example.projetointegrador.service;
 
+import com.example.projetointegrador.dto.BatchDTO;
+import com.example.projetointegrador.exceptions.ProductNotFoundException;
+import com.example.projetointegrador.exceptions.SectionInvalidException;
+import com.example.projetointegrador.exceptions.StorageInvalidException;
 import com.example.projetointegrador.model.Batch;
 import com.example.projetointegrador.repository.BatchRepository;
 import com.example.projetointegrador.repository.SectionRepository;
 import com.example.projetointegrador.repository.StorageRepository;
 import com.example.projetointegrador.setup.BaseTest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,23 +34,36 @@ public class BatchServiceTest extends BaseTest {
     @Mock
     private BatchRepository batchRepository;
 
+    @Mock
+    private StorageService storageService;
 
     @Mock
-    private SectionRepository sectionRepository;
+    private ProductService productService;
+
+    @Mock
+    private SectionService sectionService;
 
     @Mock
     private StorageRepository storageRepository;
 
 
     @Test
-    void createBatchShouldReturnBatch() {
+    void createBatchShouldReturnBatch() throws StorageInvalidException, SectionInvalidException, ProductNotFoundException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.findAndRegisterModules();
+
+        final String path = "src/test/java/com/example/projetointegrador/mocks/requestsBody/createBatchPayload.json";
+
+        BatchDTO mock = objectMapper.readValue(new File(path), BatchDTO.class);
+
+        BDDMockito.given(storageService.findById(any(Long.class))).willReturn(storage);
+        BDDMockito.given(productService.findById(any(Long.class))).willReturn(product);
+        BDDMockito.given(sectionService.findById(any(Long.class))).willReturn(section);
         BDDMockito.given(batchRepository.save(any(Batch.class))).willReturn(batch);
-        BDDMockito.given(sectionRepository.findById(any(Long.class))).willReturn(Optional.ofNullable(section));
-        BDDMockito.given(storageRepository.findById(any(Long.class))).willReturn(Optional.ofNullable(storage));
 
         Batch response = null;
         try {
-            response = batchService.createBatch(batchDTO);
+            response = batchService.createBatch(mock);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

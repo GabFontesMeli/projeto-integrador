@@ -1,0 +1,16 @@
+{
+  "storageId": 1,
+  "products": [
+    {
+      "product": {
+        "id": 1
+      },
+      "quantity": 12,
+      "manufacturingDate": "2022-12-10",
+      "expirationDate": "2023-01-01",
+      "section": {
+        "id": 1
+      }
+    }
+  ]
+}
