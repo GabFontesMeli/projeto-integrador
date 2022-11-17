@@ -17,5 +17,4 @@ public interface BatchProductRepository extends JpaRepository<BatchProduct, Long
             "join section s on s.id = bp.section_id " +
             "where s.id = ?1 group by s.id", nativeQuery = true)
     List<Float> findVolumeBySectionId(Long sectionId);
-
 }

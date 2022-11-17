@@ -1,12 +1,11 @@
 package com.example.projetointegrador.model;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import lombok.*;
+import java.time.LocalDate;
 
 @Getter
 @Setter

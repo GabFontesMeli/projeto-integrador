@@ -79,5 +79,15 @@ public class HandleExceptions {
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ExpiredProductException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(ExpiredProductException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("expired product")
+                .message(ex.getMessage())
+                .status(HttpStatus.CONFLICT.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
 
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.CONFLICT);
+    }
 }

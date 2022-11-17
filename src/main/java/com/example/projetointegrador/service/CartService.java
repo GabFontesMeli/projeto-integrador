@@ -4,15 +4,16 @@ import com.example.projetointegrador.dto.CartDTO;
 import com.example.projetointegrador.dto.CartItemDTO;
 import com.example.projetointegrador.dto.CartStatusDTO;
 import com.example.projetointegrador.enums.CartStatusEnum;
+import com.example.projetointegrador.exceptions.ExpiredProductException;
 import com.example.projetointegrador.exceptions.InsufficientStockException;
 import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.exceptions.UserUNotFoundException;
 import com.example.projetointegrador.model.*;
-import com.example.projetointegrador.repository.BatchProductRepository;
 import com.example.projetointegrador.repository.CartRepository;
-import com.example.projetointegrador.repository.ProductRepository;
-import com.example.projetointegrador.repository.UserRepository;
-import com.example.projetointegrador.service.interfaces.*;
+import com.example.projetointegrador.service.interfaces.IBatchProductService;
+import com.example.projetointegrador.service.interfaces.ICartService;
+import com.example.projetointegrador.service.interfaces.IProductService;
+import com.example.projetointegrador.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,7 @@ public class CartService implements ICartService{
     private IBatchProductService batchProductService;
 
     @Override
-    public Double createCart(CartDTO cartDTO) throws UserUNotFoundException, InsufficientStockException, ProductNotFoundException {
+    public Double createCart(CartDTO cartDTO) throws UserUNotFoundException, InsufficientStockException, ProductNotFoundException, ExpiredProductException {
         UserU newUser = new UserU();
         newUser.setId(cartDTO.getUserId());
 
@@ -82,7 +83,7 @@ public class CartService implements ICartService{
 
         for (CartItemDTO cartItemDTO:cartItemsDTO) {
             batchProduct = batchProductService.getBatchProductByProductId(cartItemDTO.getProductId(), cartItemDTO.getQuantity());
-
+            //TODO expiration date exception
             if(batchProduct == null) {
                 errors.add("product with id " + cartItemDTO.getProductId() + " has insufficient stock");
             }
@@ -90,7 +91,7 @@ public class CartService implements ICartService{
         return errors;
     }
 
-    private Set<CartItem> setCartItems(CartDTO cartDto, Cart cart) throws InsufficientStockException, ProductNotFoundException {
+    private Set<CartItem> setCartItems(CartDTO cartDto, Cart cart) throws InsufficientStockException, ProductNotFoundException, ExpiredProductException {
 
         List<CartItemDTO> cartItems = cartDto.getProducts();
         List<String> errors = checkProductsQuantity(cartItems);
@@ -101,6 +102,7 @@ public class CartService implements ICartService{
 
         for (CartItemDTO cartItemDTO : cartItems) {
             BatchProduct batchProduct = batchProductService.getBatchProductByProductId(cartItemDTO.getProductId(), cartItemDTO.getQuantity());
+            batchProductService.verifyExpirationDate(batchProduct.getExpirationDate());
             Product product = productService.findById(cartItemDTO.getProductId());
             CartItem newCartItem = new CartItem(batchProduct.getQuantity(), product, batchProduct);
             newCartItem.setCart(cart);
