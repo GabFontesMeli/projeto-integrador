@@ -14,6 +14,9 @@ import java.util.Set;
 
 abstract public class BaseTest {
 
+    @Autowired
+    protected ObjectMapper objectMapper;
+
     protected Batch batch = new Batch();
     protected Section section = new Section();
     protected Storage storage = new Storage();
@@ -46,19 +49,23 @@ abstract public class BaseTest {
 
         batch.setId(1L);
 
-        section.setId(1L);
-        section.setName("teste1");
-        section.setCategory(category);
-        section.setTemperature(3.1f);
-        section.setVolume(20.0f);
+        storage.setId(1L);
+        storage.setVolume(100000.0f);
 
         category.setId(1L);
-        category.setName("teste1");
+        category.setName("Fresco");
+
+        section.setId(1L);
+        section.setName("Estoque de melancias");
+        section.setCategory(category);
+        section.setTemperature(3.1f);
+        section.setVolume(200.0f);
 
         product.setId(1L);
-        product.setName("teste1");
+        product.setName("Melancia");
         product.setCategory(category);
         product.setVolume(3.1f);
+
         batchProductPayload.setBatch(batch);
         batchProductPayload.setProduct(product);
         batchProductPayload.setQuantity(10);
@@ -74,9 +81,6 @@ abstract public class BaseTest {
         batchProductResponse.setManufacturingDate(LocalDate.parse("2022-12-10"));
         batchProductResponse.setExpirationDate(LocalDate.parse("2023-01-01"));
         batchProductsResponse.add(batchProductResponse);
-
-        storage.setId(1L);
-        storage.setVolume(100.0f);
 
         batch.setStorage(storage);
         batch.setBatchProduct(batchProductsResponse);

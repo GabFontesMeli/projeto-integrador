@@ -1,27 +1,25 @@
 {
-    "id": 2,
-    "storage": {
-        "id": 1,
-        "volume": 100000.0,
-        "users": []
-    },
-    "batchProduct": [
-        {
-            "id": 4,
-            "product": {
-                "id": 1,
-                "name": null,
-                "price": null,
-                "volume": null,
-                "users": null
-            },
-            "quantity": 12,
-            "manufacturingDate": "2022-12-10",
-            "expirationDate": "2023-01-01",
-            "section": {
-                "id": 1
-            },
-            "remainingQuantity": 12
-        }
-    ]
+	"id": 1,
+	"storage": {
+		"id": 1,
+		"volume": 100000.0,
+		"users": null
+	},
+	"batchProduct": [{
+		"id": 1,
+		"product": {
+			"id": 1,
+			"name": null,
+			"price": null,
+			"volume": null,
+			"users": null
+		},
+		"quantity": 12,
+		"manufacturingDate": "2022-12-10",
+		"expirationDate": "2023-01-01",
+		"section": {
+			"id": 1
+		},
+		"remainingQuantity": 12
+	}]
 }

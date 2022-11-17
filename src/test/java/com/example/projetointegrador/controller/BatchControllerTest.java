@@ -32,9 +32,6 @@ public class BatchControllerTest extends BaseTest {
     @MockBean
     private BatchService batchService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Test
     void createBatchShouldReturnBatch() throws Exception {
 
