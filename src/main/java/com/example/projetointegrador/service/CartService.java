@@ -52,7 +52,7 @@ public class CartService implements ICartService{
 
         Set<CartItem> cartItemList = setCartItems(cartDTO, cart);
 
-        total = cartItemList.stream().mapToDouble(CartItem::getValue).sum();
+        total = cartItemList.stream().mapToDouble(CartItem::getItemValue).sum();
 
         cart.setCartItems(cartItemList);
         cart.setTotalValue(total);

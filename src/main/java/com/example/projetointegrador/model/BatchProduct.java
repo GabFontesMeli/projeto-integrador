@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -36,6 +38,7 @@ public class BatchProduct {
 
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
+
     @ManyToOne
     @JoinColumn(name = "section_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"batchProducts",
