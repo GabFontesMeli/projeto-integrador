@@ -9,6 +9,8 @@ import com.example.projetointegrador.service.interfaces.IBatchProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,7 +49,7 @@ public class BatchProductService implements IBatchProductService {
                 .batchProducts(batchProducts.stream().map(batchProduct1 -> {
                     BatchProductDTO batchProductDTO = new BatchProductDTO();
 
-                    batchProductDTO.setId(batchProduct1.getId());
+                    batchProductDTO.setBatchId(batchProduct1.getBatch().getId());
                     batchProductDTO.setRemainingQuantity(batchProduct1.getRemainingQuantity());
                     batchProductDTO.setExpirationDate(batchProduct1.getExpirationDate());
 
@@ -55,5 +57,21 @@ public class BatchProductService implements IBatchProductService {
                 }).collect(Collectors.toList()))
                 .build();
     }
+    @Override
+    public ProductInBatchDTO findAllByProductIdOrdered(Long productId, String order) {
+        ProductInBatchDTO productInBatchDTO = findAllByProductId(productId);
 
+        List<BatchProductDTO> orderedBatchProducts = productInBatchDTO.getBatchProducts();
+
+        if (order.equalsIgnoreCase("L")) productInBatchDTO.setBatchProducts(orderedBatchProducts.stream()
+                .sorted(Comparator.comparing(BatchProductDTO::getBatchId)).collect(Collectors.toList()));
+
+        if (order.equalsIgnoreCase("Q")) productInBatchDTO.setBatchProducts(orderedBatchProducts.stream()
+                .sorted(Comparator.comparing(BatchProductDTO::getRemainingQuantity)).collect(Collectors.toList()));
+
+        if (order.equalsIgnoreCase("V")) productInBatchDTO.setBatchProducts(orderedBatchProducts.stream()
+                .sorted(Comparator.comparing(BatchProductDTO::getExpirationDate)).collect(Collectors.toList()));
+
+        return productInBatchDTO;
+    }
 }

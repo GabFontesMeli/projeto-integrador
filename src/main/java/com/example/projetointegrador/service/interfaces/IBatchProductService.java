@@ -14,4 +14,5 @@ public interface IBatchProductService {
 //    ProductInBatchDTO getBatchProductsByProductId(Long productId);
 
     ProductInBatchDTO findAllByProductId(Long productId);
+    ProductInBatchDTO findAllByProductIdOrdered(Long productId, String order);
 }

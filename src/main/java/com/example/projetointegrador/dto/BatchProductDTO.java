@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BatchProductDTO {
-    private Long id;
+    private Long batchId;
     private Integer remainingQuantity;
     private LocalDate expirationDate;
 }

@@ -21,4 +21,9 @@ public class BatchProductController {
     public ResponseEntity<ProductInBatchDTO> findAllByProductId(@PathVariable Long productId) {
         return new ResponseEntity<>(batchProductService.findAllByProductId(productId), HttpStatus.OK);
     }
+
+    @GetMapping("/{productId}/{order}")
+    public ResponseEntity<ProductInBatchDTO> findAllByProductIdOrdered(@PathVariable Long productId, @PathVariable String order) {
+        return new ResponseEntity<>(batchProductService.findAllByProductIdOrdered(productId, order), HttpStatus.OK);
+    }
 }
