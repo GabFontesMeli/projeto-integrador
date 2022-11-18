@@ -31,7 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-@Sql(scripts = "integration.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+//@Sql(scripts = "integration.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc

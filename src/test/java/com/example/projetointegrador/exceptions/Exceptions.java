@@ -16,8 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(BatchController.class)
@@ -43,7 +42,7 @@ public class Exceptions extends BaseTest {
 
         this.mockMvc
                 .perform(
-                        patch("/api/v1/batch/1")
+                        put("/api/v1/batch/1")
                                 .content(payload)
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
