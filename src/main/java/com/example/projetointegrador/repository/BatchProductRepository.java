@@ -1,5 +1,6 @@
 package com.example.projetointegrador.repository;
 
+import com.example.projetointegrador.dto.ProductInBatchDTO;
 import com.example.projetointegrador.model.BatchProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +18,8 @@ public interface BatchProductRepository extends JpaRepository<BatchProduct, Long
             "join section s on s.id = bp.section_id " +
             "where s.id = ?1 group by s.id", nativeQuery = true)
     List<Float> findVolumeBySectionId(Long sectionId);
+
+    @Query(value = "select * from batch_product where product_id = ?1", nativeQuery = true)
+    List<BatchProduct> findAllByProductId(Long productId);
 
 }

@@ -22,6 +22,7 @@ public class BatchProduct {
 
     @ManyToOne
     @JoinColumn(name = "batch_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("batchProduct")
     private Batch batch;
 
     @ManyToOne
@@ -48,5 +49,19 @@ public class BatchProduct {
     @PrePersist
     private void setup(){
         this.remainingQuantity = this.quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "BatchProduct{" +
+                "id=" + id +
+                ", batch=" + batch +
+                ", product=" + product +
+                ", quantity=" + quantity +
+                ", manufacturingDate=" + manufacturingDate +
+                ", expirationDate=" + expirationDate +
+                ", section=" + section +
+                ", remainingQuantity=" + remainingQuantity +
+                '}';
     }
 }
