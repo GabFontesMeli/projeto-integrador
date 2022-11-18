@@ -94,7 +94,7 @@ public class BatchRoutes extends BaseTest {
                 .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].product.users[0]").isEmpty())
                 .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].quantity").value(20))
                 .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].manufacturingDate").value("2022-12-23"))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].section.id").value(3))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].section.id").value(1))
                 .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].remainingQuantity").value(20))
                 .andExpect(jsonPath("$.batchProduct", hasSize(4)));
     }
