@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.File;
 import java.util.Set;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -64,7 +65,7 @@ public class BatchControllerTest extends BaseTest {
 
         this.mockMvc
                 .perform(
-                        patch("/api/v1/batch/1")
+                        put("/api/v1/batch/1")
                                 .content(objectMapper.writeValueAsString(payload))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )

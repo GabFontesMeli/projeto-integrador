@@ -2,6 +2,8 @@ package com.example.projetointegrador.integration;
 
 import com.example.projetointegrador.dto.BatchDTO;
 import com.example.projetointegrador.model.BatchProduct;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -11,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -21,11 +24,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.example.projetointegrador.setup.BaseTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+@Sql(scripts = "integration.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -53,8 +59,6 @@ public class BatchRoutes extends BaseTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(2))
                 .andExpect(jsonPath("$.storage.id").value(1))
-                .andExpect(jsonPath("$.storage.volume").value(100000.0))
-                .andExpect(jsonPath("$.storage.users").isEmpty())
                 .andExpect(jsonPath("$.batchProduct[?(@.id == 4)].id").value(4))
                 .andExpect(jsonPath("$.batchProduct[?(@.id == 4)].quantity").value(12))
                 .andExpect(jsonPath("$.batchProduct[?(@.id == 4)].manufacturingDate").value("2022-12-10"))
@@ -77,21 +81,14 @@ public class BatchRoutes extends BaseTest {
 
         this.mockMvc
                 .perform(
-                        patch("/api/v1/batch/1")
+                        put("/api/v1/batch/1")
                                 .content(payload)
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.storage.id").value(1))
-                .andExpect(jsonPath("$.storage.volume").value(100000.0))
-                .andExpect(jsonPath("$.storage.users").isEmpty())
                 .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].id").value(5))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].product.id").value(4))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].product.name").value("carne bovina"))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].product.price").value(10.0))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].product.volume").value(7.0))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].product.users[0]").isEmpty())
                 .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].quantity").value(20))
                 .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].manufacturingDate").value("2022-12-23"))
                 .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].section.id").value(1))

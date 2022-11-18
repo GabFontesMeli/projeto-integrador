@@ -2,6 +2,7 @@ package com.example.projetointegrador.controller;
 
 import com.example.projetointegrador.dto.CartDTO;
 import com.example.projetointegrador.dto.CartStatusDTO;
+import com.example.projetointegrador.exceptions.ExpiredProductException;
 import com.example.projetointegrador.exceptions.InsufficientStockException;
 import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.exceptions.UserUNotFoundException;
@@ -19,7 +20,7 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping
-    public ResponseEntity<Double> createCart(@RequestBody CartDTO cartDTO) throws UserUNotFoundException, InsufficientStockException, ProductNotFoundException {
+    public ResponseEntity<Double> createCart(@RequestBody CartDTO cartDTO) throws UserUNotFoundException, InsufficientStockException, ProductNotFoundException, ExpiredProductException {
          return new ResponseEntity<>(cartService.createCart(cartDTO), HttpStatus.CREATED);
     }
 

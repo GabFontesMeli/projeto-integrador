@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @ControllerAdvice
 public class HandleExceptions {
@@ -79,5 +81,40 @@ public class HandleExceptions {
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ExpiredProductException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(ExpiredProductException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("product about to expire or expired")
+                .message(ex.getMessage())
+                .status(HttpStatus.CONFLICT.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
 
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UserUNotFoundException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(UserUNotFoundException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("user not found")
+                .message(ex.getMessage())
+                .status(HttpStatus.NOT_FOUND.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InsufficientStockException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(InsufficientStockException ex) {
+        List<ExceptionDetails> exceptionDetailsList = new ArrayList<>();
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("insufficient stock")
+                .message(ex.getErrors().toString())
+                .status(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
 }
