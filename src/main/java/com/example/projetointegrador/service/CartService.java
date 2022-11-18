@@ -4,26 +4,25 @@ import com.example.projetointegrador.dto.CartDTO;
 import com.example.projetointegrador.dto.CartItemDTO;
 import com.example.projetointegrador.dto.CartStatusDTO;
 import com.example.projetointegrador.enums.CartStatusEnum;
+import com.example.projetointegrador.exceptions.ExpiredProductException;
 import com.example.projetointegrador.exceptions.InsufficientStockException;
 import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.exceptions.UserUNotFoundException;
 import com.example.projetointegrador.model.*;
-import com.example.projetointegrador.repository.BatchProductRepository;
 import com.example.projetointegrador.repository.CartRepository;
-import com.example.projetointegrador.repository.ProductRepository;
-import com.example.projetointegrador.repository.UserRepository;
-import com.example.projetointegrador.service.interfaces.*;
+import com.example.projetointegrador.service.interfaces.IBatchProductService;
+import com.example.projetointegrador.service.interfaces.ICartService;
+import com.example.projetointegrador.service.interfaces.IProductService;
+import com.example.projetointegrador.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-class Value{
-    static Double total = 0.0;
-}
 @Service
 public class CartService implements ICartService{
     @Autowired
@@ -39,25 +38,28 @@ public class CartService implements ICartService{
     private IBatchProductService batchProductService;
 
     @Override
-    public Double createCart(CartDTO cartDTO) throws UserUNotFoundException, InsufficientStockException, ProductNotFoundException {
+    public Double createCart(CartDTO cartDTO) throws UserUNotFoundException, InsufficientStockException, ProductNotFoundException, ExpiredProductException {
         UserU newUser = new UserU();
         newUser.setId(cartDTO.getUserId());
+        double total;
 
         if(!userService.existsById(cartDTO.getUserId())) throw new UserUNotFoundException("user not found");
 
         Cart cart = new Cart();
-        cart.setDate(cartDTO.getDate());
+        cart.setDate(LocalDate.now());
         cart.setUser(newUser);
         cart.setStatus(cartDTO.getStatus());
 
         Set<CartItem> cartItemList = setCartItems(cartDTO, cart);
 
+        total = cartItemList.stream().mapToDouble(CartItem::getValue).sum();
+
         cart.setCartItems(cartItemList);
-        cart.setTotalValue(Value.total);
+        cart.setTotalValue(total);
 
         cartRepository.save(cart);
 
-        return Value.total;
+        return total;
     }
 
     @Override
@@ -76,13 +78,12 @@ public class CartService implements ICartService{
         return "Cart is " + cart.getStatus();
     }
 
-    private List<String> checkProductsQuantity(List<CartItemDTO> cartItemsDTO) throws ProductNotFoundException {
+    private List<String> checkProductsQuantity(List<CartItemDTO> cartItemsDTO) {
         List<String> errors = new ArrayList<>();
         BatchProduct batchProduct;
 
         for (CartItemDTO cartItemDTO:cartItemsDTO) {
             batchProduct = batchProductService.getBatchProductByProductId(cartItemDTO.getProductId(), cartItemDTO.getQuantity());
-
             if(batchProduct == null) {
                 errors.add("product with id " + cartItemDTO.getProductId() + " has insufficient stock");
             }
@@ -90,8 +91,7 @@ public class CartService implements ICartService{
         return errors;
     }
 
-    private Set<CartItem> setCartItems(CartDTO cartDto, Cart cart) throws InsufficientStockException, ProductNotFoundException {
-
+    private Set<CartItem> setCartItems(CartDTO cartDto, Cart cart) throws InsufficientStockException, ProductNotFoundException, ExpiredProductException {
         List<CartItemDTO> cartItems = cartDto.getProducts();
         List<String> errors = checkProductsQuantity(cartItems);
 
@@ -101,13 +101,13 @@ public class CartService implements ICartService{
 
         for (CartItemDTO cartItemDTO : cartItems) {
             BatchProduct batchProduct = batchProductService.getBatchProductByProductId(cartItemDTO.getProductId(), cartItemDTO.getQuantity());
+            batchProductService.verifyExpirationDate(batchProduct.getExpirationDate());
             Product product = productService.findById(cartItemDTO.getProductId());
-            CartItem newCartItem = new CartItem(batchProduct.getQuantity(), product, batchProduct);
+            CartItem newCartItem = new CartItem(cartItemDTO.getQuantity(), product, batchProduct);
             newCartItem.setCart(cart);
             cartItemList.add(newCartItem);
             batchProduct.setRemainingQuantity(batchProduct.getRemainingQuantity()-cartItemDTO.getQuantity());
             batchProductService.save(batchProduct);
-            Value.total += newCartItem.getValue();
         }
 
         return cartItemList;

@@ -1,12 +1,12 @@
 package com.example.projetointegrador.model;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import lombok.*;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -36,6 +36,14 @@ public class BatchProduct {
     private LocalDate expirationDate;
     @ManyToOne
     @JoinColumn(name = "section_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"batchProducts",
+                            "volume",
+                            "users",
+                            "name",
+                            "temperature",
+                            "storage",
+                            "category"
+    })
     private Section section;
 
     @Column(name = "remaining_quantity")

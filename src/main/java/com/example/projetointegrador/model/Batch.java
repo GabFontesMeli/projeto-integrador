@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +22,7 @@ public class Batch {
 
     @ManyToOne
     @JoinColumn(name = "storage_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"batches", "sections"})
+    @JsonIgnoreProperties({"batches", "sections", "volume", "users"})
     private Storage storage;
 
     @OneToMany(mappedBy = "batch", cascade = CascadeType.ALL)
