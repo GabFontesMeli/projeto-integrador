@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import com.example.projetointegrador.dto.BatchProductDTO;
 import com.example.projetointegrador.dto.ProductDTO;
 import com.example.projetointegrador.dto.ProductInBatchDTO;
+import com.example.projetointegrador.dto.ReportBatchProductDTO;
+import com.example.projetointegrador.dto.ReportProductDTO;
 import com.example.projetointegrador.dto.SectionDTO;
 import com.example.projetointegrador.dto.StorageDTO;
 import com.example.projetointegrador.exceptions.ExpiredProductException;
@@ -115,5 +117,44 @@ public class BatchProductService implements IBatchProductService {
         productDTO.setStorages(storageDTOList);
 
         return productDTO;
+    }
+
+    @Override
+    public ReportBatchProductDTO getBatchProductExpiring(Long days, Long sectionId) {
+        LocalDate expirationDate = LocalDate.now().plusDays(days);
+
+        List<BatchProduct> batchProducts = batchProductRepository
+                .findBatchProductByExpirationDateAndSectionId(expirationDate, sectionId);
+
+        return buildReportBatchProduct(batchProducts);
+    }
+
+    @Override
+    public ReportBatchProductDTO getBatchProductExpiringOrdered(Long days, Long categoryId, String order) {
+        LocalDate expirationDate = LocalDate.now().plusDays(days);
+
+        // Sort sort = Sort.by("asc".equalsIgnoreCase(order) ?
+        // Sort.Order.asc("expiration_date") : Sort.Order.desc("expiration_date"));
+
+        List<BatchProduct> batchProducts = batchProductRepository.findBatchProductByExpirationOrdered(expirationDate,
+                categoryId);
+
+        return buildReportBatchProduct(batchProducts);
+    }
+
+    private ReportBatchProductDTO buildReportBatchProduct(List<BatchProduct> batchProducts) {
+        ReportBatchProductDTO reportBatchProductDTO = new ReportBatchProductDTO();
+
+        reportBatchProductDTO.setProducts(batchProducts.stream().map(bp -> {
+            return ReportProductDTO.builder()
+                    .batchId(bp.getBatch().getId())
+                    .productId(bp.getProduct().getId())
+                    .categoryId(bp.getProduct().getCategory().getId())
+                    .expirationDate(bp.getExpirationDate())
+                    .quantity(bp.getQuantity())
+                    .build();
+        }).collect(Collectors.toList()));
+
+        return reportBatchProductDTO;
     }
 }

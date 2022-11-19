@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.example.projetointegrador.dto.ProductDTO;
 import com.example.projetointegrador.dto.ProductInBatchDTO;
+import com.example.projetointegrador.dto.ReportBatchProductDTO;
 import com.example.projetointegrador.exceptions.ExpiredProductException;
 import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.model.BatchProduct;
@@ -23,4 +24,8 @@ public interface IBatchProductService {
     ProductInBatchDTO findAllByProductIdOrdered(Long productId, String order);
 
     ProductDTO getBatchProductsByProductIdAndStorage(Long productId) throws ProductNotFoundException;
+
+    ReportBatchProductDTO getBatchProductExpiring(Long days, Long sectionId);
+
+    ReportBatchProductDTO getBatchProductExpiringOrdered(Long days, Long categoryId, String order);
 }
