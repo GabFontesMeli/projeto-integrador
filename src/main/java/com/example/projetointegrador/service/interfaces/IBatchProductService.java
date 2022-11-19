@@ -7,6 +7,7 @@ import com.example.projetointegrador.dto.ProductDTO;
 import com.example.projetointegrador.dto.ProductInBatchDTO;
 import com.example.projetointegrador.dto.ReportBatchProductDTO;
 import com.example.projetointegrador.exceptions.ExpiredProductException;
+import com.example.projetointegrador.exceptions.InvalidOrderTypeException;
 import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.model.BatchProduct;
 
@@ -22,9 +23,9 @@ public interface IBatchProductService {
 
     void verifyExpirationDate(LocalDate expirationDate) throws ExpiredProductException;
 
-    ProductInBatchDTO findAllByProductId(Long productId);
+    ProductInBatchDTO findAllByProductId(Long productId) throws ProductNotFoundException;
 
-    ProductInBatchDTO findAllByProductIdOrdered(Long productId, String order);
+    ProductInBatchDTO findAllByProductIdOrdered(Long productId, String order) throws InvalidOrderTypeException, ProductNotFoundException;
 
     ProductDTO getBatchProductsByProductIdAndStorage(Long productId) throws ProductNotFoundException;
 

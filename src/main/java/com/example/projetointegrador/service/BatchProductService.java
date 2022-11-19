@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.projetointegrador.exceptions.InvalidOrderTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,8 +61,12 @@ public class BatchProductService implements IBatchProductService {
         }
     }
 
-    public ProductInBatchDTO findAllByProductId(Long productId) {
+    public ProductInBatchDTO findAllByProductId(Long productId) throws ProductNotFoundException {
         List<BatchProduct> batchProducts = batchProductRepository.findAllByProductId(productId);
+
+        if (batchProducts.isEmpty()) {
+            throw new ProductNotFoundException("could not found a product with this id.");
+        }
 
         return ProductInBatchDTO.builder()
                 .productId(productId)
@@ -82,25 +87,30 @@ public class BatchProductService implements IBatchProductService {
     }
 
     @Override
-    public ProductInBatchDTO findAllByProductIdOrdered(Long productId, String order) {
+    public ProductInBatchDTO findAllByProductIdOrdered(Long productId, String order) throws InvalidOrderTypeException, ProductNotFoundException {
         ProductInBatchDTO productInBatchDTO = findAllByProductId(productId);
 
         List<BatchProductDTO> orderedBatchProducts = productInBatchDTO.getBatchProducts();
 
-        if (order.equalsIgnoreCase("L"))
+        if (order.equalsIgnoreCase("L")) {
             productInBatchDTO.setBatchProducts(orderedBatchProducts.stream()
                     .sorted(Comparator.comparing(BatchProductDTO::getBatchId)).collect(Collectors.toList()));
+            return productInBatchDTO;
+        }
 
-        if (order.equalsIgnoreCase("Q"))
+        if (order.equalsIgnoreCase("Q")) {
             productInBatchDTO.setBatchProducts(orderedBatchProducts.stream()
                     .sorted(Comparator.comparing(BatchProductDTO::getRemainingQuantity)).collect(Collectors.toList()));
+            return productInBatchDTO;
+        }
 
-        if (order.equalsIgnoreCase("V"))
+        if (order.equalsIgnoreCase("V")) {
             productInBatchDTO.setBatchProducts(orderedBatchProducts.stream()
                     .sorted(Comparator.comparing(BatchProductDTO::getExpirationDate)).collect(Collectors.toList()));
+            return productInBatchDTO;
+        }
 
-        return productInBatchDTO;
-
+        else throw new InvalidOrderTypeException("this order type does not exist");
     }
 
     @Override

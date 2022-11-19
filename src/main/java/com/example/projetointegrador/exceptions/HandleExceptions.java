@@ -117,4 +117,16 @@ public class HandleExceptions {
 
         return new ResponseEntity<>(exceptionDetails, HttpStatus.UNPROCESSABLE_ENTITY);
     }
+
+    @ExceptionHandler(InvalidOrderTypeException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(InvalidOrderTypeException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("invalid order type")
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
 }
