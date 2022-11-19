@@ -59,12 +59,12 @@ public class BatchRoutes extends BaseTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(2))
                 .andExpect(jsonPath("$.storage.id").value(1))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 4)].id").value(4))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 4)].quantity").value(12))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 4)].manufacturingDate").value("2022-12-10"))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 4)].expirationDate").value("2023-01-01"))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 4)].section.id").value(1))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 4)].remainingQuantity").value(12));
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].id").value(5))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].quantity").value(12))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].manufacturingDate").value("2022-12-10"))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].expirationDate").value("2023-01-01"))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].section.id").value(1))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].remainingQuantity").value(12));
     }
 
     @Test
@@ -88,11 +88,11 @@ public class BatchRoutes extends BaseTest {
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.storage.id").value(1))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].id").value(5))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].quantity").value(20))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].manufacturingDate").value("2022-12-23"))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].section.id").value(1))
-                .andExpect(jsonPath("$.batchProduct[?(@.id == 5)].remainingQuantity").value(20))
-                .andExpect(jsonPath("$.batchProduct", hasSize(4)));
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 6)].id").value(6))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 6)].quantity").value(20))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 6)].manufacturingDate").value("2022-12-23"))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 6)].section.id").value(1))
+                .andExpect(jsonPath("$.batchProduct[?(@.id == 6)].remainingQuantity").value(20))
+                .andExpect(jsonPath("$.batchProduct", hasSize(5)));
     }
 }
