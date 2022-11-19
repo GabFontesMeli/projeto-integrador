@@ -1,6 +1,8 @@
 package com.example.projetointegrador.service.interfaces;
 
+import com.example.projetointegrador.dto.ProductDTO;
 import com.example.projetointegrador.exceptions.ExpiredProductException;
+import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.model.BatchProduct;
 
 import java.time.LocalDate;
@@ -11,4 +13,5 @@ public interface IBatchProductService {
     Float findVolumeBySection(Long SectionId);
     BatchProduct save(BatchProduct batchProduct);
     void verifyExpirationDate(LocalDate expirationDate) throws ExpiredProductException;
+    ProductDTO getBatchProductsByProductIdAndStorage(Long productId) throws ProductNotFoundException;
 }

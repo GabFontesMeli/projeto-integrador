@@ -1,6 +1,9 @@
 package com.example.projetointegrador.service;
 
+import com.example.projetointegrador.dto.ProductDTO;
+import com.example.projetointegrador.dto.StorageDTO;
 import com.example.projetointegrador.exceptions.ExpiredProductException;
+import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.model.BatchProduct;
 import com.example.projetointegrador.repository.BatchProductRepository;
 import com.example.projetointegrador.service.interfaces.IBatchProductService;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,5 +45,25 @@ public class BatchProductService implements IBatchProductService {
         if (difference < 21) {
             throw new ExpiredProductException("product about to expire or expired");
         }
+    }
+
+    @Override
+    public ProductDTO getBatchProductsByProductIdAndStorage(Long productId) throws ProductNotFoundException {
+        List<BatchProduct> batchProductList = batchProductRepository.findBatchProductsByProductId(productId);
+        if(batchProductList.isEmpty()) {
+            throw new ProductNotFoundException("product not found in our stock");
+        }
+        ProductDTO productDTO = new ProductDTO();
+        List<StorageDTO> storageDTOList = new ArrayList<>();
+        productDTO.setProductId(batchProductList.get(0).getProduct().getId());
+
+        for (BatchProduct batchProduct : batchProductList) {
+            StorageDTO storageDTO = new StorageDTO(batchProduct.getBatch().getStorage().getId(), batchProduct.getRemainingQuantity());
+            storageDTOList.add(storageDTO);
+        }
+
+        productDTO.setStorages(storageDTOList);
+
+        return productDTO;
     }
 }
