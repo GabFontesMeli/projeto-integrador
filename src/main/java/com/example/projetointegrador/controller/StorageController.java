@@ -20,6 +20,6 @@ public class StorageController {
 
     @GetMapping("/{productId}")
     public ResponseEntity<ProductDTO> getBatchProductsByProductIdAndStorage(@PathVariable Long productId) throws ProductNotFoundException {
-        return new ResponseEntity<>(batchProductService.getBatchProductsByProductIdAndStorage(productId), HttpStatus.OK);
+        return new ResponseEntity<>(batchProductService.getStorageQuantityByProductId(productId), HttpStatus.OK);
     }
 }
