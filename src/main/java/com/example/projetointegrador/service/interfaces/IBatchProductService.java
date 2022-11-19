@@ -22,11 +22,11 @@ public interface IBatchProductService {
 
     void verifyExpirationDate(LocalDate expirationDate) throws ExpiredProductException;
 
-    ProductInBatchDTO findAllByProductId(Long productId);
+    ProductInBatchDTO findBatchProductsByProductId(Long productId);
 
-    ProductInBatchDTO findAllByProductIdOrdered(Long productId, String order);
+    ProductInBatchDTO findBatchProductsByProductIdOrdered(Long productId, String order);
 
-    ProductDTO getBatchProductsByProductIdAndStorage(Long productId) throws ProductNotFoundException;
+    ProductDTO getStorageQuantityByProductId(Long productId) throws ProductNotFoundException;
 
     ReportBatchProductDTO getBatchProductExpiring(Long days, Long sectionId);
 

@@ -31,7 +31,7 @@ public class BatchProductService implements IBatchProductService {
 
     @Override
     public BatchProduct getBatchProductByProductId(Long productId, Integer quantity) {
-        return batchProductRepository.findBatchProductByProductId(productId, quantity);
+        return batchProductRepository.findBatchProductByProductIdAndRemainingQuantity(productId, quantity);
     }
 
     @Override
@@ -60,8 +60,8 @@ public class BatchProductService implements IBatchProductService {
         }
     }
 
-    public ProductInBatchDTO findAllByProductId(Long productId) {
-        List<BatchProduct> batchProducts = batchProductRepository.findAllByProductId(productId);
+    public ProductInBatchDTO findBatchProductsByProductId(Long productId) {
+        List<BatchProduct> batchProducts = batchProductRepository.findBatchProductsByProductId(productId);
 
         return ProductInBatchDTO.builder()
                 .productId(productId)
@@ -82,8 +82,8 @@ public class BatchProductService implements IBatchProductService {
     }
 
     @Override
-    public ProductInBatchDTO findAllByProductIdOrdered(Long productId, String order) {
-        ProductInBatchDTO productInBatchDTO = findAllByProductId(productId);
+    public ProductInBatchDTO findBatchProductsByProductIdOrdered(Long productId, String order) {
+        ProductInBatchDTO productInBatchDTO = findBatchProductsByProductId(productId);
 
         List<BatchProductDTO> orderedBatchProducts = productInBatchDTO.getBatchProducts();
 
@@ -104,7 +104,7 @@ public class BatchProductService implements IBatchProductService {
     }
 
     @Override
-    public ProductDTO getBatchProductsByProductIdAndStorage(Long productId) throws ProductNotFoundException {
+    public ProductDTO getStorageQuantityByProductId(Long productId) throws ProductNotFoundException {
         List<BatchProduct> batchProductList = batchProductRepository.findBatchProductsByProductId(productId);
         if (batchProductList.isEmpty()) {
             throw new ProductNotFoundException("product not found in our stock");

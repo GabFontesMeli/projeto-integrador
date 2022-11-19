@@ -34,13 +34,13 @@ public class BatchProductController {
     }
 
     @GetMapping("/list/{productId}")
-    public ResponseEntity<ProductInBatchDTO> findAllByProductId(@PathVariable Long productId) {
-        return new ResponseEntity<>(batchProductService.findAllByProductId(productId), HttpStatus.OK);
+    public ResponseEntity<ProductInBatchDTO> findBatchProductsByProductId(@PathVariable Long productId) {
+        return new ResponseEntity<>(batchProductService.findBatchProductsByProductId(productId), HttpStatus.OK);
     }
 
     @GetMapping("/list/{productId}/{order}")
-    public ResponseEntity<ProductInBatchDTO> findAllByProductIdOrdered(@PathVariable Long productId,
+    public ResponseEntity<ProductInBatchDTO> findBatchProductsByProductIdOrdered(@PathVariable Long productId,
             @PathVariable String order) {
-        return new ResponseEntity<>(batchProductService.findAllByProductIdOrdered(productId, order), HttpStatus.OK);
+        return new ResponseEntity<>(batchProductService.findBatchProductsByProductIdOrdered(productId, order), HttpStatus.OK);
     }
 }
