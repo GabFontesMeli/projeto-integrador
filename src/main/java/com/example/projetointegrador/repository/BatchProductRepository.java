@@ -20,4 +20,6 @@ public interface BatchProductRepository extends JpaRepository<BatchProduct, Long
 
     @Query(value = "select * from batch_product where product_id = ?1", nativeQuery = true)
     List<BatchProduct> findAllByProductId(Long productId);
+
+    List<BatchProduct> findBatchProductsByProductId(Long productId);
 }

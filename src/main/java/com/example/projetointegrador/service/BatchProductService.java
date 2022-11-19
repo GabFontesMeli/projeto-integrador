@@ -2,6 +2,7 @@ package com.example.projetointegrador.service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,9 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.projetointegrador.dto.BatchProductDTO;
+import com.example.projetointegrador.dto.ProductDTO;
 import com.example.projetointegrador.dto.ProductInBatchDTO;
 import com.example.projetointegrador.dto.SectionDTO;
+import com.example.projetointegrador.dto.StorageDTO;
 import com.example.projetointegrador.exceptions.ExpiredProductException;
+import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.model.BatchProduct;
 import com.example.projetointegrador.repository.BatchProductRepository;
 import com.example.projetointegrador.service.interfaces.IBatchProductService;
@@ -89,5 +93,27 @@ public class BatchProductService implements IBatchProductService {
                     .sorted(Comparator.comparing(BatchProductDTO::getExpirationDate)).collect(Collectors.toList()));
 
         return productInBatchDTO;
+
+    }
+
+    @Override
+    public ProductDTO getBatchProductsByProductIdAndStorage(Long productId) throws ProductNotFoundException {
+        List<BatchProduct> batchProductList = batchProductRepository.findBatchProductsByProductId(productId);
+        if (batchProductList.isEmpty()) {
+            throw new ProductNotFoundException("product not found in our stock");
+        }
+        ProductDTO productDTO = new ProductDTO();
+        List<StorageDTO> storageDTOList = new ArrayList<>();
+        productDTO.setProductId(batchProductList.get(0).getProduct().getId());
+
+        for (BatchProduct batchProduct : batchProductList) {
+            StorageDTO storageDTO = new StorageDTO(batchProduct.getBatch().getStorage().getId(),
+                    batchProduct.getRemainingQuantity());
+            storageDTOList.add(storageDTO);
+        }
+
+        productDTO.setStorages(storageDTOList);
+
+        return productDTO;
     }
 }
