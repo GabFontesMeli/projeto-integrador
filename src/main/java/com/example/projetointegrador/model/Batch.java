@@ -26,7 +26,7 @@ public class Batch {
     private Storage storage;
 
     @OneToMany(mappedBy = "batch", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"batch", "product"})
+    @JsonIgnoreProperties("batch")
     Set<BatchProduct> batchProduct = new HashSet<>();
 
     public Batch(BatchDTO batchDTO) {

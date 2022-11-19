@@ -2,7 +2,10 @@ package com.example.projetointegrador.setup;
 
 import com.example.projetointegrador.dto.BatchDTO;
 import com.example.projetointegrador.model.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,16 +13,25 @@ import java.util.HashSet;
 import java.util.Set;
 
 abstract public class BaseTest {
-   protected Batch batch = new Batch();
-   protected Section section = new Section();
-   protected Storage storage = new Storage();
 
-   protected BatchProduct batchProductPayload = new BatchProduct();
-   protected Set<BatchProduct> batchProductsPayload = new HashSet<>();
-   protected Set<BatchProduct> batchProductsResponse = new HashSet<>();
-   protected BatchDTO batchDTO = new BatchDTO();
+    @Autowired
+    protected ObjectMapper objectMapper;
+
+    protected Batch batch = new Batch();
+    protected Section section = new Section();
+    protected Storage storage = new Storage();
+
+    protected BatchProduct batchProductPayload = new BatchProduct();
+    protected Set<BatchProduct> batchProductsPayload = new HashSet<>();
+    protected Set<BatchProduct> batchProductsResponse = new HashSet<>();
+    protected BatchDTO batchDTO = new BatchDTO();
+
+    protected Category category = new Category();
+    protected Product product = new Product();
 
     protected Product productForTest = new Product();
+
+    protected String path = "src/test/java/com/example/projetointegrador/utils";
 
     protected Set<BatchProduct> batchProductsBuilder(Product product) {
         Set<BatchProduct> batchProducts = new HashSet<>();
@@ -37,16 +49,30 @@ abstract public class BaseTest {
 
         batch.setId(1L);
 
-        section.setId(1L);
-        section.setName("teste1");
-        section.setTemperature(3.1f);
+        storage.setId(1L);
+        storage.setVolume(100000.0f);
 
-        Product product = new Product();
+        category.setId(1L);
+        category.setName("Fresco");
+
+        section.setId(1L);
+        section.setName("Estoque de melancias");
+        section.setCategory(category);
+        section.setTemperature(3.1f);
+        section.setVolume(200.0f);
+
         product.setId(1L);
+        product.setName("Melancia");
+        product.setCategory(category);
+        product.setVolume(3.1f);
+
+        batchProductPayload.setBatch(batch);
         batchProductPayload.setProduct(product);
         batchProductPayload.setQuantity(10);
-        batchProductPayload.setManufacturingDate(LocalDate.parse("2022-12-10"));
-        batchProductPayload.setExpirationDate(LocalDate.parse("2023-01-01"));
+        batchProductPayload.setManufacturingDate(LocalDate.parse("2022-10-10"));
+        batchProductPayload.setExpirationDate(LocalDate.parse("2022-12-10"));
+        batchProductPayload.setSection(section);
+        batchProductPayload.setRemainingQuantity(10);
         batchProductsPayload.add(batchProductPayload);
 
         BatchProduct batchProductResponse = new BatchProduct();
@@ -55,9 +81,6 @@ abstract public class BaseTest {
         batchProductResponse.setManufacturingDate(LocalDate.parse("2022-12-10"));
         batchProductResponse.setExpirationDate(LocalDate.parse("2023-01-01"));
         batchProductsResponse.add(batchProductResponse);
-
-        storage.setId(1L);
-        storage.setVolume(100.0f);
 
         batch.setStorage(storage);
         batch.setBatchProduct(batchProductsResponse);

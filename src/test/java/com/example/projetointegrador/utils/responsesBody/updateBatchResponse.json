@@ -1,0 +1,44 @@
+{
+	"id": 1,
+	"storage": {
+		"id": 1,
+		"volume": 100000.0,
+		"users": []
+	},
+	"batchProduct": [
+		{
+			"id": 2,
+			"product": {
+				"id": 4,
+				"name": "carne bovina",
+				"price": 10.0,
+				"volume": 7.0,
+				"users": []
+			},
+			"quantity": 20,
+			"manufacturingDate": "2022-12-23",
+			"expirationDate": null,
+			"section": {
+				"id": 1
+			},
+			"remainingQuantity": 20
+		},
+		{
+			"id": 1,
+			"product": {
+				"id": 1,
+				"name": "banana",
+				"price": 4.0,
+				"volume": 5.0,
+				"users": []
+			},
+			"quantity": 12,
+			"manufacturingDate": "2022-12-10",
+			"expirationDate": "2023-01-01",
+			"section": {
+				"id": 1
+			},
+			"remainingQuantity": 12
+		}
+	]
+}

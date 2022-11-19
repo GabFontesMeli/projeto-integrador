@@ -1,0 +1,61 @@
+{
+  "id": 1,
+  "storage": {
+    "id": 1,
+    "volume": 100000.0,
+    "users": []
+  },
+  "batchProduct": [
+    {
+      "id": 1,
+      "product": {
+        "id": 1,
+        "name": "banana",
+        "price": 4.0,
+        "volume": 5.0,
+        "users": []
+      },
+      "quantity": 100,
+      "manufacturingDate": "2020-01-01",
+      "expirationDate": null,
+      "section": {
+        "id": 1
+      },
+      "remainingQuantity": 100
+    },
+    {
+      "id": 3,
+      "product": {
+        "id": 4,
+        "name": "frango",
+        "price": 10.0,
+        "volume": 5.0,
+        "users": []
+      },
+      "quantity": 40,
+      "manufacturingDate": "2022-11-10",
+      "expirationDate": null,
+      "section": {
+        "id": 3
+      },
+      "remainingQuantity": 40
+    },
+    {
+      "id": 2,
+      "product": {
+        "id": 2,
+        "name": "morango",
+        "price": 4.0,
+        "volume": 5.0,
+        "users": []
+      },
+      "quantity": 50,
+      "manufacturingDate": "2020-01-01",
+      "expirationDate": null,
+      "section": {
+        "id": 1
+      },
+      "remainingQuantity": 50
+    }
+  ]
+}
