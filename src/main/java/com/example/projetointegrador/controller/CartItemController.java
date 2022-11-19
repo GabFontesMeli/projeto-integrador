@@ -19,6 +19,11 @@ public class CartItemController {
     @Autowired
     private CartItemService cartService;
 
+    /**
+     * Return all cart items.
+     * @param cartId Id of the cart to be returned.
+     * @return List of cart items.
+     */
    @GetMapping("/{cartId}")
     public ResponseEntity<List<CartItem>> getCartItems(@PathVariable Long cartId){
         return new ResponseEntity<>(cartService.getCartItems(cartId), HttpStatus.OK);
