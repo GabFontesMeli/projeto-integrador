@@ -1,6 +1,7 @@
 package com.example.projetointegrador.service.interfaces;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.example.projetointegrador.dto.ProductDTO;
 import com.example.projetointegrador.dto.ProductInBatchDTO;
@@ -16,6 +17,8 @@ public interface IBatchProductService {
     Float findVolumeBySection(Long SectionId);
 
     BatchProduct save(BatchProduct batchProduct);
+
+    void saveAll(List<BatchProduct> batchProducts);
 
     void verifyExpirationDate(LocalDate expirationDate) throws ExpiredProductException;
 

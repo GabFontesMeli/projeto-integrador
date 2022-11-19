@@ -46,6 +46,11 @@ public class BatchProductService implements IBatchProductService {
     }
 
     @Override
+    public void saveAll(List<BatchProduct> batchProducts) {
+       batchProductRepository.saveAll(batchProducts);
+    }
+
+    @Override
     public void verifyExpirationDate(LocalDate expirationDate) throws ExpiredProductException {
         LocalDate today = LocalDate.now();
         long difference = ChronoUnit.DAYS.between(today, expirationDate);

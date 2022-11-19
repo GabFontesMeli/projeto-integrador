@@ -11,7 +11,13 @@ INSERT INTO Batch
 VALUES (1, 1);
 
 INSERT INTO Product(id, name, price, volume, category_id)
-VALUES (1, 'banana', 4.00, 5.00, 1), (2, 'queijo', 4.00, 5.00, 2), (3, 'frango', 4.00, 5.00, 3), (4, 'carne bovina', 10.0, 7.0, 3);
+VALUES (1, 'banana', 4.00, 5.00, 1), (2, 'queijo', 4.00, 5.00, 2), (3, 'frango', 4.00, 5.00, 3), (4, 'carne bovina', 10.0, 7.0, 3),(5, 'leite', 10.0, 7.0, 2);
 
 INSERT INTO Batch_product(id, expiration_date, manufacturing_date, quantity, remaining_quantity, batch_id, product_id, section_id)
-VALUES (1, '2020-12-31', '2020-01-01', 10, 10, 1, 1, 1), (2, '2020-12-31', '2020-01-01', 10, 10, 1, 2, 2), (3, '2020-12-31', '2020-01-01', 10, 10, 1, 3, 3);
+VALUES (1, '2090-12-31', '2020-01-01', 10, 10, 1, 1, 1), (2, '2090-12-31', '2020-01-01', 10, 10, 1, 2, 2), (3, '2020-12-31', '2020-01-01', 10, 10, 1, 3, 3), (4, '2020-11-18', '2020-01-01', 10, 10, 1, 5, 3);
+
+INSERT INTO UserType(id, type)
+VALUES (1, 'costumer'), (2, 'seller');
+
+INSERT INTO Useru(id, email, name, usertype_id)
+VALUES (1, 'user@email.com', 'joao', 1)

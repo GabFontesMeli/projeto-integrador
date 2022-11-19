@@ -52,7 +52,7 @@ public class CartService implements ICartService{
 
         Set<CartItem> cartItemList = setCartItems(cartDTO, cart);
 
-        total = cartItemList.stream().mapToDouble(CartItem::getValue).sum();
+        total = cartItemList.stream().mapToDouble(CartItem::getItemValue).sum();
 
         cart.setCartItems(cartItemList);
         cart.setTotalValue(total);
@@ -95,20 +95,28 @@ public class CartService implements ICartService{
         List<CartItemDTO> cartItems = cartDto.getProducts();
         List<String> errors = checkProductsQuantity(cartItems);
 
-        if(!errors.isEmpty()) throw new InsufficientStockException("Erros: ", errors);
-
         Set<CartItem> cartItemList = new HashSet<>();
+        List<BatchProduct> modifiedProducts = new ArrayList<>();
 
         for (CartItemDTO cartItemDTO : cartItems) {
-            BatchProduct batchProduct = batchProductService.getBatchProductByProductId(cartItemDTO.getProductId(), cartItemDTO.getQuantity());
-            batchProductService.verifyExpirationDate(batchProduct.getExpirationDate());
             Product product = productService.findById(cartItemDTO.getProductId());
+            BatchProduct batchProduct = batchProductService.getBatchProductByProductId(cartItemDTO.getProductId(), cartItemDTO.getQuantity());
+            if(batchProduct == null) {
+                continue;
+            }
+            batchProductService.verifyExpirationDate(batchProduct.getExpirationDate());
             CartItem newCartItem = new CartItem(cartItemDTO.getQuantity(), product, batchProduct);
             newCartItem.setCart(cart);
             cartItemList.add(newCartItem);
             batchProduct.setRemainingQuantity(batchProduct.getRemainingQuantity()-cartItemDTO.getQuantity());
-            batchProductService.save(batchProduct);
+            modifiedProducts.add(batchProduct);
         }
+        if(!errors.isEmpty()) {
+            throw new InsufficientStockException("Erros: ", errors);
+        } else {
+            batchProductService.saveAll(modifiedProducts);
+        }
+
 
         return cartItemList;
     }

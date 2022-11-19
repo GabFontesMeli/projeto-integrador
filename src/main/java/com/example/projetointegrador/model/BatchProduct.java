@@ -47,6 +47,7 @@ public class BatchProduct {
 
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
+
     @ManyToOne
     @JoinColumn(name = "section_id", referencedColumnName = "id")
     @JsonIgnoreProperties({ "batchProducts",
