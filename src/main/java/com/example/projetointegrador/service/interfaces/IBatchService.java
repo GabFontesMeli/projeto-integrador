@@ -12,7 +12,7 @@ import java.util.Set;
 public interface IBatchService {
 
     Batch createBatch(BatchDTO batchDTO) throws SectionInvalidException, ProductNotFoundException, CategoryInvalidException, InsuficientVolumeException, StorageInvalidException;
-    Batch update(Long id, Set<BatchProduct> batchProductList) throws BatchInvalidException, ProductNotFoundException, SectionInvalidException, InsuficientVolumeException;
+    Batch update(Long id, Set<BatchProduct> batchProductList) throws BatchInvalidException, ProductNotFoundException, SectionInvalidException, InsuficientVolumeException, BatchProductNotFoundException;
 
     void hasRemainigVolume(Map<Section, Float> sectionsVolumes) throws InsuficientVolumeException;
 

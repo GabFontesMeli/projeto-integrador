@@ -2,6 +2,7 @@ package com.example.projetointegrador.repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -30,4 +31,5 @@ public interface BatchProductRepository extends JpaRepository<BatchProduct, Long
             "and p.category_id = ?2 " +
             "order by bp.expiration_date", nativeQuery = true)
     List<BatchProduct> findBatchProductByExpirationOrdered(LocalDate date, Long categoryId);
+    Optional<BatchProduct> findBatchProductByProductIdAndBatchId(Long productId, Long batchId);
 }

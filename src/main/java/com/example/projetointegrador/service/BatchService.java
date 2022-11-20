@@ -8,9 +8,7 @@ import com.example.projetointegrador.service.interfaces.IBatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -93,12 +91,16 @@ public class BatchService implements IBatchService {
      * @return
      */
     @Override
-    public Batch update(Long id, Set<BatchProduct> batchProductList) throws BatchInvalidException, ProductNotFoundException, SectionInvalidException, InsuficientVolumeException {
+    public Batch update(Long id, Set<BatchProduct> batchProductList) throws BatchInvalidException, ProductNotFoundException, SectionInvalidException, InsuficientVolumeException, BatchProductNotFoundException {
         Batch batch = this.findById(id);
         Map<Section, Float> sectionExpectedVolume = new HashMap<Section, Float>();
-
-        for (BatchProduct batchProduct : batchProductList) {
-
+        Set<BatchProduct> batchProducts = new HashSet<>();
+        for(BatchProduct batchProduct : batchProductList) {
+            BatchProduct newBatchProduct = batchProductService.getBatchProductByProductIdAndBatchId(batchProduct.getProduct().getId(), id);
+            newBatchProduct.setManufacturingDate(batchProduct.getManufacturingDate());
+            newBatchProduct.setQuantity(batchProduct.getQuantity());
+            newBatchProduct.setSection(batchProduct.getSection());
+            batchProducts.add(newBatchProduct);
             Product product = productService.findById(batchProduct.getProduct().getId());
             Section section = sectionService.findById(batchProduct.getSection().getId());
             if(sectionExpectedVolume.containsKey(section)) {
@@ -108,11 +110,23 @@ public class BatchService implements IBatchService {
             } else {
                 sectionExpectedVolume.put(section, product.getVolume() * batchProduct.getQuantity());
             }
-
         }
+
+//        for (BatchProduct batchProduct : batchProducts) {
+//            Product product = productService.findById(batchProduct.getProduct().getId());
+//            Section section = sectionService.findById(batchProduct.getSection().getId());
+//            if(sectionExpectedVolume.containsKey(section)) {
+//                Float expectedVolume = sectionExpectedVolume.get(section);
+//                expectedVolume += product.getVolume() * batchProduct.getQuantity();
+//                sectionExpectedVolume.put(section, expectedVolume);
+//            } else {
+//                sectionExpectedVolume.put(section, product.getVolume() * batchProduct.getQuantity());
+//            }
+
+
         hasRemainigVolume(sectionExpectedVolume);
 
-        batch.addProducts(batchProductList);
+        batch.addProducts(batchProducts);
 
         return batchRepository.save(batch);
     }

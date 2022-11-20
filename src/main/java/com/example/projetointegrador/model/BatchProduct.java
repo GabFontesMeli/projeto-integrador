@@ -1,6 +1,7 @@
 package com.example.projetointegrador.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -66,6 +67,19 @@ public class BatchProduct {
     @PrePersist
     private void setup() {
         this.remainingQuantity = this.quantity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BatchProduct that = (BatchProduct) o;
+        return Objects.equals(id, that.id) && batch.equals(that.batch) && product.equals(that.product) && Objects.equals(section, that.section);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, batch, product, section);
     }
 
     @Override

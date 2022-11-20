@@ -6,6 +6,7 @@ import java.util.List;
 import com.example.projetointegrador.dto.ProductDTO;
 import com.example.projetointegrador.dto.ProductInBatchDTO;
 import com.example.projetointegrador.dto.ReportBatchProductDTO;
+import com.example.projetointegrador.exceptions.BatchProductNotFoundException;
 import com.example.projetointegrador.exceptions.ExpiredProductException;
 import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.model.BatchProduct;
@@ -31,4 +32,6 @@ public interface IBatchProductService {
     ReportBatchProductDTO getBatchProductExpiring(Long days, Long sectionId);
 
     ReportBatchProductDTO getBatchProductExpiringOrdered(Long days, Long categoryId, String order);
+
+    BatchProduct getBatchProductByProductIdAndBatchId(Long productId, Long batchId) throws BatchProductNotFoundException;
 }

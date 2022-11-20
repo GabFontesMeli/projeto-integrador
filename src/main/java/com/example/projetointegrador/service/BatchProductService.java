@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.projetointegrador.exceptions.BatchProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -146,6 +147,12 @@ public class BatchProductService implements IBatchProductService {
                 categoryId);
 
         return buildReportBatchProduct(batchProducts);
+    }
+
+    @Override
+    public BatchProduct getBatchProductByProductIdAndBatchId(Long productId, Long batchId) throws BatchProductNotFoundException {
+        return batchProductRepository.findBatchProductByProductIdAndBatchId(productId, batchId).orElseThrow(() ->
+                new BatchProductNotFoundException("batch product not found"));
     }
 
     private ReportBatchProductDTO buildReportBatchProduct(List<BatchProduct> batchProducts) {
