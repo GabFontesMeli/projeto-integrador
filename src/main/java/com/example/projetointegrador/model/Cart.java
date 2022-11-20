@@ -27,7 +27,7 @@ public class Cart {
     @JsonIgnoreProperties("products")
     private UserU user;
 
-    @Column(nullable = false)
+    @Column(name = "total_value", nullable = false)
     private Double totalValue;
 
     @Column(nullable = false)

@@ -13,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "cart_item")
 public class CartItem {
 
     @Id
@@ -28,13 +29,12 @@ public class CartItem {
     @ManyToOne
     @JoinColumn(name = "batch_product_id", referencedColumnName = "id")
     @JsonIgnoreProperties("volume")
-    @JsonUnwrapped
     private BatchProduct batchProduct;
 
     @Column(nullable = false)
     private Integer quantity;
 
-    @Column(nullable = false)
+    @Column(name = "item_value", nullable = false)
     private Double itemValue;
 
     public CartItem(Integer incomingQuantity, Product incomingProduct, BatchProduct batchProduct) {

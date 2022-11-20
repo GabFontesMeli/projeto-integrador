@@ -12,6 +12,9 @@ INSERT INTO Batch_Product(id, expiration_date, manufacturing_date, quantity, rem
 VALUES (1, '2024-12-01','2020-01-01', 100, 100, 3, 1, 1), (2, '2024-01-01','2020-01-01', 50, 50, 1, 2, 1), (3, '2026-01-01','2020-01-01', 50, 50, 2, 1, 1), (4, '2025-01-01','2020-01-01', 20, 20, 1, 1, 1), (5, '2022-11-20','2020-01-01', 20, 20, 1, 5, 1);
 INSERT INTO user_type (id, type)
 VALUES (1, 'seller'), (2, 'costumer');
-INSERT INTO useru (id, email, name, userType_id)
+INSERT INTO useru (id, email, name, user_type_id)
 VALUES (1, 'teste@teste.com', 'teste', 1);
-
+INSERT INTO cart (id, date, status, total_value, user_id)
+VALUES (1, '2020-11-12', 'OPEN', 8.00 , 1);
+INSERT INTO cart_item (id, cart_id, batch_product_id, quantity, item_value)
+VALUES (1, 1, 1, 2, 8.00);

@@ -1,6 +1,9 @@
 package com.example.projetointegrador.setup;
 
 import com.example.projetointegrador.dto.BatchDTO;
+import com.example.projetointegrador.dto.CartDTO;
+import com.example.projetointegrador.dto.CartItemDTO;
+import com.example.projetointegrador.enums.CartStatusEnum;
 import com.example.projetointegrador.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -9,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 abstract public class BaseTest {
 
@@ -25,6 +27,8 @@ abstract public class BaseTest {
     protected Set<BatchProduct> batchProductsPayload = new HashSet<>();
     protected Set<BatchProduct> batchProductsResponse = new HashSet<>();
     protected BatchDTO batchDTO = new BatchDTO();
+
+    protected CartDTO cartDTO = new CartDTO();
 
     protected Category category = new Category();
     protected Product product = new Product();
@@ -84,6 +88,14 @@ abstract public class BaseTest {
 
         batch.setStorage(storage);
         batch.setBatchProduct(batchProductsResponse);
+
+        cartDTO.setUserId(999L);
+        cartDTO.setDate(LocalDate.now());
+        cartDTO.setStatus(CartStatusEnum.OPEN);
+        List<CartItemDTO> cartItemDTOList = Arrays.asList(
+                new CartItemDTO(2L, 5),
+                new CartItemDTO(1L, 4));
+        cartDTO.setProducts(cartItemDTOList);
 
         batchDTO.setStorageId(1L);
         batchDTO.setProducts(batchProductsPayload);
