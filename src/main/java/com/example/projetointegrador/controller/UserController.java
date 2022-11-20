@@ -2,6 +2,8 @@ package com.example.projetointegrador.controller;
 
 
 import com.example.projetointegrador.dto.UserDTO;
+import com.example.projetointegrador.exceptions.ProductNotFoundException;
+import com.example.projetointegrador.exceptions.UserUNotFoundException;
 import com.example.projetointegrador.model.UserU;
 import com.example.projetointegrador.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +31,12 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) throws UserUNotFoundException, ProductNotFoundException {
         return new ResponseEntity<>(userService.updateUser(userId, userDTO), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) throws UserUNotFoundException {
         return new ResponseEntity<>(userService.deleteUser(userId), HttpStatus.NO_CONTENT);
     }
 }

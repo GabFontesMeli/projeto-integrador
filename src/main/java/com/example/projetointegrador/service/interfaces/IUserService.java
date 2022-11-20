@@ -1,6 +1,8 @@
 package com.example.projetointegrador.service.interfaces;
 
 import com.example.projetointegrador.dto.UserDTO;
+import com.example.projetointegrador.exceptions.ProductNotFoundException;
+import com.example.projetointegrador.exceptions.UserUNotFoundException;
 import com.example.projetointegrador.model.UserU;
 
 import java.util.List;
@@ -12,7 +14,7 @@ public interface IUserService {
 
     List<UserDTO> getUsers();
 
-    UserDTO updateUser(Long userId, UserDTO userDTO);
+    UserDTO updateUser(Long userId, UserDTO userDTO) throws ProductNotFoundException, UserUNotFoundException;
 
-    Void deleteUser(Long userId);
+    Void deleteUser(Long userId) throws UserUNotFoundException;
 }

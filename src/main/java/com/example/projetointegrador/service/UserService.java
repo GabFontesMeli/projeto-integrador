@@ -1,6 +1,8 @@
 package com.example.projetointegrador.service;
 
 import com.example.projetointegrador.dto.UserDTO;
+import com.example.projetointegrador.exceptions.ProductNotFoundException;
+import com.example.projetointegrador.exceptions.UserUNotFoundException;
 import com.example.projetointegrador.model.UserU;
 import com.example.projetointegrador.repository.UserRepository;
 import com.example.projetointegrador.repository.UserTypeRepository;
@@ -44,8 +46,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDTO updateUser(Long userId, UserDTO userDTO) {
+    public UserDTO updateUser(Long userId, UserDTO userDTO) throws UserUNotFoundException {
         UserU userU = userRepo.findUserUById(userId);
+
+        if(userU == null) throw new UserUNotFoundException("user not found");
 
         if (userDTO.getName() != null) userU.setName(userDTO.getName());
         if (userDTO.getEmail() != null) userU.setEmail(userDTO.getEmail());
@@ -63,7 +67,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Void deleteUser(Long userId) {
+    public Void deleteUser(Long userId) throws UserUNotFoundException {
+
+        UserU userU = userRepo.findUserUById(userId);
+
+        if(userU == null) throw new UserUNotFoundException("user not found");
+
         userRepo.deleteById(userId);
         return null;
     }
