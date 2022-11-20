@@ -62,6 +62,7 @@ public class BatchProductService implements IBatchProductService {
 
     public ProductInBatchDTO findBatchProductsByProductId(Long productId) {
         List<BatchProduct> batchProducts = batchProductRepository.findBatchProductsByProductId(productId);
+        System.out.println(batchProducts);
 
         return ProductInBatchDTO.builder()
                 .productId(productId)

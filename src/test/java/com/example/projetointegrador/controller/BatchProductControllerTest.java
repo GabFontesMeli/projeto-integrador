@@ -31,7 +31,7 @@ public class BatchProductControllerTest extends BaseTest {
     public void findAllByProductIdShouldReturnProductInBatchDTO() throws Exception {
 
         ProductInBatchDTO response = objectMapper.readValue(
-                new File(path + "/responsesBody/BatchProduct/findAllByProductIdResponse.json"),
+                new File(path + "/responsesBody/BatchProduct/findBatchProductsByProductIdResponse.json"),
                 ProductInBatchDTO.class);
 
         BDDMockito.given(batchProductService.findBatchProductsByProductId(any(Long.class))).willReturn(response);
