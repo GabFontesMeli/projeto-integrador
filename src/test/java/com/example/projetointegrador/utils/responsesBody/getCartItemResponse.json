@@ -1,0 +1,31 @@
+{
+	"id": 1,
+	"cart": {
+		"id": 1,
+		"date": "2022-12-12",
+		"user": {
+			"id": 1,
+            "name": "name",
+			"email": "email",
+			"userType": {
+				"id": 1,
+                "type": "typ"
+			}
+		},
+		"totalValue": 1.0,
+		"status": "status"
+
+	},
+	"batchProduct": {
+		"id": 1,
+		"quantity": 12,
+		"manufacturingDate": "2022-12-10",
+		"expirationDate": "2023-01-01",
+		"section": {
+			"id": 1
+		},
+		"remainingQuantity": 12
+	},
+	"quantity": 10,
+	"itemValue": 1.0
+}
