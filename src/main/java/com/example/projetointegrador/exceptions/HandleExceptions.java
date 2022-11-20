@@ -129,4 +129,28 @@ public class HandleExceptions {
 
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(InvalidDateFormatException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(InvalidDateFormatException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("invalid date format")
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CartNotFoundException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(CartNotFoundException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("cart not found")
+                .message(ex.getMessage())
+                .status(HttpStatus.NOT_FOUND.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
+    }
 }
