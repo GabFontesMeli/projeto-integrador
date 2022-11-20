@@ -8,7 +8,10 @@ import com.example.projetointegrador.service.interfaces.IBatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 
 @Service
@@ -111,18 +114,6 @@ public class BatchService implements IBatchService {
                 sectionExpectedVolume.put(section, product.getVolume() * batchProduct.getQuantity());
             }
         }
-
-//        for (BatchProduct batchProduct : batchProducts) {
-//            Product product = productService.findById(batchProduct.getProduct().getId());
-//            Section section = sectionService.findById(batchProduct.getSection().getId());
-//            if(sectionExpectedVolume.containsKey(section)) {
-//                Float expectedVolume = sectionExpectedVolume.get(section);
-//                expectedVolume += product.getVolume() * batchProduct.getQuantity();
-//                sectionExpectedVolume.put(section, expectedVolume);
-//            } else {
-//                sectionExpectedVolume.put(section, product.getVolume() * batchProduct.getQuantity());
-//            }
-
 
         hasRemainigVolume(sectionExpectedVolume);
 

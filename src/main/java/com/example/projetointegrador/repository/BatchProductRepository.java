@@ -1,13 +1,12 @@
 package com.example.projetointegrador.repository;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-
+import com.example.projetointegrador.model.BatchProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.example.projetointegrador.model.BatchProduct;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 public interface BatchProductRepository extends JpaRepository<BatchProduct, Long> {
 
