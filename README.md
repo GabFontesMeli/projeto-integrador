@@ -34,7 +34,7 @@ Sendo o foco desse relatório um gerenciamento do fluxo de vendas.
 
 6-
 
-## Features
+## Features - Iara
 CRUD completo de usuário
 
 - Endpoint para buscar todos os usuários cadastrados no banco de dados
