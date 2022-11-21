@@ -1,11 +1,7 @@
 package com.example.projetointegrador.service;
 
 import com.example.projetointegrador.dto.BatchDTO;
-import com.example.projetointegrador.exceptions.CategoryInvalidException;
-import com.example.projetointegrador.exceptions.InsuficientVolumeException;
-import com.example.projetointegrador.exceptions.ProductNotFoundException;
-import com.example.projetointegrador.exceptions.SectionInvalidException;
-import com.example.projetointegrador.exceptions.StorageInvalidException;
+import com.example.projetointegrador.exceptions.*;
 import com.example.projetointegrador.model.Batch;
 import com.example.projetointegrador.model.BatchProduct;
 import com.example.projetointegrador.model.Category;
@@ -120,7 +116,7 @@ public class BatchServiceTest extends BaseTest {
     }
 
     @Test
-    void updateBatchShouldReturnBatch() throws IOException, SectionInvalidException, ProductNotFoundException {
+    void updateBatchShouldReturnBatch() throws IOException, SectionInvalidException, ProductNotFoundException, BatchProductNotFoundException {
 
         ObjectMapper mp = new ObjectMapper();
         mp.findAndRegisterModules();
@@ -133,11 +129,14 @@ public class BatchServiceTest extends BaseTest {
 
         Batch returningBatch = mp.readValue(new File(path + "/responsesBody/updateBatchResponse.json"), Batch.class);
 
+        BatchProduct returningBatchProduct = mp.readValue(new File(path + "/responsesBody/batchProductResponse.json"), BatchProduct.class);
+
         BDDMockito.given(productService.findById(any(Long.class))).willReturn(product);
         BDDMockito.given(sectionService.findById(any(Long.class))).willReturn(section);
         BDDMockito.given(batchProductService.findVolumeBySection(any(Long.class))).willReturn(0f);
         BDDMockito.given(batchRepository.findById(any(Long.class))).willReturn(Optional.of(returnOfFindById));
         BDDMockito.given(batchRepository.save(any(Batch.class))).willReturn(returningBatch);
+        BDDMockito.given(batchProductService.getBatchProductByProductIdAndBatchId(any(Long.class),any(Long.class))).willReturn(returningBatchProduct);
 
         Batch response = null;
         try {

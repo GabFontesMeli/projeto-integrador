@@ -1,0 +1,14 @@
+{
+  "productId": 1,
+  "section": {
+    "id": 1,
+    "storageId": 1
+  },
+  "batchProducts": [
+    {
+      "batchId": 1,
+      "remainingQuantity": 100,
+      "expirationDate": "2022-01-01"
+    }
+  ]
+}

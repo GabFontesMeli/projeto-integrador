@@ -1,0 +1,39 @@
+[
+  {
+    "id": 1,
+    "batch":{
+      "id": 1
+    },
+    "product": {
+      "id": 1,
+      "name": null,
+      "price": null,
+      "volume": null,
+      "users": null
+    },
+    "quantity": 12,
+    "manufacturingDate": "2022-12-10",
+    "expirationDate": "2023-01-01",
+    "section": {
+      "id": 1
+    },
+    "remainingQuantity": 12
+  },
+  {
+    "id": 2,
+    "product": {
+      "id": 1,
+      "name": null,
+      "price": null,
+      "volume": null,
+      "users": null
+    },
+    "quantity": 22,
+    "manufacturingDate": "2022-12-10",
+    "expirationDate": "2023-01-01",
+    "section": {
+      "id": 1
+    },
+    "remainingQuantity": 22
+  }
+]

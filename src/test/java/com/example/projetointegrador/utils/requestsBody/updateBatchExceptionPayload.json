@@ -1,0 +1,12 @@
+[
+  {
+    "product": {
+      "id": 10
+    },
+    "quantity": 20,
+    "manufacturingDate": "2022-12-23",
+    "section": {
+      "id": 1
+    }
+  }
+]

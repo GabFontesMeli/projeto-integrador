@@ -130,6 +130,18 @@ public class HandleExceptions {
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(BatchProductNotFoundException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(BatchProductNotFoundException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("batch product not found")
+                .message(ex.getMessage())
+                .status(HttpStatus.NOT_FOUND.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(InvalidDateFormatException.class)
     public ResponseEntity<ExceptionDetails> handleInvalidFields(InvalidDateFormatException ex) {
         ExceptionDetails exceptionDetails = ExceptionDetails.builder()
