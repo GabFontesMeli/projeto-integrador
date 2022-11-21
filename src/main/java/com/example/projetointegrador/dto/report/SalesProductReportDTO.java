@@ -1,4 +1,4 @@
-package com.example.projetointegrador.dto;
+package com.example.projetointegrador.dto.report;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -12,11 +12,15 @@ import java.util.List;
 @Setter
 @Builder
 public class SalesProductReportDTO {
+
     private String salesProductReport;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String user;
+
     private Integer totalProduct;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<SalesProductReportListDTO> products;
 
 }

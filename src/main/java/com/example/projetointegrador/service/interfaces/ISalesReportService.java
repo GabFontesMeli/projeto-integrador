@@ -1,7 +1,6 @@
 package com.example.projetointegrador.service.interfaces;
 
-import com.example.projetointegrador.dto.SalesProductReportDTO;
-import com.example.projetointegrador.dto.SalesProductReportListDTO;
+import com.example.projetointegrador.dto.report.SalesProductReportDTO;
 import com.example.projetointegrador.exceptions.PeriodInvalidException;
 
 import java.time.LocalDate;
