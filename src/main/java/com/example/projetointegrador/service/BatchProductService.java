@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.projetointegrador.exceptions.InvalidOrderTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +18,7 @@ import com.example.projetointegrador.dto.ReportProductDTO;
 import com.example.projetointegrador.dto.SectionDTO;
 import com.example.projetointegrador.dto.StorageDTO;
 import com.example.projetointegrador.exceptions.ExpiredProductException;
+import com.example.projetointegrador.exceptions.InvalidOrderTypeException;
 import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.model.BatchProduct;
 import com.example.projetointegrador.repository.BatchProductRepository;
@@ -32,7 +32,7 @@ public class BatchProductService implements IBatchProductService {
 
     @Override
     public BatchProduct getBatchProductByProductId(Long productId, Integer quantity) {
-        return batchProductRepository.findBatchProductByProductId(productId, quantity);
+        return batchProductRepository.findBatchProductByProductIdAndRemainingQuantity(productId, quantity);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class BatchProductService implements IBatchProductService {
 
     @Override
     public void saveAll(List<BatchProduct> batchProducts) {
-       batchProductRepository.saveAll(batchProducts);
+        batchProductRepository.saveAll(batchProducts);
     }
 
     @Override
@@ -61,8 +61,8 @@ public class BatchProductService implements IBatchProductService {
         }
     }
 
-    public ProductInBatchDTO findAllByProductId(Long productId) throws ProductNotFoundException {
-        List<BatchProduct> batchProducts = batchProductRepository.findAllByProductId(productId);
+    public ProductInBatchDTO findBatchProductsByProductId(Long productId) throws ProductNotFoundException {
+        List<BatchProduct> batchProducts = batchProductRepository.findBatchProductsByProductId(productId);
 
         if (batchProducts.isEmpty()) {
             throw new ProductNotFoundException("could not found a product with this id.");
@@ -87,8 +87,9 @@ public class BatchProductService implements IBatchProductService {
     }
 
     @Override
-    public ProductInBatchDTO findAllByProductIdOrdered(Long productId, String order) throws InvalidOrderTypeException, ProductNotFoundException {
-        ProductInBatchDTO productInBatchDTO = findAllByProductId(productId);
+    public ProductInBatchDTO findBatchProductsByProductIdOrdered(Long productId, String order)
+            throws ProductNotFoundException {
+        ProductInBatchDTO productInBatchDTO = findBatchProductsByProductId(productId);
 
         List<BatchProductDTO> orderedBatchProducts = productInBatchDTO.getBatchProducts();
 
@@ -110,11 +111,12 @@ public class BatchProductService implements IBatchProductService {
             return productInBatchDTO;
         }
 
-        else throw new InvalidOrderTypeException("this order type does not exist");
+        else
+            throw new InvalidOrderTypeException("this order type does not exist");
     }
 
     @Override
-    public ProductDTO getBatchProductsByProductIdAndStorage(Long productId) throws ProductNotFoundException {
+    public ProductDTO getStorageQuantityByProductId(Long productId) throws ProductNotFoundException {
         List<BatchProduct> batchProductList = batchProductRepository.findBatchProductsByProductId(productId);
         if (batchProductList.isEmpty()) {
             throw new ProductNotFoundException("product not found in our stock");
