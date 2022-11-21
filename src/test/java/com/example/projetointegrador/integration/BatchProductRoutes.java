@@ -39,9 +39,15 @@ public class BatchProductRoutes extends BaseTest {
                 .andExpect(jsonPath("$.section.id").value(1))
                 .andExpect(jsonPath("$.section.storageId").value(1))
                 .andExpect(jsonPath("$.batchProducts", hasSize(3)))
-                .andExpect(jsonPath("$.batchProducts[0].batchId").value(1))
+                .andExpect(jsonPath("$.batchProducts[0].batchId").value(3))
                 .andExpect(jsonPath("$.batchProducts[0].remainingQuantity").value(100))
-                .andExpect(jsonPath("$.batchProducts[0].expirationDate").value("2024-12-01"));
+                .andExpect(jsonPath("$.batchProducts[0].expirationDate").value("2024-12-01"))
+                .andExpect(jsonPath("$.batchProducts[1].batchId").value(2))
+                .andExpect(jsonPath("$.batchProducts[1].remainingQuantity").value(50))
+                .andExpect(jsonPath("$.batchProducts[1].expirationDate").value("2026-01-01"))
+                .andExpect(jsonPath("$.batchProducts[2].batchId").value(1))
+                .andExpect(jsonPath("$.batchProducts[2].remainingQuantity").value(20))
+                .andExpect(jsonPath("$.batchProducts[2].expirationDate").value("2025-01-01"));
     }
 
     @Test
@@ -61,10 +67,10 @@ public class BatchProductRoutes extends BaseTest {
                 .andExpect(jsonPath("$.batchProducts[0].batchId").value(1))
                 .andExpect(jsonPath("$.batchProducts[0].remainingQuantity").value(20))
                 .andExpect(jsonPath("$.batchProducts[0].expirationDate").value("2025-01-01"))
-                .andExpect(jsonPath("$.batchProducts[1].batchId").value(1))
+                .andExpect(jsonPath("$.batchProducts[1].batchId").value(2))
                 .andExpect(jsonPath("$.batchProducts[1].remainingQuantity").value(50))
                 .andExpect(jsonPath("$.batchProducts[1].expirationDate").value("2026-01-01"))
-                .andExpect(jsonPath("$.batchProducts[2].batchId").value(1))
+                .andExpect(jsonPath("$.batchProducts[2].batchId").value(3))
                 .andExpect(jsonPath("$.batchProducts[2].remainingQuantity").value(100))
                 .andExpect(jsonPath("$.batchProducts[2].expirationDate").value("2024-12-01"));
     }
@@ -83,13 +89,13 @@ public class BatchProductRoutes extends BaseTest {
                 .andExpect(jsonPath("$.section.id").value(1))
                 .andExpect(jsonPath("$.section.storageId").value(1))
                 .andExpect(jsonPath("$.batchProducts", hasSize(3)))
-                .andExpect(jsonPath("$.batchProducts[0].batchId").value(1))
+                .andExpect(jsonPath("$.batchProducts[0].batchId").value(3))
                 .andExpect(jsonPath("$.batchProducts[0].remainingQuantity").value(100))
                 .andExpect(jsonPath("$.batchProducts[0].expirationDate").value("2024-12-01"))
                 .andExpect(jsonPath("$.batchProducts[1].batchId").value(1))
                 .andExpect(jsonPath("$.batchProducts[1].remainingQuantity").value(20))
                 .andExpect(jsonPath("$.batchProducts[1].expirationDate").value("2025-01-01"))
-                .andExpect(jsonPath("$.batchProducts[2].batchId").value(1))
+                .andExpect(jsonPath("$.batchProducts[2].batchId").value(2))
                 .andExpect(jsonPath("$.batchProducts[2].remainingQuantity").value(50))
                 .andExpect(jsonPath("$.batchProducts[2].expirationDate").value("2026-01-01"));
     }
@@ -109,13 +115,8 @@ public class BatchProductRoutes extends BaseTest {
                 .andExpect(jsonPath("$.section.storageId").value(1))
                 .andExpect(jsonPath("$.batchProducts", hasSize(3)))
                 .andExpect(jsonPath("$.batchProducts[0].batchId").value(1))
-                .andExpect(jsonPath("$.batchProducts[0].remainingQuantity").value(20))
-                .andExpect(jsonPath("$.batchProducts[0].expirationDate").value("2025-01-01"))
                 .andExpect(jsonPath("$.batchProducts[1].batchId").value(2))
-                .andExpect(jsonPath("$.batchProducts[1].remainingQuantity").value(50))
-                .andExpect(jsonPath("$.batchProducts[1].expirationDate").value("2026-01-01"))
-                .andExpect(jsonPath("$.batchProducts[2].batchId").value(3))
-                .andExpect(jsonPath("$.batchProducts[2].remainingQuantity").value(100))
-                .andExpect(jsonPath("$.batchProducts[2].expirationDate").value("2024-12-01"));
+                .andExpect(jsonPath("$.batchProducts[2].batchId").value(3));
+
     }
 }

@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -47,6 +48,7 @@ public class Batch {
     public void addProducts(Set<BatchProduct> batchProductList) {
         for (BatchProduct batchProduct : batchProductList) {
             BatchProduct newBatchProduct = new BatchProduct();
+            newBatchProduct.setId(batchProduct.getId());
             newBatchProduct.setBatch(this);
             newBatchProduct.setProduct(batchProduct.getProduct());
             newBatchProduct.setQuantity(batchProduct.getQuantity());
@@ -55,5 +57,18 @@ public class Batch {
             newBatchProduct.setSection(batchProduct.getSection());
             this.batchProduct.add(newBatchProduct);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Batch batch = (Batch) o;
+        return id.equals(batch.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
