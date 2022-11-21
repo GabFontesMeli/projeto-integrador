@@ -1,6 +1,5 @@
 package com.example.projetointegrador.controller;
 
-import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.projetointegrador.dto.ProductInBatchDTO;
 import com.example.projetointegrador.dto.ReportBatchProductDTO;
+import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.service.interfaces.IBatchProductService;
 
 @RestController
@@ -35,13 +35,15 @@ public class BatchProductController {
     }
 
     @GetMapping("/list/{productId}")
-    public ResponseEntity<ProductInBatchDTO> findAllByProductId(@PathVariable Long productId) throws ProductNotFoundException {
-        return new ResponseEntity<>(batchProductService.findAllByProductId(productId), HttpStatus.OK);
+    public ResponseEntity<ProductInBatchDTO> findBatchProductsByProductId(@PathVariable Long productId)
+            throws ProductNotFoundException {
+        return new ResponseEntity<>(batchProductService.findBatchProductsByProductId(productId), HttpStatus.OK);
     }
 
     @GetMapping("/list/{productId}/{order}")
-    public ResponseEntity<ProductInBatchDTO> findAllByProductIdOrdered(@PathVariable Long productId,
+    public ResponseEntity<ProductInBatchDTO> findBatchProductsByProductIdOrdered(@PathVariable Long productId,
             @PathVariable String order) throws ProductNotFoundException {
-        return new ResponseEntity<>(batchProductService.findAllByProductIdOrdered(productId, order), HttpStatus.OK);
+        return new ResponseEntity<>(batchProductService.findBatchProductsByProductIdOrdered(productId, order),
+                HttpStatus.OK);
     }
 }
