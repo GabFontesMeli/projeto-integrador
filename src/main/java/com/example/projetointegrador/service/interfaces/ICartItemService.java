@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ICartItemService {
     List<CartItem> getCartItems(Long cartId);
+    String discountOnCartItems(Double discount);
 }
