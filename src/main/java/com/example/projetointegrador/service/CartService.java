@@ -91,7 +91,7 @@ public class CartService implements ICartService{
     public CartStatusDTO cancelOrder(Long cartId, Long userId) throws CartNotFoundException, InvalidUserException, ExpiredCancellationPeriodException, UnfinishedOrderException {
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new CartNotFoundException("order not found"));
 
-        if(!cartId.equals(cart.getUser().getId())) {
+        if(!userId.equals(cart.getUser().getId())) {
             throw new InvalidUserException("invalid user");
         }
         if(LocalDate.now().isAfter(cart.getDate().plusDays(7))) {
@@ -101,7 +101,10 @@ public class CartService implements ICartService{
             throw new UnfinishedOrderException("unfinished order");
         }
 
-//        List<BatchProduct> batchProducts = cart.getCartItems().stream().map(CartItem::getBatchProduct).collect(Collectors.toList());
+        for (CartItem cartItem : cart.getCartItems()) {
+            Integer remainQuantity = cartItem.getBatchProduct().getRemainingQuantity();
+            cartItem.getBatchProduct().setRemainingQuantity(remainQuantity + cartItem.getQuantity());
+        }
 
         cart.setTotalValue(0.00);
         cart.setStatus(CartStatusEnum.CANCELED);
