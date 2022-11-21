@@ -11,15 +11,15 @@
 
 ### 5 - Consultar os produtos em estoque estão prestes a expirar no almoxarifado, a fim de aplicar alguma ação comercial com eles;
 
-Requisitos Individuais: 📝
+## Requisitos Individuais: 📝
 
-1- requisito: SalesProductReport - Ana Paula
+### 1- requisito: SalesProductReport - Ana Paula
 
-endpoint 1: SalesProductReport/periodo
+### endpoint 1: SalesProductReport/periodo
 
-endpoint 2: SalesProductReport/IdUser/periodo
+### endpoint 2: SalesProductReport/IdUser/periodo
 
-Nesse requisito foram criados dois endpoints:
+#### Nesse requisito foram criados dois endpoints:
 
 Um para consultar o relatório de vendas dos produtos por período, e outro para consultar por período/usuário, dessa forma é retornado  uma lista com os produtos e quantidade que foram vendidos.
 Sendo o foco desse relatório um gerenciamento do fluxo de vendas.
