@@ -30,6 +30,11 @@ public class UserController {
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) {
+        return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
+    }
+
     @PutMapping("/{userId}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) throws UserUNotFoundException, ProductNotFoundException {
         return new ResponseEntity<>(userService.updateUser(userId, userDTO), HttpStatus.ACCEPTED);

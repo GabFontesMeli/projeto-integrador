@@ -17,4 +17,6 @@ public interface IUserService {
     UserDTO updateUser(Long userId, UserDTO userDTO) throws ProductNotFoundException, UserUNotFoundException;
 
     Void deleteUser(Long userId) throws UserUNotFoundException;
+
+    UserDTO getUserById(Long userId);
 }

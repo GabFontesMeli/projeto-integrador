@@ -76,4 +76,16 @@ public class UserService implements IUserService {
         userRepo.deleteById(userId);
         return null;
     }
+
+    @Override
+    public UserDTO getUserById(Long userId) {
+        UserU user = userRepo.findUserUById(userId);
+
+        return UserDTO.builder()
+                    .id(user.getId())
+                    .name(user.getName())
+                    .email(user.getEmail())
+                    .userType(user.getUserType().getType())
+                    .build();
+    }
 }
