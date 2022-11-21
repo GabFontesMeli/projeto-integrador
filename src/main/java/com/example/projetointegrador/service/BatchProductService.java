@@ -17,6 +17,7 @@ import com.example.projetointegrador.dto.ReportBatchProductDTO;
 import com.example.projetointegrador.dto.ReportProductDTO;
 import com.example.projetointegrador.dto.SectionDTO;
 import com.example.projetointegrador.dto.StorageDTO;
+import com.example.projetointegrador.exceptions.BatchProductNotFoundException;
 import com.example.projetointegrador.exceptions.ExpiredProductException;
 import com.example.projetointegrador.exceptions.InvalidOrderTypeException;
 import com.example.projetointegrador.exceptions.ProductNotFoundException;
@@ -157,6 +158,13 @@ public class BatchProductService implements IBatchProductService {
                 categoryId);
 
         return buildReportBatchProduct(batchProducts);
+    }
+
+    @Override
+    public BatchProduct getBatchProductByProductIdAndBatchId(Long productId, Long batchId)
+            throws BatchProductNotFoundException {
+        return batchProductRepository.findBatchProductByProductIdAndBatchId(productId, batchId)
+                .orElseThrow(() -> new BatchProductNotFoundException("batch product not found"));
     }
 
     private ReportBatchProductDTO buildReportBatchProduct(List<BatchProduct> batchProducts) {

@@ -1,0 +1,29 @@
+[
+  {
+    "batchProduct": {
+      "id": 1,
+      "batch": {
+        "id": 3,
+        "storage": {
+          "id": 1
+        }
+      },
+      "product": {
+        "id": 1,
+        "name": "banana",
+        "price": 4.0,
+        "volume": 3.0,
+        "users": []
+      },
+      "quantity": 100,
+      "manufacturingDate": "2020-01-01",
+      "expirationDate": "2024-12-01",
+      "section": {
+        "id": 1
+      },
+      "remainingQuantity": 100
+    },
+    "quantity": 2,
+    "itemValue": 8.0
+  }
+]

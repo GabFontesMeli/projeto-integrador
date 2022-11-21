@@ -1,7 +1,7 @@
 [
   {
     "product": {
-      "id": "1"
+      "id": 10
     },
     "quantity": 20,
     "manufacturingDate": "2022-12-23",

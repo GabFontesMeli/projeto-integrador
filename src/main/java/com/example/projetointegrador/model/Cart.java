@@ -2,10 +2,7 @@ package com.example.projetointegrador.model;
 
 import com.example.projetointegrador.enums.CartStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -30,7 +27,7 @@ public class Cart {
     @JsonIgnoreProperties("products")
     private UserU user;
 
-    @Column(nullable = false)
+    @Column(name = "total_value", nullable = false)
     private Double totalValue;
 
     @Column(nullable = false)
