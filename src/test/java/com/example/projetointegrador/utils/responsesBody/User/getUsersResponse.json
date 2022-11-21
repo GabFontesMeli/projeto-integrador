@@ -1,0 +1,14 @@
+[
+  {
+    "id": 2,
+    "name": "2222",
+    "email": "2222",
+    "userType": "costumer"
+  },
+  {
+    "id": 3,
+    "name": "testepostman",
+    "email": "email@postman.com",
+    "userType": "seller"
+  }
+]

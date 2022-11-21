@@ -67,14 +67,15 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Void deleteUser(Long userId) throws UserUNotFoundException {
+    public String deleteUser(Long userId) throws UserUNotFoundException {
 
         UserU userU = userRepo.findUserUById(userId);
 
         if(userU == null) throw new UserUNotFoundException("user not found");
 
         userRepo.deleteById(userId);
-        return null;
+
+         return "";
     }
 
     @Override
