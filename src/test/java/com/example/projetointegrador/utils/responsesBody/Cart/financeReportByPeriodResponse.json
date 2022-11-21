@@ -1,0 +1,16 @@
+{
+  "financeReportByPeriod": "Finance report between 2020-01-01 and 2023-04-30.",
+  "totalSalesValue": 83.0,
+  "salesInfo": [
+    {
+      "date": "2022-12-23",
+      "value": 23.0,
+      "userId": 1
+    },
+    {
+      "date": "2023-04-30",
+      "value": 60.0,
+      "userId": 1
+    }
+  ]
+}

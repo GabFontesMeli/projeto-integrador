@@ -48,5 +48,4 @@ public class UserU {
         inverseJoinColumns = @JoinColumn(name = "storage_id", referencedColumnName = "id")
     )
     private Set<Storage> storages = new HashSet<>();
-
 }

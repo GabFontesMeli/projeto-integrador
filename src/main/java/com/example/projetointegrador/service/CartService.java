@@ -113,11 +113,10 @@ public class CartService implements ICartService{
             batchProductService.saveAll(modifiedProducts);
         }
 
-
         return cartItemList;
     }
 
-    public CompletedSaleReportCartDTO salesReportByPeriod(String startDate, String endDate) {
+    public CompletedFinanceReportCartDTO financeReportByPeriod(String startDate, String endDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-d").withResolverStyle(ResolverStyle.STRICT);
 
         LocalDate start;
@@ -127,21 +126,21 @@ public class CartService implements ICartService{
             start = LocalDate.parse(startDate, formatter);
             end = LocalDate.parse(endDate, formatter);
         } catch (DateTimeParseException e) {
-            throw new InvalidDateFormatException("send a date with the correct format: yyyy-MM-dd");
+            throw new InvalidDateFormatException("Send a date with the correct format: yyyy-MM-dd");
         }
 
         List<Cart> cartList = cartRepository.findCartsByDateGreaterThanEqualAndDateLessThanEqual(start, end);
 
-        if (cartList.isEmpty()) throw new CartNotFoundException("No carts found with the given dates");
+        if (cartList.isEmpty()) throw new CartNotFoundException("Could not found carts with the given dates");
 
         List<SaleInfoCartDTO> saleInfoCartDTOList = cartList.stream().map(cart -> SaleInfoCartDTO.builder()
-                    .date(cart.getDate())
-                    .value(cart.getTotalValue())
-                    .userId(cart.getUser().getId())
-                    .build()).collect(Collectors.toList());
+                .date(cart.getDate())
+                .value(cart.getTotalValue())
+                .userId(cart.getUser().getId())
+                .build()).collect(Collectors.toList());
 
-        return CompletedSaleReportCartDTO.builder()
-                .salesReportByPeriod("Sales report between " + start + " and " + end + ".")
+        return CompletedFinanceReportCartDTO.builder()
+                .financeReportByPeriod("Finance report between " + start + " and " + end + ".")
                 .totalSalesValue(cartList.stream().mapToDouble(Cart::getTotalValue).sum())
                 .salesInfo(saleInfoCartDTOList)
                 .build();

@@ -11,7 +11,6 @@ import java.util.List;
 public interface CartRepository extends JpaRepository<Cart, Long> {
     Cart findCartByUserId(Long userId);
 
-//    @Query("SELECT new com.example.projetointegrador.dto.SaleInfoCartDTO(c.date, c.totalValue, c.user) FROM Cart c WHERE c.date BETWEEN ?1 AND ?2")
     @Query("SELECT c FROM Cart c WHERE c.date BETWEEN ?1 AND ?2 AND c.status = 'CLOSED'")
     List<Cart> findCartsByDateGreaterThanEqualAndDateLessThanEqual(LocalDate startDate, LocalDate endDate);
 }

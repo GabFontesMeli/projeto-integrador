@@ -1,0 +1,20 @@
+[
+  {
+    "id": 2,
+    "date": "2022-12-23",
+    "status": "CLOSED",
+    "totalValue": 23.0,
+    "user": {
+      "id": 1
+    }
+  },
+  {
+    "id": 3,
+    "date": "2023-04-30",
+    "status": "CLOSED",
+    "totalValue": 60.0,
+    "user": {
+      "id": 1
+    }
+  }
+]

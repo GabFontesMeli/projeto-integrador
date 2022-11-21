@@ -2,14 +2,13 @@ package com.example.projetointegrador.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.List;
 
+@Getter
 @Builder
-public class CompletedSaleReportCartDTO {
-    private String salesReportByPeriod;
+public class CompletedFinanceReportCartDTO {
+    private String financeReportByPeriod;
     private Double totalSalesValue;
     private List<SaleInfoCartDTO> salesInfo;
 }
