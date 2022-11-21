@@ -4,10 +4,7 @@ import com.example.projetointegrador.dto.CartDTO;
 import com.example.projetointegrador.dto.CartItemDTO;
 import com.example.projetointegrador.dto.CartStatusDTO;
 import com.example.projetointegrador.enums.CartStatusEnum;
-import com.example.projetointegrador.exceptions.ExpiredProductException;
-import com.example.projetointegrador.exceptions.InsufficientStockException;
-import com.example.projetointegrador.exceptions.ProductNotFoundException;
-import com.example.projetointegrador.exceptions.UserUNotFoundException;
+import com.example.projetointegrador.exceptions.*;
 import com.example.projetointegrador.model.*;
 import com.example.projetointegrador.repository.CartRepository;
 import com.example.projetointegrador.service.interfaces.IBatchProductService;
@@ -22,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class CartService implements ICartService{
@@ -76,6 +74,43 @@ public class CartService implements ICartService{
         }
 
         return "Cart is " + cart.getStatus();
+    }
+
+
+    /**
+     * Cancels the order by id and changes the cart status to "CANCELED".
+     * @param cartId Id of the cart to be canceled.
+     * @param userId Id of the user that wants to cancel the order.
+     * @return CartStatusDTO object with updated status.
+     * @throws CartNotFoundException
+     * @throws InvalidUserException
+     * @throws ExpiredCancellationPeriodException
+     * @throws UnfinishedOrderException
+     */
+    @Override
+    public CartStatusDTO cancelOrder(Long cartId, Long userId) throws CartNotFoundException, InvalidUserException, ExpiredCancellationPeriodException, UnfinishedOrderException {
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new CartNotFoundException("order not found"));
+
+        if(!cartId.equals(cart.getUser().getId())) {
+            throw new InvalidUserException("invalid user");
+        }
+        if(LocalDate.now().isAfter(cart.getDate().plusDays(7))) {
+            throw new ExpiredCancellationPeriodException("cancellation period expired");
+        }
+        if(cart.getStatus().equals(CartStatusEnum.OPEN)) {
+            throw new UnfinishedOrderException("unfinished order");
+        }
+
+//        List<BatchProduct> batchProducts = cart.getCartItems().stream().map(CartItem::getBatchProduct).collect(Collectors.toList());
+
+        cart.setTotalValue(0.00);
+        cart.setStatus(CartStatusEnum.CANCELED);
+        cartRepository.save(cart);
+
+        CartStatusDTO cartStatusDTO = new CartStatusDTO();
+        cartStatusDTO.setStatus(cart.getStatus().toString());
+
+        return cartStatusDTO;
     }
 
     private List<String> checkProductsQuantity(List<CartItemDTO> cartItemsDTO) {
