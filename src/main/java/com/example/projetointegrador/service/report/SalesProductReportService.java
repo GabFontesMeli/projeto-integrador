@@ -18,12 +18,26 @@ public class SalesProductReportService implements ISalesReportService {
     @Autowired
     private CartRepository cartRepository;
 
+    /**Method to sold consult products sold by period
+     * @param start
+     * @param end
+     * @return
+     * @throws PeriodInvalidException
+     */
     @Override
     public SalesProductReportDTO getSalesProductReportByPeriod(LocalDate start, LocalDate end) throws PeriodInvalidException {
         checkValidPeriod(start, end);
         List<Object[]> products = cartRepository.getSalesProductReportByDate(start, end);
         return buildSalesProductReport(products, start, end);
     }
+
+    /**Method to sold consult products sold by period and userId
+     * @param start
+     * @param end
+     * @param idUser
+     * @return
+     * @throws PeriodInvalidException
+     */
     @Override
     public SalesProductReportDTO getSalesProductReportByUserPeriod(LocalDate start, LocalDate end, Long idUser) throws PeriodInvalidException {
         checkValidPeriod(start, end);
