@@ -1,7 +1,7 @@
-package com.example.projetointegrador.service;
+package com.example.projetointegrador.service.report;
 
-import com.example.projetointegrador.dto.SalesProductReportDTO;
-import com.example.projetointegrador.dto.SalesProductReportListDTO;
+import com.example.projetointegrador.dto.report.SalesProductReportDTO;
+import com.example.projetointegrador.dto.report.SalesProductReportListDTO;
 import com.example.projetointegrador.exceptions.PeriodInvalidException;
 import com.example.projetointegrador.repository.CartRepository;
 import com.example.projetointegrador.service.interfaces.ISalesReportService;
@@ -9,12 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class SalesReportService implements ISalesReportService {
+public class SalesProductReportService implements ISalesReportService {
 
     @Autowired
     private CartRepository cartRepository;
@@ -43,6 +42,7 @@ public class SalesReportService implements ISalesReportService {
         if(products.isEmpty()){
              salesProductReportDTO = SalesProductReportDTO.builder()
                     .salesProductReport("Sales products report between " + start + " and " + end + " doesn't have any data")
+                     .totalProduct(0)
                     .build();
         } else{
             List<SalesProductReportListDTO> report = products.stream().map(SalesProductReportListDTO::new).collect(Collectors.toList());
@@ -62,7 +62,5 @@ public class SalesReportService implements ISalesReportService {
             throw new PeriodInvalidException("star date cannot be greater than end date");
         }
     }
-
-
 
 }

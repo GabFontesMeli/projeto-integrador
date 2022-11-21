@@ -1,7 +1,8 @@
-package com.example.projetointegrador.controller;
+package com.example.projetointegrador.controller.report;
 
+import com.example.projetointegrador.dto.report.SalesProductReportDTO;
 import com.example.projetointegrador.exceptions.PeriodInvalidException;
-import com.example.projetointegrador.service.SalesReportService;
+import com.example.projetointegrador.service.report.SalesProductReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -12,19 +13,19 @@ import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/v1/sales-report")
-public class SalesReportController {
+public class SalesProductReportController {
 
     @Autowired
-    private SalesReportService salesReportService;
+    private SalesProductReportService salesReportService;
 
     @GetMapping
-    public ResponseEntity<Object> getSalesReport(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate start,
-                                                 @RequestParam  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end) throws Exception {
+    public ResponseEntity<SalesProductReportDTO> getSalesReport(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate start,
+                                                                @RequestParam  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end) throws Exception {
         return new ResponseEntity<>(salesReportService.getSalesProductReportByPeriod(start, end), HttpStatus.OK);
     }
 
     @GetMapping("/{idUser}")
-    public ResponseEntity<Object> getSalesReportByUser(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate start,
+    public ResponseEntity<SalesProductReportDTO> getSalesReportByUser(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate start,
                                                        @RequestParam  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end,
                                                        @PathVariable Long idUser) throws PeriodInvalidException {
         return new ResponseEntity<>(salesReportService.getSalesProductReportByUserPeriod(start, end, idUser), HttpStatus.OK);
