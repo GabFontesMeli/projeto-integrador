@@ -45,7 +45,7 @@ public class BatchController {
      * @throws SectionInvalidException
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Batch> update(@PathVariable Long id, @RequestBody Set<BatchProduct> batchProductList) throws BatchInvalidException, ProductNotFoundException, InsuficientVolumeException, SectionInvalidException {
+    public ResponseEntity<Batch> update(@PathVariable Long id, @RequestBody Set<BatchProduct> batchProductList) throws BatchInvalidException, ProductNotFoundException, InsuficientVolumeException, SectionInvalidException, BatchProductNotFoundException {
         return new ResponseEntity<>(batchService.update(id, batchProductList), HttpStatus.ACCEPTED);
     }
 }

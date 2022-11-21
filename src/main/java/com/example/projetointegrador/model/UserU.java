@@ -28,7 +28,7 @@ public class UserU {
     private String email;
 
     @ManyToOne
-    @JoinColumn(name = "userType_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_type_id", referencedColumnName = "id")
     @JsonIgnoreProperties("users")
     private UserType userType;
 

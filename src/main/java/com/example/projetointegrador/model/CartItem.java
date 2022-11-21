@@ -3,10 +3,7 @@ package com.example.projetointegrador.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -15,6 +12,8 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Table(name = "cart_item")
 public class CartItem {
 
     @Id
@@ -30,13 +29,12 @@ public class CartItem {
     @ManyToOne
     @JoinColumn(name = "batch_product_id", referencedColumnName = "id")
     @JsonIgnoreProperties("volume")
-    @JsonUnwrapped
     private BatchProduct batchProduct;
 
     @Column(nullable = false)
     private Integer quantity;
 
-    @Column(nullable = false)
+    @Column(name = "item_value", nullable = false)
     private Double itemValue;
 
     public CartItem(Integer incomingQuantity, Product incomingProduct, BatchProduct batchProduct) {
