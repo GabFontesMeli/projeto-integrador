@@ -14,7 +14,12 @@ Requisitos Obrigatórios: 📝
 
 Requisitos Individuais: 📝
 
-1-
+1- requisito: SalesProductReport
+endpoint 1: SalesProductReport/periodo
+endpoint 2: SalesProductReport/IdUser/periodo
+Nesse requisito foram criados dois endpoints:
+Um para consultar o relatório de vendas dos produtos por período, e outro para consultar por período/usuário, dessa forma é retornado  uma lista com os produtos e quantidade que foram vendidos.
+Sendo o foco desse relatório um gerenciamento do fluxo de vendas.
 
 2-
 
