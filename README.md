@@ -1,5 +1,6 @@
 # projeto-integrador
 Requisitos Obrigatórios: 📝
+
 1- Inserir um lote de produtos no armazém de distribuição PARA registrar a existência de estoque;
 
 2- Adicionar produtos ao carrinho de compras doMarketplace PARA comprá-los, se desejar;
@@ -12,11 +13,18 @@ Requisitos Obrigatórios: 📝
 
 
 Requisitos Individuais: 📝
+
 1-
+
 2-
+
 3-
+
 4-
+
 5-
+
 6-
+
 
 
