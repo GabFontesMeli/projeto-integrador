@@ -1,6 +1,6 @@
 {
-  "id": 1,
-  "name": "1111",
-  "email": "1111",
-  "userType": "costumer"
+  "id": 2,
+  "name": "teste2",
+  "email": "teste2@teste2.com",
+  "userType": "seller"
 }
