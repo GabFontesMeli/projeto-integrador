@@ -15,6 +15,7 @@ Requisitos Obrigatórios: 📝
 Requisitos Individuais: 📝
 
 1- requisito: SalesProductReport - Ana Paula
+
 endpoint 1: SalesProductReport/periodo
 
 endpoint 2: SalesProductReport/IdUser/periodo
