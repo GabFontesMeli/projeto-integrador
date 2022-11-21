@@ -18,6 +18,11 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    /**
+     * Create a new user based in the User parameter.
+     * @param user Information of the user to be created.
+     * @return The user created.
+     */
     @PostMapping
     public ResponseEntity<UserU> saveUser(@RequestBody UserU user) {
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);

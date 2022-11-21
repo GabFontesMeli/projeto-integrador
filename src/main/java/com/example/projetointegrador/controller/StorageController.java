@@ -18,6 +18,12 @@ public class StorageController {
     @Autowired
     private IBatchProductService batchProductService;
 
+    /**
+     * Return the batch products by productId and storageId.
+     * @param productId Product id to be considered.
+     * @return A list of batches that contains the product id.
+     * @throws ProductNotFoundException
+     */
     @GetMapping("/{productId}")
     public ResponseEntity<ProductDTO> getBatchProductsByProductIdAndStorage(@PathVariable Long productId) throws ProductNotFoundException {
         return new ResponseEntity<>(batchProductService.getStorageQuantityByProductId(productId), HttpStatus.OK);
