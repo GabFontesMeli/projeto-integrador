@@ -18,10 +18,10 @@
 ### O foco desse relatório é ter um gerenciamento do fluxo de vendas.
 
 ### Nesse requisito foram criados dois endpoints:
-### endpoint 1: SalesProductReport/periodo
+- Endpoint 1: SalesProductReport/periodo
 Consulta o relatório de vendas dos produtos por período
 
-### endpoint 2: SalesProductReport/IdUser/periodo
+- Endpoint 2: SalesProductReport/IdUser/periodo
 Consulta por período/usuário
 dessa forma é retornado  uma lista com os produtos e quantidade que foram vendidos.
 
