@@ -1,6 +1,7 @@
 # Projeto Integrador
 
 ## Requisitos Obrigatórios: 📝
+
 ### 1 - Inserir um lote de produtos no armazém de distribuição PARA registrar a existência de estoque;
 
 ### 2 - Adicionar produtos ao carrinho de compras doMarketplace PARA comprá-los, se desejar;
@@ -13,26 +14,16 @@
 
 ## Requisitos Individuais: 📝
 
-### 1- requisito: SalesProductReport - Ana Paula
+## Features - Ana Paula - SalesProductReport 
+### O foco desse relatório é ter um gerenciamento do fluxo de vendas.
 
+### Nesse requisito foram criados dois endpoints:
 ### endpoint 1: SalesProductReport/periodo
+Consulta o relatório de vendas dos produtos por período
 
 ### endpoint 2: SalesProductReport/IdUser/periodo
-
-#### Nesse requisito foram criados dois endpoints:
-
-Um para consultar o relatório de vendas dos produtos por período, e outro para consultar por período/usuário, dessa forma é retornado  uma lista com os produtos e quantidade que foram vendidos.
-Sendo o foco desse relatório um gerenciamento do fluxo de vendas.
-
-2-
-
-3-
-
-4-
-
-5-
-
-6-
+Consulta por período/usuário
+dessa forma é retornado  uma lista com os produtos e quantidade que foram vendidos.
 
 ## Features - Iara
 CRUD completo de usuário
