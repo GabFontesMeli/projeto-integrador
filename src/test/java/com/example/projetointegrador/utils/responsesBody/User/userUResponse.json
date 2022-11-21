@@ -1,0 +1,9 @@
+{
+  "id": 2,
+  "name": "teste2",
+  "email": "teste2@teste2.com",
+  "userType": {
+    "id": 1,
+    "type": "seller"
+  }
+}
