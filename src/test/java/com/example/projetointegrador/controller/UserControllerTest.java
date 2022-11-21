@@ -28,6 +28,9 @@ import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 @WebMvcTest(UserController.class)
 public class UserControllerTest extends BaseTest {
@@ -96,6 +99,14 @@ public class UserControllerTest extends BaseTest {
     }
 
     @Test
-    void deleteUserShouldReturnNoContent() {
+    void deleteUserShouldReturnNoContent() throws Exception {
+
+        BDDMockito.doNothing().when(userService).deleteUser(any(Long.class));
+
+        this.mockMvc
+                .perform(
+                        delete("/api/v1/user/{userId}", 1)
+                )
+                .andExpect(status().isNoContent());
     }
 }
