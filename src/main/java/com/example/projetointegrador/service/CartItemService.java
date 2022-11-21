@@ -1,5 +1,6 @@
 package com.example.projetointegrador.service;
 
+import com.example.projetointegrador.exceptions.CartItemNotFoundException;
 import com.example.projetointegrador.model.CartItem;
 import com.example.projetointegrador.repository.CartItemRepository;
 import com.example.projetointegrador.service.interfaces.ICartItemService;
@@ -21,9 +22,14 @@ public class CartItemService implements ICartItemService{
     }
 
     @Override
-    public String discountOnCartItems(Double discount) {
+    public String discountOnCartItems(Double discount) throws CartItemNotFoundException{
         LocalDate today = LocalDate.now().plusDays(21);
         List<CartItem> cartItemsToExpire = cartItemRepository.findAllCartItemsByBatchProductExpirationDateLessThanEqual(today);
+
+        if(cartItemsToExpire == null || cartItemsToExpire.isEmpty()) {
+            throw new CartItemNotFoundException("Not Found Cart Item to Discount");
+        }
+
         for(CartItem cartItem : cartItemsToExpire) {
             cartItem.setItemValue(cartItem.getItemValue() - Double.valueOf(discount));
             cartItemRepository.save(cartItem);

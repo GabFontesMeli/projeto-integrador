@@ -141,4 +141,16 @@ public class HandleExceptions {
 
         return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(CartItemNotFoundException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(CartItemNotFoundException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+            .title("No cart item to discount")
+            .message(ex.getMessage())
+            .status(HttpStatus.NOT_FOUND.value())
+            .timeStamp(LocalDateTime.now())
+            .build();
+        
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
+    }
 }

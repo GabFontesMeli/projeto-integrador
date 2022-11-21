@@ -1,5 +1,6 @@
 package com.example.projetointegrador.controller;
 
+import com.example.projetointegrador.exceptions.CartItemNotFoundException;
 import com.example.projetointegrador.model.CartItem;
 import com.example.projetointegrador.service.CartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class CartItemController {
     }
 
     @PutMapping("/discount/{discount}")
-    public ResponseEntity<String> discountOnCartItems(@PathVariable Double discount) {
+    public ResponseEntity<String> discountOnCartItems(@PathVariable Double discount) throws CartItemNotFoundException {
         return new ResponseEntity<>(cartService.discountOnCartItems(discount), HttpStatus.OK);
     }
 }
