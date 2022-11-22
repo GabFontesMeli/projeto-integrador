@@ -30,21 +30,43 @@ public class UserController {
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
     }
 
+    /**
+     * Get all users from database
+     * @return Return all users
+     */
     @GetMapping
     public ResponseEntity<List<UserDTO>> getUsers() {
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
+    /**
+     * Get user based in userId parameter
+     * @param userId user id referring to the id in the database
+     * @throws UserUNotFoundException
+     * @return Return user by id
+     */
     @GetMapping("/{userId}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) {
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) throws UserUNotFoundException {
         return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
     }
 
+    /**
+     * Update user based in userId parameter and data informed by body
+     * @param userId user id referring to the id in the database
+     * @return Return updated user
+     * @throws UserUNotFoundException
+     */
     @PutMapping("/{userId}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) throws UserUNotFoundException, ProductNotFoundException {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) throws UserUNotFoundException {
         return new ResponseEntity<>(userService.updateUser(userId, userDTO), HttpStatus.ACCEPTED);
     }
 
+    /**
+     * Delete user based in userId parameter
+     * @param userId user id referring to the id in the database
+     * @return no content
+     * @throws UserUNotFoundException
+     */
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) throws UserUNotFoundException {
         return new ResponseEntity<>(userService.deleteUser(userId), HttpStatus.NO_CONTENT);

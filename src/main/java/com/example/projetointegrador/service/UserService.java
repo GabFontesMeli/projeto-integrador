@@ -31,6 +31,10 @@ public class UserService implements IUserService {
         return userRepo.existsById(userId);
     }
 
+    /**
+     * Create a list of UserU and cast the data to UserDTO
+     * @return List of UserDTO
+     */
     @Override
     public List<UserDTO> getUsers() {
         List<UserU> users = userRepo.findAll();
@@ -45,6 +49,13 @@ public class UserService implements IUserService {
         }).collect(Collectors.toList());
     }
 
+    /**
+     * Find user by id to update only name and email fields
+     * @param userId user id referring to the id in the database
+     * @param userDTO body with new information
+     * @return Return updated user
+     * @throws UserUNotFoundException
+     */
     @Override
     public UserDTO updateUser(Long userId, UserDTO userDTO) throws UserUNotFoundException {
         UserU userU = userRepo.findUserUById(userId);
@@ -66,6 +77,13 @@ public class UserService implements IUserService {
         return updatedUser;
     }
 
+
+    /**
+     * Delete user based in userId parameter
+     * @param userId user id referring to the id in the database
+     * @return no content
+     * @throws UserUNotFoundException if user informed not exists
+     */
     @Override
     public Void deleteUser(Long userId) throws UserUNotFoundException {
 
@@ -78,9 +96,17 @@ public class UserService implements IUserService {
         return null;
     }
 
+    /**
+     * Get user based in userId parameter
+     * @param userId user id referring to the id in the database
+     * @throws UserUNotFoundException
+     * @return Return UserDTO
+     */
     @Override
-    public UserDTO getUserById(Long userId) {
+    public UserDTO getUserById(Long userId) throws UserUNotFoundException {
         UserU user = userRepo.findUserUById(userId);
+
+        if(user == null) throw new UserUNotFoundException("user not found");
 
         return UserDTO.builder()
                     .id(user.getId())
