@@ -20,10 +20,68 @@
 ### Nesse requisito foram criados dois endpoints:
 - Endpoint 1: SalesProductReport/periodo
 Consulta o relatório de vendas dos produtos por período
-
+##### `GET`
+```sh
+http://localhost:8080/api/v1/sales-report?start=1990-01-01&end=2050-01-01
+```
+### Retorno
+`200 - Ok`
+```sh
+{
+    "salesProductReport": "Sales products report between 1990-01-01 and 2050-01-01",
+    "totalProduct": 176,
+    "products": [
+        {
+            "productName": "banana",
+            "quantity": 150
+        },
+        {
+            "productName": "morango",
+            "quantity": 7
+        },
+        {
+            "productName": "frango",
+            "quantity": 4
+        },
+        {
+            "productName": "abacaxi",
+            "quantity": 15
+        }
+    ]
+}
 - Endpoint 2: SalesProductReport/IdUser/periodo
 Consulta por período/usuário
 dessa forma é retornado  uma lista com os produtos e quantidade que foram vendidos.
+##### `GET`
+```sh
+http://localhost:8080/api/v1/sales-report/1?start=1990-01-01&end=2050-01-01
+```
+### Retorno
+`200 - Ok`
+```sh
+{
+    "salesProductReport": "Sales products report between 1990-01-01 and 2050-01-01",
+    "user": "maria",
+    "totalProduct": 176,
+    "products": [
+        {
+            "productName": "banana",
+            "quantity": 150
+        },
+        {
+            "productName": "morango",
+            "quantity": 7
+        },
+        {
+            "productName": "frango",
+            "quantity": 4
+        },
+        {
+            "productName": "abacaxi",
+            "quantity": 15
+        }
+    ]
+}
 
 ## Features - Iara
 CRUD completo de usuário
