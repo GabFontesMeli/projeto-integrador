@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "aca49597-8146-4d39-9c7f-56054a78e020",
+		"_postman_id": "93a7054c-1780-4253-be6d-0f0533a5cce5",
 		"name": "Projeto Integrador Final",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23722929"
 	},
 	"item": [
 		{
@@ -282,6 +283,36 @@
 								"api",
 								"v1",
 								"sales-report"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "1990-01-01"
+								},
+								{
+									"key": "end",
+									"value": "2050-01-01"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sales Report Product User Date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/api/v1/sales-report/1?start=1990-01-01&end=2050-01-01",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sales-report",
+								"1"
 							],
 							"query": [
 								{
