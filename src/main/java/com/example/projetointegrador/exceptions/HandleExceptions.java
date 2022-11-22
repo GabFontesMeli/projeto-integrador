@@ -130,6 +130,18 @@ public class HandleExceptions {
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(PeriodInvalidException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(PeriodInvalidException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("invalid period")
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(BatchProductNotFoundException.class)
     public ResponseEntity<ExceptionDetails> handleInvalidFields(BatchProductNotFoundException ex) {
         ExceptionDetails exceptionDetails = ExceptionDetails.builder()
@@ -140,5 +152,6 @@ public class HandleExceptions {
                 .build();
 
         return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
+
     }
 }
