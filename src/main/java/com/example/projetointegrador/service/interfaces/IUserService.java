@@ -6,4 +6,6 @@ public interface IUserService {
     UserU saveUser(UserU user);
 
     boolean existsById(Long userId);
+
+    UserU getUserByNameAndPassword(String name, String password);
 }
