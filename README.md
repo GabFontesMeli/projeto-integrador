@@ -49,6 +49,8 @@ http://localhost:8080/api/v1/sales-report?start=1990-01-01&end=2050-01-01
         }
     ]
 }
+```
+
 - Endpoint 2: SalesProductReport/IdUser/periodo
 Consulta por período/usuário
 dessa forma é retornado  uma lista com os produtos e quantidade que foram vendidos.
