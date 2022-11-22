@@ -1,10 +1,19 @@
 package com.example.projetointegrador.integration;
 
 import java.io.File;
+
 import java.io.IOException;
 
 import com.example.projetointegrador.dto.CompletedFinanceReportCartDTO;
 import com.example.projetointegrador.exceptions.*;
+
+import java.util.Arrays;
+import java.util.List;
+
+import com.example.projetointegrador.dto.CartStatusDTO;
+import com.example.projetointegrador.exceptions.*;
+import com.example.projetointegrador.model.BatchProduct;
+
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -16,7 +25,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+
 import static org.junit.jupiter.api.Assertions.*;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -175,5 +189,58 @@ public class CartRoutes {
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof CartNotFoundException))
                 .andExpect(result -> assertEquals("Could not found carts with the given dates", result.getResolvedException().getMessage()));
+
+    void cancelOrderShouldReturnCartStatusDTO() throws Exception {
+
+        this.mockMvc
+                .perform(
+                        put("/api/v1/fresh-products/orders/{cartId}/{userId}", 2, 1)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("CANCELED"));
+
+    }
+
+    @Test
+    void cancelOrderShouldReturnInvalidUserException_thenExpectationSatisfied() throws Exception {
+
+        this.mockMvc
+                .perform(
+                        put("/api/v1/fresh-products/orders/{cartId}/{userId}", 2, 2)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof InvalidUserException));
+
+    }
+
+    @Test
+    void cancelOrderShouldReturnExpiredCancellationPeriodException_thenExpectationSatisfied() throws Exception {
+
+        this.mockMvc
+                .perform(
+                        put("/api/v1/fresh-products/orders/{cartId}/{userId}", 1, 1)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ExpiredCancellationPeriodException));
+
+    }
+
+    @Test
+    void cancelOrderShouldReturnUnfinishedOrderException_thenExpectationSatisfied() throws Exception {
+
+        this.mockMvc
+                .perform(
+                        put("/api/v1/fresh-products/orders/{cartId}/{userId}", 3, 1)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof UnfinishedOrderException));
+
     }
 }

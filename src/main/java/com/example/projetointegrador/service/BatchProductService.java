@@ -57,7 +57,7 @@ public class BatchProductService implements IBatchProductService {
         LocalDate today = LocalDate.now();
         long difference = ChronoUnit.DAYS.between(today, expirationDate);
 
-        if (difference < 21) {
+        if (difference < 7) {
             throw new ExpiredProductException("product about to expire or expired");
         }
     }

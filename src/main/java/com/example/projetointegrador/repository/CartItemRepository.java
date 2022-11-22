@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface CartItemRepository extends JpaRepository<CartItem, Long>{
     List<CartItem> findAllCartItemsByCartId(Long cartId);
+    List<CartItem> findAllCartItemsByBatchProductExpirationDateLessThanEqual(LocalDate batchProduct_expirationDate);
 }

@@ -1,0 +1,18 @@
+
+{
+	"salesProductReport": "Sales products report between 1990-01-01 and 2050-01-01",
+	"totalProduct": 15,
+	"products": [
+		{
+			"productName": "banana",
+			"quantity": 10
+		},
+		{
+			"productName": "morango",
+			"quantity": 5
+		}
+
+	]
+}
+
+

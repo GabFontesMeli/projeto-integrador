@@ -74,6 +74,46 @@ public class CartService implements ICartService{
         return "Cart is " + cart.getStatus();
     }
 
+
+    /**
+     * Cancels the order by id and changes the cart status to "CANCELED".
+     * @param cartId Id of the cart to be canceled.
+     * @param userId Id of the user that wants to cancel the order.
+     * @return CartStatusDTO object with updated status.
+     * @throws CartNotFoundException
+     * @throws InvalidUserException
+     * @throws ExpiredCancellationPeriodException
+     * @throws UnfinishedOrderException
+     */
+    @Override
+    public CartStatusDTO cancelOrder(Long cartId, Long userId) throws CartNotFoundException, InvalidUserException, ExpiredCancellationPeriodException, UnfinishedOrderException {
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new CartNotFoundException("order not found"));
+
+        if(!userId.equals(cart.getUser().getId())) {
+            throw new InvalidUserException("invalid user");
+        }
+        if(LocalDate.now().isAfter(cart.getDate().plusDays(7))) {
+            throw new ExpiredCancellationPeriodException("cancellation period expired");
+        }
+        if(cart.getStatus().equals(CartStatusEnum.OPEN)) {
+            throw new UnfinishedOrderException("unfinished order");
+        }
+
+        for (CartItem cartItem : cart.getCartItems()) {
+            Integer remainQuantity = cartItem.getBatchProduct().getRemainingQuantity();
+            cartItem.getBatchProduct().setRemainingQuantity(remainQuantity + cartItem.getQuantity());
+        }
+
+        cart.setTotalValue(0.00);
+        cart.setStatus(CartStatusEnum.CANCELED);
+        cartRepository.save(cart);
+
+        CartStatusDTO cartStatusDTO = new CartStatusDTO();
+        cartStatusDTO.setStatus(cart.getStatus().toString());
+
+        return cartStatusDTO;
+    }
+
     private List<String> checkProductsQuantity(List<CartItemDTO> cartItemsDTO) {
         List<String> errors = new ArrayList<>();
         BatchProduct batchProduct;
