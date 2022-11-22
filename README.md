@@ -174,7 +174,7 @@ http://localhost:8080/api/v1/user/{userId}
 
 ```
 
-## Features - Fontes - FinanceReportByPeriod
+## Features - Gabriel Fontes - FinanceReportByPeriod
 
 ### Relatório Financeiro das vendas realizadas de um determinado período
 
