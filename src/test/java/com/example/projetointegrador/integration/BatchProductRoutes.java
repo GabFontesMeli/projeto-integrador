@@ -1,5 +1,7 @@
 package com.example.projetointegrador.integration;
 
+import com.example.projetointegrador.exceptions.CartNotFoundException;
+import com.example.projetointegrador.exceptions.InvalidOrderTypeException;
 import com.example.projetointegrador.setup.BaseTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -117,6 +121,21 @@ public class BatchProductRoutes extends BaseTest {
                 .andExpect(jsonPath("$.batchProducts[0].batchId").value(1))
                 .andExpect(jsonPath("$.batchProducts[1].batchId").value(2))
                 .andExpect(jsonPath("$.batchProducts[2].batchId").value(3));
+
+    }
+
+    @Test
+    public void findBatchProductsByProductIdOrderedByBatchIdShouldThrowsInvalidOrderTypeException() throws Exception {
+        String invalidOrderType = "Z";
+
+        this.mockMvc
+                .perform(
+                        get("/api/v1/fresh-products/list/{productId}/{order}", 1, invalidOrderType)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof InvalidOrderTypeException))
+                .andExpect(result -> assertEquals("this order type does not exist", result.getResolvedException().getMessage()));
 
     }
 }

@@ -17,7 +17,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ActiveProfiles("test")
@@ -43,5 +43,15 @@ public class CartItemRoutes extends BaseTest {
                 .andExpect(jsonPath("$.[?(@.batchProduct.id == 1)].batchProduct.id").value(1))
                 .andExpect(jsonPath("$.[0].quantity").value(2))
                 .andExpect(jsonPath("$.[0].itemValue").value(8.0));
+    }
+
+    @Test
+    void discountOnCartItemsShouldReturnMessage() throws Exception {
+        this.mockMvc
+                .perform(
+                    put("/api/v1/fresh-products/orders/discount/2")
+            )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$").value("Discount on products in CartItem"));
     }
 }

@@ -131,10 +131,95 @@ public class HandleExceptions {
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(PeriodInvalidException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(PeriodInvalidException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("invalid period")
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(BatchProductNotFoundException.class)
     public ResponseEntity<ExceptionDetails> handleInvalidFields(BatchProductNotFoundException ex) {
         ExceptionDetails exceptionDetails = ExceptionDetails.builder()
                 .title("batch product not found")
+                .message(ex.getMessage())
+                .status(HttpStatus.NOT_FOUND.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(CartItemNotFoundException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(CartItemNotFoundException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+            .title("No cart item to discount")
+            .message(ex.getMessage())
+            .status(HttpStatus.NOT_FOUND.value())
+            .timeStamp(LocalDateTime.now())
+            .build();
+        
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidUserException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(InvalidUserException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("invalid user")
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ExpiredCancellationPeriodException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(ExpiredCancellationPeriodException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("cancellation period expired")
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UnfinishedOrderException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(UnfinishedOrderException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("unfinished order")
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidDateFormatException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(InvalidDateFormatException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("invalid date format")
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CartNotFoundException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(CartNotFoundException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("cart not found")
                 .message(ex.getMessage())
                 .status(HttpStatus.NOT_FOUND.value())
                 .timeStamp(LocalDateTime.now())

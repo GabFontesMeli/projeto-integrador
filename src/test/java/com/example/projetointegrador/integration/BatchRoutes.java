@@ -37,7 +37,7 @@ import java.util.Set;
 //@Sql(scripts = "integration.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @ActiveProfiles("test")
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @TestMethodOrder(OrderAnnotation.class)
 public class BatchRoutes extends BaseTest {
     @Autowired

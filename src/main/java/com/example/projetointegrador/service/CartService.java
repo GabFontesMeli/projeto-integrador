@@ -1,13 +1,8 @@
 package com.example.projetointegrador.service;
 
-import com.example.projetointegrador.dto.CartDTO;
-import com.example.projetointegrador.dto.CartItemDTO;
-import com.example.projetointegrador.dto.CartStatusDTO;
+import com.example.projetointegrador.dto.*;
 import com.example.projetointegrador.enums.CartStatusEnum;
-import com.example.projetointegrador.exceptions.ExpiredProductException;
-import com.example.projetointegrador.exceptions.InsufficientStockException;
-import com.example.projetointegrador.exceptions.ProductNotFoundException;
-import com.example.projetointegrador.exceptions.UserUNotFoundException;
+import com.example.projetointegrador.exceptions.*;
 import com.example.projetointegrador.model.*;
 import com.example.projetointegrador.repository.CartRepository;
 import com.example.projetointegrador.service.interfaces.IBatchProductService;
@@ -18,10 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CartService implements ICartService{
@@ -78,6 +74,46 @@ public class CartService implements ICartService{
         return "Cart is " + cart.getStatus();
     }
 
+
+    /**
+     * Cancels the order by id and changes the cart status to "CANCELED".
+     * @param cartId Id of the cart to be canceled.
+     * @param userId Id of the user that wants to cancel the order.
+     * @return CartStatusDTO object with updated status.
+     * @throws CartNotFoundException
+     * @throws InvalidUserException
+     * @throws ExpiredCancellationPeriodException
+     * @throws UnfinishedOrderException
+     */
+    @Override
+    public CartStatusDTO cancelOrder(Long cartId, Long userId) throws CartNotFoundException, InvalidUserException, ExpiredCancellationPeriodException, UnfinishedOrderException {
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new CartNotFoundException("order not found"));
+
+        if(!userId.equals(cart.getUser().getId())) {
+            throw new InvalidUserException("invalid user");
+        }
+        if(LocalDate.now().isAfter(cart.getDate().plusDays(7))) {
+            throw new ExpiredCancellationPeriodException("cancellation period expired");
+        }
+        if(cart.getStatus().equals(CartStatusEnum.OPEN)) {
+            throw new UnfinishedOrderException("unfinished order");
+        }
+
+        for (CartItem cartItem : cart.getCartItems()) {
+            Integer remainQuantity = cartItem.getBatchProduct().getRemainingQuantity();
+            cartItem.getBatchProduct().setRemainingQuantity(remainQuantity + cartItem.getQuantity());
+        }
+
+        cart.setTotalValue(0.00);
+        cart.setStatus(CartStatusEnum.CANCELED);
+        cartRepository.save(cart);
+
+        CartStatusDTO cartStatusDTO = new CartStatusDTO();
+        cartStatusDTO.setStatus(cart.getStatus().toString());
+
+        return cartStatusDTO;
+    }
+
     private List<String> checkProductsQuantity(List<CartItemDTO> cartItemsDTO) {
         List<String> errors = new ArrayList<>();
         BatchProduct batchProduct;
@@ -117,7 +153,44 @@ public class CartService implements ICartService{
             batchProductService.saveAll(modifiedProducts);
         }
 
-
         return cartItemList;
     }
+
+    /**
+     * Returns a CompletedFinanceReportCartDTO that contains all sales made in a given period.
+     * @param startDate Start date of the period.
+     * @param endDate End date of the period.
+     * @return CompletedFinanceReportCartDTO object.
+     * @throws CartNotFoundException
+     */
+    public CompletedFinanceReportCartDTO financeReportByPeriod(String startDate, String endDate) throws CartNotFoundException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-d").withResolverStyle(ResolverStyle.STRICT);
+
+        LocalDate start;
+        LocalDate end;
+
+        try {
+            start = LocalDate.parse(startDate, formatter);
+            end = LocalDate.parse(endDate, formatter);
+        } catch (DateTimeParseException e) {
+            throw new InvalidDateFormatException("Send a date with the correct format: yyyy-MM-dd");
+        }
+
+        List<Cart> cartList = cartRepository.findCartsByDateGreaterThanEqualAndDateLessThanEqual(start, end);
+
+        if (cartList.isEmpty()) throw new CartNotFoundException("Could not found carts with the given dates");
+
+        List<SaleInfoCartDTO> saleInfoCartDTOList = cartList.stream().map(cart -> SaleInfoCartDTO.builder()
+                .date(cart.getDate())
+                .value(cart.getTotalValue())
+                .userId(cart.getUser().getId())
+                .build()).collect(Collectors.toList());
+
+        return CompletedFinanceReportCartDTO.builder()
+                .financeReportByPeriod("Finance report between " + start + " and " + end + ".")
+                .totalSalesValue(cartList.stream().mapToDouble(Cart::getTotalValue).sum())
+                .salesInfo(saleInfoCartDTOList)
+                .build();
+    }
+
 }
