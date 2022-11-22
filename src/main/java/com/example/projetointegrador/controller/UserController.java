@@ -26,8 +26,7 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @Autowired
-    private JwtGenerator jwtGenerator;
+    JwtGenerator jwtGenerator = new JwtGenerator();
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody UserU user) {
