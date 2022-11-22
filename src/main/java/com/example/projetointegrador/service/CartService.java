@@ -1,8 +1,6 @@
 package com.example.projetointegrador.service;
 
-import com.example.projetointegrador.dto.CartDTO;
-import com.example.projetointegrador.dto.CartItemDTO;
-import com.example.projetointegrador.dto.CartStatusDTO;
+import com.example.projetointegrador.dto.*;
 import com.example.projetointegrador.enums.CartStatusEnum;
 import com.example.projetointegrador.exceptions.*;
 import com.example.projetointegrador.model.*;
@@ -15,10 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CartService implements ICartService{
@@ -154,7 +153,37 @@ public class CartService implements ICartService{
             batchProductService.saveAll(modifiedProducts);
         }
 
-
         return cartItemList;
     }
+
+    public CompletedFinanceReportCartDTO financeReportByPeriod(String startDate, String endDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-d").withResolverStyle(ResolverStyle.STRICT);
+
+        LocalDate start;
+        LocalDate end;
+
+        try {
+            start = LocalDate.parse(startDate, formatter);
+            end = LocalDate.parse(endDate, formatter);
+        } catch (DateTimeParseException e) {
+            throw new InvalidDateFormatException("Send a date with the correct format: yyyy-MM-dd");
+        }
+
+        List<Cart> cartList = cartRepository.findCartsByDateGreaterThanEqualAndDateLessThanEqual(start, end);
+
+        if (cartList.isEmpty()) throw new CartNotFoundException("Could not found carts with the given dates");
+
+        List<SaleInfoCartDTO> saleInfoCartDTOList = cartList.stream().map(cart -> SaleInfoCartDTO.builder()
+                .date(cart.getDate())
+                .value(cart.getTotalValue())
+                .userId(cart.getUser().getId())
+                .build()).collect(Collectors.toList());
+
+        return CompletedFinanceReportCartDTO.builder()
+                .financeReportByPeriod("Finance report between " + start + " and " + end + ".")
+                .totalSalesValue(cartList.stream().mapToDouble(Cart::getTotalValue).sum())
+                .salesInfo(saleInfoCartDTOList)
+                .build();
+    }
+
 }

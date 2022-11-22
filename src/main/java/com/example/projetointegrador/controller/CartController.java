@@ -2,6 +2,7 @@ package com.example.projetointegrador.controller;
 
 import com.example.projetointegrador.dto.CartDTO;
 import com.example.projetointegrador.dto.CartStatusDTO;
+import com.example.projetointegrador.dto.CompletedFinanceReportCartDTO;
 import com.example.projetointegrador.exceptions.*;
 import com.example.projetointegrador.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,11 @@ public class CartController {
         return new ResponseEntity<>(cartService.changeCartStatus(cartId, cartStatusDTO), HttpStatus.OK);
     }
 
+    @GetMapping("/finance-report-by-period/{startDate}/{endDate}")
+    public ResponseEntity<CompletedFinanceReportCartDTO> financeReportByPeriod(@PathVariable String startDate, @PathVariable String endDate){
+        return new ResponseEntity<>(cartService.financeReportByPeriod(startDate, endDate), HttpStatus.OK);
+    }
+
     /**
      * Cancels the order by id and changes the cart status to "CANCELED".
      * @param cartId Id of the cart to be canceled.
@@ -54,5 +60,6 @@ public class CartController {
     @PutMapping("/{cartId}/{userId}")
     public ResponseEntity<CartStatusDTO> cancelOrder(@PathVariable Long cartId, @PathVariable Long userId) throws InvalidUserException, CartNotFoundException, UnfinishedOrderException, ExpiredCancellationPeriodException {
         return new ResponseEntity<>(cartService.cancelOrder(cartId, userId), HttpStatus.OK);
+
     }
 }

@@ -1,12 +1,19 @@
 package com.example.projetointegrador.integration;
 
 import java.io.File;
+
+import java.io.IOException;
+
+import com.example.projetointegrador.dto.CompletedFinanceReportCartDTO;
+import com.example.projetointegrador.exceptions.*;
+
 import java.util.Arrays;
 import java.util.List;
 
 import com.example.projetointegrador.dto.CartStatusDTO;
 import com.example.projetointegrador.exceptions.*;
 import com.example.projetointegrador.model.BatchProduct;
+
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -18,8 +25,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -119,6 +130,66 @@ public class CartRoutes {
     }
 
     @Test
+    void financeReportByPeriodShouldReturnCompletedFinanceReportCartDTO() throws Exception {
+
+        CompletedFinanceReportCartDTO responseJson = objectMapper.readValue(
+                new File(path + "/responsesBody/Cart/financeReportByPeriodResponse.json"), CompletedFinanceReportCartDTO.class);
+
+        String startDate = "2020-01-01";
+        String endDate = "2023-04-30";
+
+        this.mockMvc
+                .perform(
+                        get("/api/v1/fresh-products/orders/finance-report-by-period/{startDate}/{endDate}",
+                                startDate, endDate)
+                                .contentType(MediaType.APPLICATION_JSON)
+
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(responseJson)));
+    }
+
+    @Test
+    void financeReportByPeriodShouldThrowsInvalidDateFormatException() throws Exception {
+
+        CompletedFinanceReportCartDTO responseJson = objectMapper.readValue(
+                new File(path + "/responsesBody/Cart/financeReportByPeriodResponse.json"), CompletedFinanceReportCartDTO.class);
+
+        String wrongStartDateFormat = "2020-------01-01";
+        String wrongEndDateFormat = "2023-------04-30";
+
+        this.mockMvc
+                .perform(
+                        get("/api/v1/fresh-products/orders/finance-report-by-period/{startDate}/{endDate}",
+                                wrongStartDateFormat, wrongEndDateFormat)
+                                .contentType(MediaType.APPLICATION_JSON)
+
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof InvalidDateFormatException))
+                .andExpect(result -> assertEquals("Send a date with the correct format: yyyy-MM-dd", result.getResolvedException().getMessage()));
+    }
+
+    @Test
+    void financeReportByPeriodShouldThrowsCartNotFoundException() throws Exception {
+
+        CompletedFinanceReportCartDTO responseJson = objectMapper.readValue(
+                new File(path + "/responsesBody/Cart/financeReportByPeriodResponse.json"), CompletedFinanceReportCartDTO.class);
+
+        String inexistentStartDate = "2090-01-01";
+        String inexistentEndDate = "2090-04-30";
+
+        this.mockMvc
+                .perform(
+                        get("/api/v1/fresh-products/orders/finance-report-by-period/{startDate}/{endDate}",
+                                inexistentStartDate, inexistentEndDate)
+                                .contentType(MediaType.APPLICATION_JSON)
+
+                )
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof CartNotFoundException))
+                .andExpect(result -> assertEquals("Could not found carts with the given dates", result.getResolvedException().getMessage()));
+
     void cancelOrderShouldReturnCartStatusDTO() throws Exception {
 
         this.mockMvc

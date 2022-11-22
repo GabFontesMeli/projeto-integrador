@@ -44,4 +44,16 @@ public class Cart {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "id=" + id +
+                ", date=" + date +
+                ", user=" + user +
+                ", totalValue=" + totalValue +
+                ", status=" + status +
+                ", cartItems=" + cartItems +
+                '}';
+    }
 }
