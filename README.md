@@ -109,5 +109,46 @@ http://localhost:8080/api/v1/user/{userId}
 
 ```
 
+## Features - Fontes
 
+### Relatório Financeiro das vendas realizadas de um determinado período
+
+- Endpoint que retorna informações das vendas realizadas dentro do período fornecido
+
+Ao fornecer uma data de `início` e uma data `limite`, será feita uma requisição ao banco de dados em busca das vendas realizadas dentro deste período fornecido. E caso elas existam, a rota retornará uma lista contendo informações destas vendas, junto do valor total somado.
+
+### Possíveis exceções da rota
+
+- As datas fornecidas ao endpoint devem seguir estritamente o formato `aaaa-mm-dd`(ano-mês-dia), caso contrário, será retornado uma exceção do tipo `InvalidDateFormatException` junto ao status code `400 BAD_REQUEST`.
+
+- Também é possível que não exista nenhuma venda realizada dentro do período passado. Caso isso aconteca, será retornado uma exceção do tipo `CartNotFoundException` junto ao status code `404 NOT_FOUND`("Cart" é a entidade que possui a data de todas as vendas realizadas).
+
+### Exemplo de parâmetros que devem ser passados na URL
+
+> .../finance-report-by-period/`2020-01-01`/`2024-01-01`
+
+##### `GET`
+```sh
+http://localhost:8080/api/v1/fresh-products/orders/finance-report-by-period/2020-01-01/2024-01-01
+```
+### Retorno
+`200 - Ok`
+```sh
+{
+    "financeReportByPeriod": "Finance report between 2020-01-01 and 2024-01-01.",
+    "totalSalesValue": 83.0,
+    "salesInfo": [
+        {
+            "date": "2022-12-23",
+            "value": 23.0,
+            "userId": 1
+        },
+        {
+            "date": "2023-04-30",
+            "value": 60.0,
+            "userId": 1
+        }
+    ]
+}
+```
 
