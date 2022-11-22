@@ -1,16 +1,15 @@
 {
 	"info": {
-		"_postman_id": "93a7054c-1780-4253-be6d-0f0533a5cce5",
-		"name": "Projeto Integrador Final",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23722929"
+		"_postman_id": "aca49597-8146-4d39-9c7f-56054a78e020",
+		"name": "Projeto Integrador Final Meli",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "batch",
 			"item": [
 				{
-					"name": "createBatch",
+					"name": "create Batch",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -38,7 +37,7 @@
 					"response": []
 				},
 				{
-					"name": "atualizaBatch",
+					"name": "atualiza Batch",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -125,6 +124,58 @@
 								"fresh-products",
 								"orders",
 								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "create Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"alface\",\n    \"price\": 2.0,\n    \"volume\": 1.0,\n    \"category\":{\n        \"id\": 1\n\n    }\n }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/api/v1/fresh-products",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"fresh-products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/api/v1/fresh-products",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"fresh-products"
 							]
 						}
 					},
