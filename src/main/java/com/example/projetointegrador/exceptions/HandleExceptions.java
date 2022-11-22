@@ -2,6 +2,7 @@ package com.example.projetointegrador.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -134,6 +135,18 @@ public class HandleExceptions {
     public ResponseEntity<ExceptionDetails> handleInvalidFields(BatchProductNotFoundException ex) {
         ExceptionDetails exceptionDetails = ExceptionDetails.builder()
                 .title("batch product not found")
+                .message(ex.getMessage())
+                .status(HttpStatus.NOT_FOUND.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ExceptionDetails> handleInvalidFields(UsernameNotFoundException ex) {
+        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .title("username not found")
                 .message(ex.getMessage())
                 .status(HttpStatus.NOT_FOUND.value())
                 .timeStamp(LocalDateTime.now())
