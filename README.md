@@ -256,3 +256,15 @@ http://localhost:8080/api/v1/fresh-products/orders/discount/{discount}
 ```sh
 "Discount on products in CartItem"
 ```
+
+Se não houver produtos, no carrinho, com a data de vencimento próxima, será retornada uma mensagem de produto não encontrado.
+### Retorno
+`404 - NOT FOUND`
+```sh
+{
+	"title": "No cart item to discount",
+	"status": 404,
+	"message": "Not Found Cart Item to Discount",
+	"timeStamp": "2022-11-22T14:50:06.062065"
+}
+```
