@@ -215,5 +215,25 @@ http://localhost:8080/api/v1/fresh-products/orders/finance-report-by-period/2020
         }
     ]
 }
-```
 
+```
+## Features - Henrique - cancelOrder
+- [Especificações de Requisitos](https://docs.google.com/document/d/1S98hQwgo2Hmc5e-lTi-B7Y6vZqH6kB8D/edit?usp=sharing&ouid=103329577024957257835&rtpof=true&sd=true)
+
+Cancelamento de pedidos (carrinho)
+
+- Endpoint para efetuar o cancelamento de pedidos baseado no id pedido (carrinho) e no id do usuario.
+
+## Cancelar pedido
+Retorna um objeto CartStatusDTO com o status "CANCELADO".
+##### `PUT`
+```sh
+http://localhost:8080/api/v1/fresh-products/orders/{cartId}/{userId}
+```
+### Retorno
+`200 - OK`
+```sh
+{
+    "status": "CANCELED"
+}
+```
