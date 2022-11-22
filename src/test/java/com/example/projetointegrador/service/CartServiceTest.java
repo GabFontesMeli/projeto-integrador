@@ -47,7 +47,7 @@ public class CartServiceTest extends BaseTest {
 
         CompletedFinanceReportCartDTO completedSaleReportCartDTO;
         try {
-            completedSaleReportCartDTO = cartService.financeReportByPeriod("2020-01-01", "2023-04-30");
+            completedSaleReportCartDTO = cartService.financeReportByPeriod("2023-01-21", "2023-04-30");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

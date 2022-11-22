@@ -156,6 +156,13 @@ public class CartService implements ICartService{
         return cartItemList;
     }
 
+    /**
+     * Returns a CompletedFinanceReportCartDTO that contains all sales made in a given period.
+     * @param startDate Start date of the period.
+     * @param endDate End date of the period.
+     * @return CompletedFinanceReportCartDTO object.
+     * @throws CartNotFoundException
+     */
     public CompletedFinanceReportCartDTO financeReportByPeriod(String startDate, String endDate) throws CartNotFoundException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-d").withResolverStyle(ResolverStyle.STRICT);
 

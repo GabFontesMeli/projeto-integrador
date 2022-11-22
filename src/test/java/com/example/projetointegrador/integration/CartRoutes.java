@@ -135,7 +135,7 @@ public class CartRoutes {
         CompletedFinanceReportCartDTO responseJson = objectMapper.readValue(
                 new File(path + "/responsesBody/Cart/financeReportByPeriodResponse.json"), CompletedFinanceReportCartDTO.class);
 
-        String startDate = "2020-01-01";
+        String startDate = "2023-01-21";
         String endDate = "2023-04-30";
 
         this.mockMvc

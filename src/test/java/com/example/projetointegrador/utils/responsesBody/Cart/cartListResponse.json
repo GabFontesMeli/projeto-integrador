@@ -1,9 +1,9 @@
 [
   {
-    "id": 2,
-    "date": "2022-12-23",
+    "id": 4,
+    "date": "2023-01-21",
     "status": "CLOSED",
-    "totalValue": 23.0,
+    "totalValue": 10.0,
     "user": {
       "id": 1
     }

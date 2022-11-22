@@ -42,6 +42,14 @@ public class CartController {
         return new ResponseEntity<>(cartService.changeCartStatus(cartId, cartStatusDTO), HttpStatus.OK);
     }
 
+    /**
+     * This routes returns a finance report of the sales made in a specified period.
+     * @param startDate The initial period filter.
+     * @param endDate The limit period filter.
+     * @return CompletedFinanceReportCartDTO with the total value sum of all sales and a list of all sales made in the period.
+     * @throws CartNotFoundException
+     * @throws InvalidDateFormatException
+     */
     @GetMapping("/finance-report-by-period/{startDate}/{endDate}")
     public ResponseEntity<CompletedFinanceReportCartDTO> financeReportByPeriod(@PathVariable String startDate, @PathVariable String endDate) throws CartNotFoundException {
         return new ResponseEntity<>(cartService.financeReportByPeriod(startDate, endDate), HttpStatus.OK);
@@ -60,6 +68,5 @@ public class CartController {
     @PutMapping("/{cartId}/{userId}")
     public ResponseEntity<CartStatusDTO> cancelOrder(@PathVariable Long cartId, @PathVariable Long userId) throws InvalidUserException, CartNotFoundException, UnfinishedOrderException, ExpiredCancellationPeriodException {
         return new ResponseEntity<>(cartService.cancelOrder(cartId, userId), HttpStatus.OK);
-
     }
 }
