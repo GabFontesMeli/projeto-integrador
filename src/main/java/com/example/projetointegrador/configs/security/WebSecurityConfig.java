@@ -29,9 +29,9 @@ public class WebSecurityConfig {
             .authorizeHttpRequests()
             // .antMatchers(HttpMethod.GET, "/rota/**").permitAll()
             .antMatchers("/api/v1/login").permitAll()
-            .antMatchers(HttpMethod.POST, "/api/v1/batch").hasAuthority("SELLER")
+            .antMatchers(HttpMethod.POST, "/api/v1/batch").permitAll()
             // .antMatchers(HttpMethod.DELETE, "/rota/**").hasRole("ADMIN") 
-            .anyRequest().authenticated()
+            // .anyRequest().authenticated()
             .and()
             .csrf().disable();
         return http.build();

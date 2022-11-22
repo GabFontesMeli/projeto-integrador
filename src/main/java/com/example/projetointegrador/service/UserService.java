@@ -25,10 +25,19 @@ public class UserService implements IUserService {
     }
 
     public UserU getUserByNameAndPassword(String name, String password) throws UsernameNotFoundException {
-        UserU user = userRepo.findByNameAndSecretPassword(name, password);
-        if(user == null){
-           throw new UsernameNotFoundException("Invalid id and password");
+        Boolean userExists = userRepo.existsByName(name);
+
+        if (userExists == false){
+            throw new UsernameNotFoundException("Invalid id and password");
+         }
+
+        Boolean passwordMatches = new BCryptPasswordEncoder().matches(password, userRepo.findByName(name).get().getSecretPassword());
+
+        if (passwordMatches == false){
+            throw new UsernameNotFoundException("Invalid id and password");
         }
+
+        UserU user = userRepo.findByName(name).get();
         return user;
       }
 }

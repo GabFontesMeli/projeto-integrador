@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Set;
 
@@ -33,6 +34,7 @@ public class BatchController {
     @PostMapping
     // @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<Batch> create(@RequestBody BatchDTO batchDTO) throws SectionInvalidException, ProductNotFoundException, CategoryInvalidException, InsuficientVolumeException, StorageInvalidException {
+        // access request
         return new ResponseEntity<>(batchService.createBatch(batchDTO), HttpStatus.CREATED);
     }
 
