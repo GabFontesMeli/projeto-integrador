@@ -237,3 +237,22 @@ http://localhost:8080/api/v1/fresh-products/orders/{cartId}/{userId}
     "status": "CANCELED"
 }
 ```
+
+## Features - Gabriel Franklin - discountOnProducts
+- [Especificações de Requisitos](https://drive.google.com/file/d/1qlWzRxvioNHhwt6Pv7MGd6eEWZpb9pK5/view?usp=sharing)
+
+Desconto nos produtos do carrinho
+
+- Endpoint para efetuar o desconto em produtos no carrinho que a data de vencimento está próxima.
+
+## Aplicar desconto
+Retorna uma mensagem dizendo que o desconto foi aplicado nos produtos.
+##### `PUT`
+```sh
+http://localhost:8080/api/v1/fresh-products/orders/discount/{discount}
+```
+### Retorno
+`200 - OK`
+```sh
+"Discount on products in CartItem"
+```
