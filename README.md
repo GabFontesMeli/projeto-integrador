@@ -178,7 +178,7 @@ http://localhost:8080/api/v1/user/{userId}
 
 ### Relatório Financeiro das vendas realizadas de um determinado período
 
-- [Especificações de Requisitos](https://docs.google.com/document/d/1YMzCP-3CaqBIzvLVXWpyO1ND4H0oP47l/edit?usp=sharing&ouid=114107245193711173664&rtpof=true&sd=true)
+- [Especificações de Requisitos](https://docs.google.com/document/d/1U907FlAwtgwZI2kq9uIlGb7r0PzYi6qbHipLvNzxcuU)
 
 - Endpoint que retorna informações das vendas realizadas dentro do período fornecido
 
