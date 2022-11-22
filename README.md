@@ -83,7 +83,9 @@ http://localhost:8080/api/v1/sales-report/1?start=1990-01-01&end=2050-01-01
     ]
 }
 
+
 ## Features - Iara
+
 CRUD completo de usuário
 
 - Endpoint para buscar todos os usuários cadastrados no banco de dados
