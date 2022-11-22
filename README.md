@@ -89,7 +89,7 @@ http://localhost:8080/api/v1/sales-report/1?start=1990-01-01&end=2050-01-01
 
 
 ## Features - Iara - CRUD Usuário
-- [Especificações de Requisitos](https://docs.google.com/document/d/1zc8bLP4FTfe1o0vNZHmQPDmYmbjSj59vDd8tyjB1cRI/edit?usp=sharing)
+- [Especificações de Requisitos](https://drive.google.com/file/d/1W97acGOXsEl0ju1AoDWwazIOhe2i0oxI/view?usp=sharing)
 
 CRUD completo de usuário
 
