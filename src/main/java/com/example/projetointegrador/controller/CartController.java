@@ -43,7 +43,7 @@ public class CartController {
     }
 
     @GetMapping("/finance-report-by-period/{startDate}/{endDate}")
-    public ResponseEntity<CompletedFinanceReportCartDTO> financeReportByPeriod(@PathVariable String startDate, @PathVariable String endDate){
+    public ResponseEntity<CompletedFinanceReportCartDTO> financeReportByPeriod(@PathVariable String startDate, @PathVariable String endDate) throws CartNotFoundException {
         return new ResponseEntity<>(cartService.financeReportByPeriod(startDate, endDate), HttpStatus.OK);
     }
 

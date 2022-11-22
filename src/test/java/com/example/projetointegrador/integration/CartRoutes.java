@@ -189,7 +189,8 @@ public class CartRoutes {
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof CartNotFoundException))
                 .andExpect(result -> assertEquals("Could not found carts with the given dates", result.getResolvedException().getMessage()));
-
+    }
+    @Test
     void cancelOrderShouldReturnCartStatusDTO() throws Exception {
 
         this.mockMvc
@@ -235,7 +236,7 @@ public class CartRoutes {
 
         this.mockMvc
                 .perform(
-                        put("/api/v1/fresh-products/orders/{cartId}/{userId}", 3, 1)
+                        put("/api/v1/fresh-products/orders/{cartId}/{userId}", 5, 1)
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
 

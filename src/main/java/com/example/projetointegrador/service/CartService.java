@@ -156,7 +156,7 @@ public class CartService implements ICartService{
         return cartItemList;
     }
 
-    public CompletedFinanceReportCartDTO financeReportByPeriod(String startDate, String endDate) {
+    public CompletedFinanceReportCartDTO financeReportByPeriod(String startDate, String endDate) throws CartNotFoundException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-d").withResolverStyle(ResolverStyle.STRICT);
 
         LocalDate start;

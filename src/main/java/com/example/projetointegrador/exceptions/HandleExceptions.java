@@ -167,18 +167,6 @@ public class HandleExceptions {
         return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(CartNotFoundException.class)
-    public ResponseEntity<ExceptionDetails> handleInvalidFields(CartNotFoundException ex) {
-        ExceptionDetails exceptionDetails = ExceptionDetails.builder()
-                .title("order not found")
-                .message(ex.getMessage())
-                .status(HttpStatus.NOT_FOUND.value())
-                .timeStamp(LocalDateTime.now())
-                .build();
-
-        return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
-    }
-
     @ExceptionHandler(InvalidUserException.class)
     public ResponseEntity<ExceptionDetails> handleInvalidFields(InvalidUserException ex) {
         ExceptionDetails exceptionDetails = ExceptionDetails.builder()

@@ -16,7 +16,7 @@ public interface ICartService {
     Double createCart(CartDTO cartDTO) throws UserUNotFoundException, InsufficientStockException, ProductNotFoundException, ExpiredProductException;
     String changeCartStatus(Long cartId, CartStatusDTO cartStatusDTO);
 
-    CompletedFinanceReportCartDTO financeReportByPeriod(String startDate, String endDate);
+    CompletedFinanceReportCartDTO financeReportByPeriod(String startDate, String endDate) throws CartNotFoundException;
 
     CartStatusDTO cancelOrder(Long cartId, Long userId) throws CartNotFoundException, InvalidUserException, ExpiredCancellationPeriodException, UnfinishedOrderException;
 
