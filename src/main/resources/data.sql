@@ -17,6 +17,6 @@ VALUES (1, 'teste@teste.com', 'teste', 1);
 INSERT INTO useru (id, email, name, user_type_id)
 VALUES (2, 'teste2@teste2.com', 'teste2', 1);
 INSERT INTO cart (id, date, status, total_value, user_id)
-VALUES (1, '2020-11-12', 'OPEN', 8.00 , 1), (2, '2020-11-21', 'OPEN', 8.00, 1);
+VALUES (1, '2020-11-12', 'OPEN', 8.00 , 1), (2, '2022-11-21', 'CLOSED', 10.00 , 1), (3, '2022-11-15', 'OPEN', 15.00, 1);
 INSERT INTO cart_item (id, cart_id, batch_product_id, quantity, item_value)
 VALUES (1, 1, 1, 2, 8.00), (2, 2, 2, 2, 8.00);
