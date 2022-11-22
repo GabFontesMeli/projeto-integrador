@@ -14,6 +14,8 @@ INSERT INTO user_type (id, type)
 VALUES (1, 'seller'), (2, 'costumer');
 INSERT INTO useru (id, email, name, user_type_id)
 VALUES (1, 'teste@teste.com', 'teste', 1);
+INSERT INTO useru (id, email, name, user_type_id)
+VALUES (2, 'teste2@teste2.com', 'teste2', 1);
 INSERT INTO cart (id, date, status, total_value, user_id)
 VALUES (1, '2020-11-12', 'OPEN', 8.00 , 1);
 INSERT INTO cart_item (id, cart_id, batch_product_id, quantity, item_value)
