@@ -67,6 +67,24 @@ public class CartRoutes {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$").value(16.0));
     }
+
+
+    @Test
+    @Order(2)
+    void changeCartStatusShouldReturnString() throws Exception {
+        CartStatusDTO cartStatusDTO = objectMapper.readValue(new File(path + "/requestsBody/Cart/changeCartStatus(CartStatusDTO).json"), CartStatusDTO.class);
+        String payload = objectMapper.writeValueAsString(cartStatusDTO);
+
+        this.mockMvc
+                .perform(
+                        put("/api/v1/fresh-products/orders/1")
+                                .content(payload)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value("Cart is CLOSED"));
+    }
+
     @Test
     void createCartShouldReturnExceptionUserNotFoud_thenExpectationSatisfied() throws Exception {
         CartDTO cartDTO = objectMapper.readValue(new File(path + "/requestsBody/Cart/createCartUserInvalid(CartDTO).json"), CartDTO.class);
