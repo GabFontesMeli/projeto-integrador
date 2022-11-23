@@ -8,6 +8,7 @@ import com.example.projetointegrador.setup.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @WebMvcTest(BatchProductController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class BatchProductControllerTest extends BaseTest {
 
     @Autowired

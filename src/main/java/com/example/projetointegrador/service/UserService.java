@@ -8,6 +8,8 @@ import com.example.projetointegrador.repository.UserRepository;
 import com.example.projetointegrador.repository.UserTypeRepository;
 import com.example.projetointegrador.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +21,8 @@ public class UserService implements IUserService {
     @Autowired
     private UserRepository userRepo;
 
-    @Autowired
-    private UserTypeRepository userTypeRepo;
-
     public UserU saveUser(UserU user) {
-        user.setUserType(userTypeRepo.findById(user.getUserType().getId()).get());
+        user.setSecretPassword(new BCryptPasswordEncoder().encode(user.getSecretPassword()));
         return userRepo.save(user);
     }
 
@@ -31,6 +30,22 @@ public class UserService implements IUserService {
         return userRepo.existsById(userId);
     }
 
+    public UserU getUserByNameAndPassword(String name, String password) throws UsernameNotFoundException {
+        Boolean userExists = userRepo.existsByName(name);
+
+        if (userExists == false){
+            throw new UsernameNotFoundException("Invalid id and password");
+         }
+
+        Boolean passwordMatches = new BCryptPasswordEncoder().matches(password, userRepo.findByName(name).get().getSecretPassword());
+
+        if (passwordMatches == false){
+            throw new UsernameNotFoundException("Invalid id and password");
+        }
+
+        UserU user = userRepo.findByName(name).get();
+        return user;
+      }
     /**
      * Create a list of UserU and cast the data to UserDTO
      * @return List of UserDTO
@@ -44,7 +59,6 @@ public class UserService implements IUserService {
                     .id(u.getId())
                     .name(u.getName())
                     .email(u.getEmail())
-                    .userType(u.getUserType().getType())
                     .build();
         }).collect(Collectors.toList());
     }
@@ -69,7 +83,6 @@ public class UserService implements IUserService {
                 .id(userU.getId())
                 .name(userU.getName())
                 .email(userU.getEmail())
-                .userType(userU.getUserType().getType())
                 .build();
 
         userRepo.save(userU);
@@ -112,7 +125,6 @@ public class UserService implements IUserService {
                     .id(user.getId())
                     .name(user.getName())
                     .email(user.getEmail())
-                    .userType(user.getUserType().getType())
                     .build();
     }
 }

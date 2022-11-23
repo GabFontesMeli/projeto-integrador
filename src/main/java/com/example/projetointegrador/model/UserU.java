@@ -7,7 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -15,7 +21,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class UserU {
+public class UserU implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +33,19 @@ public class UserU {
     @Column(length = 100, nullable = false)
     private String email;
 
-    @ManyToOne
-    @JoinColumn(name = "user_type_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("users")
-    private UserType userType;
+    @Column(length = 100, nullable = false)
+    private String secretPassword;
+
+    // @ManyToOne
+    // @JoinColumn(name = "user_type_id", referencedColumnName = "id")
+    // @JsonIgnoreProperties("users")
+    // private UserType userType;
+
+    @ManyToMany
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "useru_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_type_id"))
+    private List<UserType> roles;
 
     @ManyToMany
     @JoinTable(
@@ -48,4 +63,44 @@ public class UserU {
         inverseJoinColumns = @JoinColumn(name = "storage_id", referencedColumnName = "id")
     )
     private Set<Storage> storages = new HashSet<>();
+
+    @Override
+    public String getUsername() {
+        return this.name;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.secretPassword;
+    }
+
 }

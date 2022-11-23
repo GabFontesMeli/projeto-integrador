@@ -88,8 +88,7 @@ public class UserRoutes {
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.id").value(2))
                 .andExpect(jsonPath("$.name").value("name"))
-                .andExpect(jsonPath("$.email").value("email"))
-                .andExpect(jsonPath("$.userType").value("seller"));
+                .andExpect(jsonPath("$.email").value("email"));
     }
 
     @Test

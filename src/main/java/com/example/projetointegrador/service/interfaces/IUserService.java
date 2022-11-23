@@ -13,6 +13,7 @@ public interface IUserService {
 
     boolean existsById(Long userId);
 
+    UserU getUserByNameAndPassword(String name, String password);
     List<UserDTO> getUsers();
 
     UserDTO updateUser(Long userId, UserDTO userDTO) throws UserUNotFoundException;
