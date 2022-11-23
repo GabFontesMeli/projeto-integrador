@@ -272,7 +272,7 @@ Se não houver produtos, no carrinho, com a data de vencimento próxima, será r
 ```
 
 ## Features - Mayu Satori - Auth
-- [Especificações de Requisitos](https://drive.google.com/file/d/1qlWzRxvioNHhwt6Pv7MGd6eEWZpb9pK5/view?usp=sharing)
+- [Especificações de Requisitos](https://drive.google.com/file/d/1Rxhy3w32foiTV2fUpp3-QvCjnp1jYCPe/view?usp=sharing)
 
 Autenticação de usuário
 
