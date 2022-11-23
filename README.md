@@ -15,7 +15,8 @@
 ## Requisitos Individuais: 📝
 
 ## Features - Ana Paula - SalesProductReport 
-- [Especificações de Requisitos](https://drive.google.com/file/d/1JGFeRMl8cfMKyUumslriaHYyY3KA9XZV/view)
+- [Especificações de Requisitos](https://docs.google.com/document/d/1NUrhnjb5KXfcRxShOgsMupXpqOXucnZA/edit)
+- 
 ### O foco desse relatório é ter um gerenciamento do fluxo de vendas.
 
 ### Nesse requisito foram criados dois endpoints:
