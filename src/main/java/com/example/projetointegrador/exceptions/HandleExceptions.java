@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @ControllerAdvice
 public class HandleExceptions {
@@ -108,7 +106,6 @@ public class HandleExceptions {
 
     @ExceptionHandler(InsufficientStockException.class)
     public ResponseEntity<ExceptionDetails> handleInvalidFields(InsufficientStockException ex) {
-        List<ExceptionDetails> exceptionDetailsList = new ArrayList<>();
         ExceptionDetails exceptionDetails = ExceptionDetails.builder()
                 .title("insufficient stock")
                 .message(ex.getErrors().toString())

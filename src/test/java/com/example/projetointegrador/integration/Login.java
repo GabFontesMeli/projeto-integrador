@@ -48,6 +48,6 @@ public class Login {
                                 .contentType("application/json")
                                 .content("{\"name\": \"teste\", \"secretPassword\": \"1234567\"}")
                 )
-                .andExpect(status().isConflict());
+                .andExpect(status().isNotFound());
     }
 }

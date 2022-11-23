@@ -1,7 +1,7 @@
 package com.example.projetointegrador.configs.security;
 
-import javax.transaction.Transactional;
-
+import com.example.projetointegrador.model.UserU;
+import com.example.projetointegrador.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,9 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.example.projetointegrador.dto.UserUDTO;
-import com.example.projetointegrador.model.UserU;
-import com.example.projetointegrador.repository.UserRepository;
+import javax.transaction.Transactional;
 
 @Service
 @Transactional

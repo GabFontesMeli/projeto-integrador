@@ -1,11 +1,9 @@
 package com.example.projetointegrador.service;
 
 import com.example.projetointegrador.dto.UserDTO;
-import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.exceptions.UserUNotFoundException;
 import com.example.projetointegrador.model.UserU;
 import com.example.projetointegrador.repository.UserRepository;
-import com.example.projetointegrador.repository.UserTypeRepository;
 import com.example.projetointegrador.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

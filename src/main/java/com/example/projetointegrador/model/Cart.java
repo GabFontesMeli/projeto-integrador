@@ -2,7 +2,10 @@ package com.example.projetointegrador.model;
 
 import com.example.projetointegrador.enums.CartStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -37,23 +40,4 @@ public class Cart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"cart", "cartItem"})
     Set<CartItem> cartItems = new HashSet<>();
-
-    public boolean isOpen() {
-        if (getStatus() == CartStatusEnum.OPEN) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public String toString() {
-        return "Cart{" +
-                "id=" + id +
-                ", date=" + date +
-                ", user=" + user +
-                ", totalValue=" + totalValue +
-                ", status=" + status +
-                ", cartItems=" + cartItems +
-                '}';
-    }
 }

@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -57,32 +56,5 @@ public class BatchProduct {
     @PrePersist
     private void setup() {
         this.remainingQuantity = this.quantity;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BatchProduct that = (BatchProduct) o;
-        return Objects.equals(id, that.id) && batch.equals(that.batch) && product.equals(that.product) && Objects.equals(section, that.section);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, batch, product, section);
-    }
-
-    @Override
-    public String toString() {
-        return "BatchProduct{" +
-                "id=" + id +
-                ", batch=" + batch +
-                ", product=" + product +
-                ", quantity=" + quantity +
-                ", manufacturingDate=" + manufacturingDate +
-                ", expirationDate=" + expirationDate +
-                ", section=" + section +
-                ", remainingQuantity=" + remainingQuantity +
-                '}';
     }
 }

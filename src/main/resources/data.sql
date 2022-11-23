@@ -20,6 +20,6 @@ INSERT INTO Users_Roles (useru_id, user_type_id)
 VALUES (1, 1), (2, 2);
 INSERT INTO cart (id, date, status, total_value, user_id)
 VALUES (1, '2020-11-12', 'OPEN', 8.0 , 1), (2, '2022-12-23', 'CLOSED', 20.0 , 1), (3, '2023-04-30', 'CLOSED', 60.0, 1),
-(4, '2023-01-21', 'CLOSED', 10.00 , 1), (5, '2022-11-15', 'OPEN', 15.00, 1);
+(4, '2023-01-21', 'CLOSED', 10.00 , 1), (5, '2022-11-22', 'OPEN', 15.00, 1);
 INSERT INTO cart_item (id, cart_id, batch_product_id, quantity, item_value)
 VALUES (1, 1, 1, 2, 8.00), (2, 2, 2, 2, 8.00);

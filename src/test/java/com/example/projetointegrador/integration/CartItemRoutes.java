@@ -1,5 +1,6 @@
 package com.example.projetointegrador.integration;
 
+import com.example.projetointegrador.exceptions.UnfinishedOrderException;
 import com.example.projetointegrador.model.Cart;
 import com.example.projetointegrador.model.CartItem;
 import com.example.projetointegrador.setup.BaseTest;
@@ -17,6 +18,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 

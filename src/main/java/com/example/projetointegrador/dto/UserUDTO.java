@@ -1,7 +1,6 @@
 package com.example.projetointegrador.dto;
 
 import com.example.projetointegrador.model.UserU;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

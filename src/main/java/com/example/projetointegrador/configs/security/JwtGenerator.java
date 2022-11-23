@@ -1,14 +1,14 @@
 package com.example.projetointegrador.configs.security;
+
+import com.example.projetointegrador.model.UserU;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.example.projetointegrador.model.UserU;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import io.jsonwebtoken.Jwts;
 
 @Service
 public class JwtGenerator {

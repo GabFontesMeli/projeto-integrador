@@ -1,9 +1,7 @@
 package com.example.projetointegrador.service.interfaces;
 
 import com.example.projetointegrador.dto.UserDTO;
-import com.example.projetointegrador.exceptions.ProductNotFoundException;
 import com.example.projetointegrador.exceptions.UserUNotFoundException;
-
 import com.example.projetointegrador.model.UserU;
 
 import java.util.List;
