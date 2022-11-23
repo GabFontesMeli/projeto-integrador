@@ -270,3 +270,32 @@ Se não houver produtos, no carrinho, com a data de vencimento próxima, será r
 	"timeStamp": "2022-11-22T14:50:06.062065"
 }
 ```
+
+## Features - Mayu Stori - Auth
+- [Especificações de Requisitos](https://drive.google.com/file/d/1qlWzRxvioNHhwt6Pv7MGd6eEWZpb9pK5/view?usp=sharing)
+
+Autenticação de usuário
+
+- Endpoint para efetuar o login e obter um token de acesso que pode ser utilizado em outras rotas para prover segurança
+
+## Login
+Retorna um token válido contendo o nome do usuário
+##### `POST`
+```sh
+http://localhost:8080/api/v1/login
+```
+### Retorno
+`200 - OK`
+```sh
+{
+	"message": "Token gerado com sucesso",
+	"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZSIsImlhdCI6MTY2OTE0ODE4N30.LefxxOUNSWW1D-py9N1as9ZMYmiwzztMEwDPgzC33OQ"
+}
+```
+
+Se o usuário informar credenciais erradas, teremos o seguinte retorno:
+### Retorno
+`409 - CONFLICT`
+```sh
+Invalid id and password
+```
