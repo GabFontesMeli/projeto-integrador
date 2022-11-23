@@ -32,11 +32,22 @@ public class Login {
     void loginShouldReturnToken() throws Exception {
         this.mockMvc
                 .perform(
-                        post("/api/v1/fresh-products/login")
+                        post("/api/v1/login")
                                 .contentType("application/json")
-                                .content("{\"username\": \"teste\", \"password\": \"$2a$10$EEJsKE0X8DdOVL1oBOG5pOf1VC0538odOr3.p248nVS428QvTdWcq\"}")
+                                .content("{\"name\": \"teste\", \"secretPassword\": \"123456\"}")
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").isNotEmpty());
+    }
+
+    @Test
+    void wrongLoginShouldReturnError() throws Exception {
+        this.mockMvc
+                .perform(
+                        post("/api/v1/login")
+                                .contentType("application/json")
+                                .content("{\"name\": \"teste\", \"secretPassword\": \"1234567\"}")
+                )
+                .andExpect(status().isConflict());
     }
 }
